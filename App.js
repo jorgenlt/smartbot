@@ -3,7 +3,8 @@ import { StatusBar } from 'expo-status-bar';
 import { Button, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import uuid from 'react-native-uuid';
 import { API_KEY } from './config/env';
-import botResponse from './botResponse'
+import botResponse from './botResponse';
+import { ActivityIndicator } from 'react-native';
 
 
 
@@ -14,8 +15,10 @@ export default function App() {
   const [messages, setMessages] = useState([])
   const [currentUserMessage, setCurrentUserMessage] = useState('')
   const [userMessage, setUserMessage] = useState('')
-  const [botMessages, setBotMessages] = useState([])
-  const [currentBotMessage, setCurrentBotMessage] = useState([])
+  const [loading, setLoading] = useState(false);
+  // const [botMessages, setBotMessages] = useState([])
+  // const [currentBotMessage, setCurrentBotMessage] = useState([])
+
 
   const handleSendMessage = () => {
     if(currentUserMessage != '') {
@@ -34,16 +37,16 @@ export default function App() {
       setCurrentUserMessage('');
 
       // fake response
-      setMessages(prevMessages => {
-        return [
-          ...prevMessages,
-          {
-            role: botResponse.role,
-            content: botResponse.content,
-            id: uuid.v4()
-          }
-        ]
-      });
+      // setMessages(prevMessages => {
+      //   return [
+      //     ...prevMessages,
+      //     {
+      //       role: botResponse.role,
+      //       content: botResponse.content,
+      //       id: uuid.v4()
+      //     }
+      //   ]
+      // });
     }
 
 
@@ -65,31 +68,49 @@ export default function App() {
   })
 
   // API
-  // useEffect(() => {
-  //   const message = userMessage;
+  useEffect(() => {
+    const message = userMessage;
 
-  //   const options = {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       'Authorization': `Bearer ${apiKey}`
-  //     },
-  //     body: JSON.stringify({
-  //       model: "gpt-3.5-turbo",
-  //       messages: [{role: "user", content: message}],
-  //       max_tokens: 100
-  //     })
-  //   };
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({
+        model: "gpt-3.5-turbo",
+        messages: [{role: "user", content: message}],
+        max_tokens: 100
+      })
+    };
 
-  //   fetch('https://api.openai.com/v1/chat/completions', options)
-  //     .then(response => response.json())
-  //     .then(data => console.log(data))
-  //     .catch(error => console.error(error));
-  // }, [userMessage]);
+    if(userMessage !== '') {
+      setLoading(true);
+      fetch('https://api.openai.com/v1/chat/completions', options)
+        .then(response => response.json())
+        .then(data => {
+          // console.log(data.choices[0].message.content);
+          setMessages(prevMessages => {
+            return [
+              ...prevMessages,
+              {
+                role: data.choices[0].message.role,
+                content: data.choices[0].message.content,
+                id: uuid.v4()
+              }
+            ]
+          });
+
+          setLoading(false);
+        })
+        .catch(error => console.error(error));
+    }
+  }, [userMessage]);
 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
+      {loading ? <ActivityIndicator size="large" color="#81D99D" /> : null}
       <View style={styles.newChatBtn} >
         <View style={{width: '100%'}}>
           <Button
@@ -143,6 +164,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
     paddingHorizontal: 10,
     position: 'absolute',
+    zIndex: 99,
     top: 0,
     width: '100%',
     alignItems: 'center'
