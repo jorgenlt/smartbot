@@ -7,7 +7,6 @@ import { API_KEY } from './config/env';
 
 
 export default function App() {
-  // const API_KEY = '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';
   const apiKey = API_KEY;
 
   const [userMessages, setUserMessages] = useState([])
