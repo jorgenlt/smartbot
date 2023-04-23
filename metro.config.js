@@ -4,7 +4,7 @@ module.exports = {
             'config': require('path').resolve(__dirname, 'config')
         }
     },
-    transformer: {
-        babelTransformerPath: require.resolve('react-native-dotenv')
-    }
+    // transformer: {
+    //     babelTransformerPath: require.resolve('react-native-dotenv')
+    // }
 };
