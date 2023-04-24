@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Button, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ScrollView, Button, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import uuid from 'react-native-uuid';
 import { API_KEY } from './config/env';
 import botResponse from './botResponse';
 import { ActivityIndicator } from 'react-native';
+import { Entypo } from '@expo/vector-icons';
 
 
 
@@ -12,13 +13,165 @@ export default function App() {
 
   const apiKey = API_KEY;
 
-  const [messages, setMessages] = useState([])
+  const [messages, setMessages] = useState([
+      {
+        role: 'user',
+        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
+        id: uuid.v4()
+      },
+      {
+        role: 'user',
+        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
+        id: uuid.v4()
+      },
+      {
+        role: 'user',
+        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
+        id: uuid.v4()
+      },
+      {
+        role: 'user',
+        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
+        id: uuid.v4()
+      },
+      {
+        role: 'user',
+        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
+        id: uuid.v4()
+      },
+      {
+        role: 'user',
+        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
+        id: uuid.v4()
+      },
+      {
+        role: 'user',
+        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
+        id: uuid.v4()
+      },
+      {
+        role: 'user',
+        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
+        id: uuid.v4()
+      },
+      {
+        role: 'user',
+        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
+        id: uuid.v4()
+      },
+      {
+        role: 'user',
+        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
+        id: uuid.v4()
+      },
+      {
+        role: 'user',
+        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
+        id: uuid.v4()
+      },
+      {
+        role: 'user',
+        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
+        id: uuid.v4()
+      },
+      {
+        role: 'user',
+        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
+        id: uuid.v4()
+      },
+      {
+        role: 'user',
+        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
+        id: uuid.v4()
+      },
+      {
+        role: 'user',
+        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
+        id: uuid.v4()
+      },
+      {
+        role: 'user',
+        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
+        id: uuid.v4()
+      },
+      {
+        role: 'user',
+        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
+        id: uuid.v4()
+      },
+      {
+        role: 'user',
+        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
+        id: uuid.v4()
+      },
+      {
+        role: 'user',
+        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
+        id: uuid.v4()
+      },
+      {
+        role: 'user',
+        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
+        id: uuid.v4()
+      },
+      {
+        role: 'user',
+        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
+        id: uuid.v4()
+      },
+      {
+        role: 'user',
+        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
+        id: uuid.v4()
+      },
+      {
+        role: 'user',
+        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
+        id: uuid.v4()
+      },
+      {
+        role: 'user',
+        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
+        id: uuid.v4()
+      },
+      {
+        role: 'user',
+        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
+        id: uuid.v4()
+      },
+      {
+        role: 'user',
+        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
+        id: uuid.v4()
+      },
+      {
+        role: 'user',
+        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
+        id: uuid.v4()
+      },
+      {
+        role: 'user',
+        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
+        id: uuid.v4()
+      },
+      {
+        role: 'user',
+        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
+        id: uuid.v4()
+      },
+      {
+        role: 'user',
+        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
+        id: uuid.v4()
+      },
+  ])
   const [currentUserMessage, setCurrentUserMessage] = useState('')
   const [userMessage, setUserMessage] = useState('')
   const [loading, setLoading] = useState(false);
   // const [botMessages, setBotMessages] = useState([])
   // const [currentBotMessage, setCurrentBotMessage] = useState([])
 
+  
 
   const handleSendMessage = () => {
     if(currentUserMessage != '') {
@@ -107,27 +260,26 @@ export default function App() {
     }
   }, [userMessage]);
 
+  const scrollRef = useRef();
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
       {loading ? <ActivityIndicator size="large" color="#81D99D" /> : null}
-      <View style={styles.newChatBtn} >
-        <View style={{width: '100%'}}>
-          <Button
-            style={{}} 
-            title='+ new chat'
-            color='#2C5D6E'
-          />
+      <View style={{width: '100%', height: '100%'}}>
+        <View style={styles.newChatBtn} >
+            <Button
+              title='+ new chat'
+              color='#2C5D6E'
+            />
         </View>
-        <Text style={styles.history}>
-          History:
-        </Text>
-      </View>
-      <View style={{width: '100%'}}>
-        <View>
+        <ScrollView 
+          contentContainerStyle={styles.messagesWrapper}
+          ref={scrollRef}
+          onContentSizeChange={() => scrollRef.current.scrollToEnd({ animated: true })}
+        >
           {messageElements}
-        </View>
-        {/* <Text style={{color: 'gray'}} >{`api key: ${apiKey}`}</Text> */}
+        </ScrollView>
         <View style={styles.inputWrapper}>
           <TextInput
           style={styles.input}
@@ -142,7 +294,9 @@ export default function App() {
             android_ripple={{color: 'gray', radius: 15}}
             style={{height: 40, justifyContent: 'center'}}
           >
-            <Text style={styles.sendBtn} >Send</Text>
+            <Text style={styles.sendBtn} >
+              <Entypo name="paper-plane" size={26} color="white" />
+            </Text>
           </Pressable>
         </View>
       </View>
@@ -152,28 +306,33 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
-    flex: 1,
+    // flex: 1,
     backgroundColor: '#033c4f',
     justifyContent: 'flex-end',
-    paddingVertical: 10,
+    paddingVertical: 20,
     paddingHorizontal: 5,
     alignItems: 'center'
   },
+  messagesWrapper: {
+    backgroundColor: '#033c4f',
+    paddingHorizontal: 5,
+    // flex: 1,
+    // justifyContent: 'flex-end',
+    // alignItems: 'center'
+
+  },
   newChatBtn: {
     marginTop: 30,
-    paddingHorizontal: 10,
-    position: 'absolute',
-    zIndex: 99,
-    top: 0,
-    width: '100%',
-    alignItems: 'center'
+    marginBottom: 10,
+    marginHorizontal: 16,
   },
   history: {
     color: 'gray'
   },
   inputWrapper: {
-    width: '100%',
+    marginTop: 10,
+    marginHorizontal: 16,
+    // width: '100%',
     flexDirection: 'row',
     alignItems: 'center'
   },
@@ -181,7 +340,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     marginEnd: 10,
-    height: 40,
+    height: 45,
     // width: '80%',
     borderColor: '#81D99D',
     borderWidth: 1,
@@ -190,7 +349,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#2C5D6E'
   },
   sendBtn: {
-    color: '#f5f5f5'
+    color: '#f5f5f5',
+    fontWeight: 500
   },
   messageWrapperUser: {
     flexDirection: 'row',
