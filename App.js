@@ -5,7 +5,8 @@ import uuid from 'react-native-uuid';
 import { API_KEY } from './config/env';
 import botResponse from './botResponse';
 import { ActivityIndicator } from 'react-native';
-import { Entypo } from '@expo/vector-icons';
+import { Entypo, MaterialIcons } from '@expo/vector-icons';
+import NoMessages from './components/NoMessages'
 
 
 
@@ -13,165 +14,10 @@ export default function App() {
 
   const apiKey = API_KEY;
 
-  const [messages, setMessages] = useState([
-      {
-        role: 'user',
-        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
-        id: uuid.v4()
-      },
-      {
-        role: 'user',
-        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
-        id: uuid.v4()
-      },
-      {
-        role: 'user',
-        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
-        id: uuid.v4()
-      },
-      {
-        role: 'user',
-        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
-        id: uuid.v4()
-      },
-      {
-        role: 'user',
-        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
-        id: uuid.v4()
-      },
-      {
-        role: 'user',
-        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
-        id: uuid.v4()
-      },
-      {
-        role: 'user',
-        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
-        id: uuid.v4()
-      },
-      {
-        role: 'user',
-        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
-        id: uuid.v4()
-      },
-      {
-        role: 'user',
-        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
-        id: uuid.v4()
-      },
-      {
-        role: 'user',
-        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
-        id: uuid.v4()
-      },
-      {
-        role: 'user',
-        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
-        id: uuid.v4()
-      },
-      {
-        role: 'user',
-        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
-        id: uuid.v4()
-      },
-      {
-        role: 'user',
-        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
-        id: uuid.v4()
-      },
-      {
-        role: 'user',
-        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
-        id: uuid.v4()
-      },
-      {
-        role: 'user',
-        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
-        id: uuid.v4()
-      },
-      {
-        role: 'user',
-        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
-        id: uuid.v4()
-      },
-      {
-        role: 'user',
-        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
-        id: uuid.v4()
-      },
-      {
-        role: 'user',
-        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
-        id: uuid.v4()
-      },
-      {
-        role: 'user',
-        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
-        id: uuid.v4()
-      },
-      {
-        role: 'user',
-        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
-        id: uuid.v4()
-      },
-      {
-        role: 'user',
-        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
-        id: uuid.v4()
-      },
-      {
-        role: 'user',
-        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
-        id: uuid.v4()
-      },
-      {
-        role: 'user',
-        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
-        id: uuid.v4()
-      },
-      {
-        role: 'user',
-        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
-        id: uuid.v4()
-      },
-      {
-        role: 'user',
-        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
-        id: uuid.v4()
-      },
-      {
-        role: 'user',
-        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
-        id: uuid.v4()
-      },
-      {
-        role: 'user',
-        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
-        id: uuid.v4()
-      },
-      {
-        role: 'user',
-        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
-        id: uuid.v4()
-      },
-      {
-        role: 'user',
-        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
-        id: uuid.v4()
-      },
-      {
-        role: 'user',
-        content: 'testsartrsatarstrastrsatrastrsatrtrtrstrastrastarst',
-        id: uuid.v4()
-      },
-  ])
+  const [messages, setMessages] = useState([])
   const [currentUserMessage, setCurrentUserMessage] = useState('')
   const [userMessage, setUserMessage] = useState('')
-  const [loading, setLoading] = useState(false);
-  // const [botMessages, setBotMessages] = useState([])
-  // const [currentBotMessage, setCurrentBotMessage] = useState([])
-
-  
+  const [loading, setLoading] = useState(false);  
 
   const handleSendMessage = () => {
     if(currentUserMessage != '') {
@@ -188,27 +34,17 @@ export default function App() {
 
       setUserMessage(currentUserMessage);
       setCurrentUserMessage('');
-
-      // fake response
-      // setMessages(prevMessages => {
-      //   return [
-      //     ...prevMessages,
-      //     {
-      //       role: botResponse.role,
-      //       content: botResponse.content,
-      //       id: uuid.v4()
-      //     }
-      //   ]
-      // });
     }
-
-
   }
 
   const handleOnChangeText = value => {  
     setCurrentUserMessage(value)
   }
-
+  
+  const clearChat = () => setMessages([])
+  
+  const scrollRef = useRef();
+  
   const messageElements = messages.map((message) => {
     return (
       <View style={message.role === 'assistant' ? styles.messageWrapperAssistant : styles.messageWrapperUser} key={message.id}>
@@ -233,7 +69,7 @@ export default function App() {
       body: JSON.stringify({
         model: "gpt-3.5-turbo",
         messages: [{role: "user", content: message}],
-        max_tokens: 100
+        max_tokens: 1000
       })
     };
 
@@ -242,7 +78,6 @@ export default function App() {
       fetch('https://api.openai.com/v1/chat/completions', options)
         .then(response => response.json())
         .then(data => {
-          // console.log(data.choices[0].message.content);
           setMessages(prevMessages => {
             return [
               ...prevMessages,
@@ -260,23 +95,27 @@ export default function App() {
     }
   }, [userMessage]);
 
-  const scrollRef = useRef();
-
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      {loading ? <ActivityIndicator size="large" color="#81D99D" /> : null}
       <View style={{width: '100%', height: '100%'}}>
-        <View style={styles.newChatBtn} >
-            <Button
-              title='+ new chat'
-              color='#2C5D6E'
-            />
+        <View style={styles.clearChatBtnWrapper} >
+            <Pressable
+              onPress={() => clearChat()}
+              style={styles.clearChatBtnPressable}
+              android_ripple={{color: '#81D99D', radius: 999}}
+            >
+              <MaterialIcons name="delete" size={24} color="#f5f5f5" />
+              <Text style={styles.clearChatBtn}>
+                CLEAR CHAT
+              </Text>
+            </Pressable>
         </View>
+        {messages.length === 0 && <NoMessages />}
         <ScrollView 
           contentContainerStyle={styles.messagesWrapper}
           ref={scrollRef}
-          onContentSizeChange={() => scrollRef.current.scrollToEnd({ animated: true })}
+          onContentSizeChange={() => scrollRef.current.scrollToEnd({ animated: false })}
         >
           {messageElements}
         </ScrollView>
@@ -288,16 +127,21 @@ export default function App() {
           color='#f5f5f5'
           value={currentUserMessage}
           onChangeText={handleOnChangeText}
+          onSubmitEditing={handleSendMessage}
           />
           <Pressable 
             onPress={() => handleSendMessage()}
-            android_ripple={{color: 'gray', radius: 15}}
-            style={{height: 40, justifyContent: 'center'}}
+            android_ripple={{color: '#81D99D', radius: 20}}
+            style={styles.pressableSendBtn}
+            pressRetentionOffset={{bottom: 15, left: 15, right: 15, top: 15}}
           >
             <Text style={styles.sendBtn} >
-              <Entypo name="paper-plane" size={26} color="white" />
+              <Entypo name="paper-plane" size={22} color="white" />
             </Text>
           </Pressable>
+          <View style={styles.activityIndicator}>
+            {loading && <ActivityIndicator size={35} color="#81D99D" />}
+          </View>
         </View>
       </View>
     </View>
@@ -306,33 +150,50 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
     backgroundColor: '#033c4f',
     justifyContent: 'flex-end',
     paddingVertical: 20,
     paddingHorizontal: 5,
     alignItems: 'center'
   },
+  activityIndicator: {
+    position: 'absolute',
+    zIndex: 100,
+    bottom: 5,
+    right: 55
+  },
   messagesWrapper: {
     backgroundColor: '#033c4f',
     paddingHorizontal: 5,
-    // flex: 1,
-    // justifyContent: 'flex-end',
-    // alignItems: 'center'
-
   },
-  newChatBtn: {
-    marginTop: 30,
+  clearChatBtnWrapper: {
+    marginTop: 20,
     marginBottom: 10,
     marginHorizontal: 16,
+    justifyContent: 'center',
+    flexDirection: 'row',
+    borderRadius: 4
+  },
+  clearChatBtnPressable: {
+    backgroundColor: '#2C5D6E',
+    width: '100%',
+    paddingVertical: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  clearChatBtn: {
+    color: '#f5f5f5',
+    fontWeight: 500,
+    marginLeft: 5
   },
   history: {
     color: 'gray'
   },
   inputWrapper: {
+    position: 'relative',
     marginTop: 10,
     marginHorizontal: 16,
-    // width: '100%',
     flexDirection: 'row',
     alignItems: 'center'
   },
@@ -341,12 +202,18 @@ const styles = StyleSheet.create({
     padding: 10,
     marginEnd: 10,
     height: 45,
-    // width: '80%',
     borderColor: '#81D99D',
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 4,
     color: '#f5f5f5',
     backgroundColor: '#2C5D6E'
+  },
+  pressableSendBtn: {
+    height: 40, 
+    width: 40, 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    borderRadius: 20
   },
   sendBtn: {
     color: '#f5f5f5',
