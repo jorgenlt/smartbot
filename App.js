@@ -1,9 +1,10 @@
-import { useCallback, useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Keyboard, ScrollView, StyleSheet, Text, View } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import NoMessages from './components/NoMessages';
 import Input from './components/Input';
-import ClearChat from './components/ClearChat'
+import ClearChat from './components/ClearChat';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StatusBar } from 'expo-status-bar';
 import uuid from 'react-native-uuid';
 import { API_KEY} from '@env';
@@ -22,8 +23,44 @@ export default function App() {
   useEffect(() => {
     setTimeout(() => {
       SplashScreen.hideAsync();
-    }, 2000);
+    }, 1500);
   }, []);
+
+  // Async Storage
+  // # store
+  const storeMessages = async (value) => {
+    try {
+      const jsonValue = JSON.stringify(value)
+      await AsyncStorage.setItem('messages', jsonValue)
+    } catch (e) {
+      console.log('Messages was not stored');
+    }
+  }
+
+  // # get from storage
+  useEffect(() => {
+    const getMessages = async () => {
+      try {
+        const jsonValue = await AsyncStorage.getItem('messages');
+        if(jsonValue.length !== 0) {
+          setMessages(JSON.parse(jsonValue))
+        }
+      } catch(e) {
+        console.log('No messages was loaded from storage.');
+      }
+    };
+    getMessages();
+  }, [])
+
+  // # clear async storage
+  const removeValue = async () => {
+    try {
+      await AsyncStorage.removeItem('messages')
+    } catch(e) {
+      console.log('AsyncStorage could not remove the stored key.');
+    }
+    console.log('Done.')
+  }
 
   const handleSendMessage = () => {
     Keyboard.dismiss();
@@ -40,6 +77,7 @@ export default function App() {
         ]      
       });
 
+      storeMessages(messages);
       setUserMessage(currentUserMessage);
       setCurrentUserMessage('');
     }
@@ -50,6 +88,7 @@ export default function App() {
   }
   
   const clearChat = () => {
+    removeValue();
     setMessages([]);
     setCurrentUserMessage('');
     setUserMessage('');
@@ -65,9 +104,9 @@ export default function App() {
         </Text>
       </View>
     )
-  })
+  });
 
-  // API
+  // API call
   useEffect(() => {
     const message = userMessage;
 
@@ -99,6 +138,16 @@ export default function App() {
               }
             ]
           });
+
+          // storing message in async storage
+          storeMessages(
+            [...messages, 
+              {
+                role: data.choices[0].message.role,
+                content: data.choices[0].message.content,
+                id: uuid.v4()
+            }]
+          );
 
           setLoading(false);
         })
