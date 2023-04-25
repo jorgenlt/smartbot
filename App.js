@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
+import { useCallback, useState, useEffect, useRef } from 'react';
 import { Keyboard, ScrollView, StyleSheet, Text, View } from 'react-native';
+import * as SplashScreen from 'expo-splash-screen';
 import NoMessages from './components/NoMessages';
 import Input from './components/Input';
 import ClearChat from './components/ClearChat'
@@ -7,11 +8,22 @@ import { StatusBar } from 'expo-status-bar';
 import uuid from 'react-native-uuid';
 import { API_KEY} from '@env';
 
+// Keep the splash screen visible
+SplashScreen.preventAutoHideAsync();
+
 export default function App() {
   const [messages, setMessages] = useState([])
   const [currentUserMessage, setCurrentUserMessage] = useState('')
   const [userMessage, setUserMessage] = useState('')
-  const [loading, setLoading] = useState(false);  
+  const [loading, setLoading] = useState(false);
+  const [appIsReady, setAppIsReady] = useState(false);
+
+  // Hide splash screen after 2s. For demostration purposes.
+  useEffect(() => {
+    setTimeout(() => {
+      SplashScreen.hideAsync();
+    }, 2000);
+  }, []);
 
   const handleSendMessage = () => {
     Keyboard.dismiss();
