@@ -1,10 +1,5 @@
-module.exports = {
-    resolver: {
-        extraNodeModules: {
-            'config': require('path').resolve(__dirname, 'config')
-        }
-    },
-    // transformer: {
-    //     babelTransformerPath: require.resolve('react-native-dotenv')
-    // }
-};
+const { getDefaultConfig } = require('expo/metro-config');
+
+const config = getDefaultConfig(__dirname);
+
+module.exports = config;

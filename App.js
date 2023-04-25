@@ -5,12 +5,9 @@ import Input from './components/Input';
 import ClearChat from './components/ClearChat'
 import { StatusBar } from 'expo-status-bar';
 import uuid from 'react-native-uuid';
-import { API_KEY } from './config/env';
+import { API_KEY} from '@env';
 
 export default function App() {
-
-  const apiKey = API_KEY;
-
   const [messages, setMessages] = useState([])
   const [currentUserMessage, setCurrentUserMessage] = useState('')
   const [userMessage, setUserMessage] = useState('')
@@ -51,7 +48,6 @@ export default function App() {
   const messageElements = messages.map((message) => {
     return (
       <View style={message.role === 'assistant' ? styles.messageWrapperAssistant : styles.messageWrapperUser} key={message.id}>
-        {/* <Text style={styles.messageRole} >{message.role}</Text> */}
         <Text style={message.role === 'assistant' ? styles.messageAssistant : styles.messageUser}>
           {message.content}
         </Text>
@@ -67,7 +63,7 @@ export default function App() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
+        'Authorization': `Bearer ${API_KEY}`
       },
       body: JSON.stringify({
         model: "gpt-3.5-turbo",
