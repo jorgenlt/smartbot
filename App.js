@@ -9,7 +9,7 @@ import { StatusBar } from 'expo-status-bar';
 import uuid from 'react-native-uuid';
 import { API_KEY} from '@env';
 
-// Keep the splash screen visible
+// Show splash screen
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
@@ -17,9 +17,8 @@ export default function App() {
   const [currentUserMessage, setCurrentUserMessage] = useState('')
   const [userMessage, setUserMessage] = useState('')
   const [loading, setLoading] = useState(false);
-  const [appIsReady, setAppIsReady] = useState(false);
 
-  // Hide splash screen after 2s. For demostration purposes.
+  // Hide splash screen after 1.5s.
   useEffect(() => {
     setTimeout(() => {
       SplashScreen.hideAsync();
@@ -59,7 +58,11 @@ export default function App() {
     } catch(e) {
       console.log('AsyncStorage could not remove the stored key.');
     }
-    console.log('Done.')
+    console.log('Async storage cleared.')
+  }
+
+  const handleOnChangeText = value => {  
+    setCurrentUserMessage(value)
   }
 
   const handleSendMessage = () => {
@@ -72,7 +75,6 @@ export default function App() {
           {
             role: 'user',
             content: currentUserMessage,
-            id: uuid.v4()
           }
         ]      
       });
@@ -81,10 +83,6 @@ export default function App() {
       setUserMessage(currentUserMessage);
       setCurrentUserMessage('');
     }
-  }
-
-  const handleOnChangeText = value => {  
-    setCurrentUserMessage(value)
   }
   
   const clearChat = () => {
@@ -98,7 +96,7 @@ export default function App() {
   
   const messageElements = messages.map((message) => {
     return (
-      <View style={message.role === 'assistant' ? styles.messageWrapperAssistant : styles.messageWrapperUser} key={message.id}>
+      <View style={message.role === 'assistant' ? styles.messageWrapperAssistant : styles.messageWrapperUser} key={uuid.v4()}>
         <Text style={message.role === 'assistant' ? styles.messageAssistant : styles.messageUser}>
           {message.content}
         </Text>
@@ -108,47 +106,60 @@ export default function App() {
 
   // API call
   useEffect(() => {
-    const message = userMessage;
-
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${API_KEY}`
-      },
-      body: JSON.stringify({
-        model: "gpt-3.5-turbo",
-        messages: [{role: "user", content: message}],
-        max_tokens: 1000
-      })
-    };
-
     if(userMessage !== '') {
+      // get the last 10 messages as context (chat history)
+      let contextMessages;
+  
+      if(messages.length > 10) {
+        contextMessages = messages.slice(-10);
+      } else {
+        contextMessages = messages;
+      };
+
+      const requestMessages = [
+        ...contextMessages,
+        {
+          role: "user", 
+          content: userMessage
+        }
+      ];
+  
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${API_KEY}`
+        },
+        body: JSON.stringify({
+          model: "gpt-3.5-turbo",
+          messages: requestMessages,
+          max_tokens: 1000
+        })
+      };
+
       setLoading(true);
+
       fetch('https://api.openai.com/v1/chat/completions', options)
         .then(response => response.json())
         .then(data => {
           setMessages(prevMessages => {
-            return [
+            const responseMessage = data.choices[0].message;
+            const newMessages = [
               ...prevMessages,
               {
-                role: data.choices[0].message.role,
-                content: data.choices[0].message.content,
-                id: uuid.v4()
+                role: responseMessage.role,
+                content: responseMessage.content,
               }
-            ]
+            ];
+            
+            // storing message in async storage
+            storeMessages(newMessages);
+
+            // setting the messages state
+            return newMessages;
           });
 
-          // storing message in async storage
-          storeMessages(
-            [...messages, 
-              {
-                role: data.choices[0].message.role,
-                content: data.choices[0].message.content,
-                id: uuid.v4()
-            }]
-          );
-
+          // stopping loading animation
           setLoading(false);
         })
         .catch(error => console.error(error));

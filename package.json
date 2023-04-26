@@ -14,11 +14,11 @@
     "expo-status-bar": "~1.4.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-native": "0.71.6",
+    "react-native": "0.71.7",
     "react-native-get-random-values": "^1.8.0",
     "react-native-uuid": "^2.0.1",
     "react-native-web": "~0.18.10",
-    "expo-splash-screen": "~0.18.1",
+    "expo-splash-screen": "~0.18.2",
     "@react-native-async-storage/async-storage": "1.17.11"
   },
   "devDependencies": {
