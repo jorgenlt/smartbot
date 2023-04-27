@@ -104,6 +104,7 @@ export default function App() {
     )
   });
 
+  
   // API call
   useEffect(() => {
     if(userMessage !== '') {
