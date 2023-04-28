@@ -1,5 +1,5 @@
 # SmartBot - Powered by ChatGPT
-## An native Android app created with React Native on the Expo framework.
+## A native Android app created with React Native on the Expo framework.
 
 ### How to build and run app
 * Run `npm install`
