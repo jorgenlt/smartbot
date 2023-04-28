@@ -8,3 +8,7 @@
 * Test the app with `npx expo start`
 * Install and log in to Expo: `npm install -g eas-cli` then `eas login`
 * Bulid .apk by running `eas build -p android --profile preview`
+
+</br>
+
+<img src="https://user-images.githubusercontent.com/108831121/235083888-31d6536b-86a8-414f-9e74-6cb1fb936726.jpg" alt="SmartBot Screenshot" width="400"/>
