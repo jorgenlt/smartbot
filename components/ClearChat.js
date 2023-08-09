@@ -1,5 +1,6 @@
 import { Pressable, Text, View, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { colors } from '../styles/colors'
 
 export default function NoMessages(props) {
     return (
@@ -7,9 +8,9 @@ export default function NoMessages(props) {
             <Pressable
               onPress={props.clearChat}
               style={styles.clearChatBtnPressable}
-              android_ripple={{color: '#81D99D', radius: 160}}
+              android_ripple={{color: colors.sec}}
             >
-              <MaterialIcons name="delete" size={24} color="#f5f5f5" />
+              <MaterialIcons name="delete" size={24} color={colors.white} />
               <Text style={styles.clearChatBtn}>
                 CLEAR CHAT
               </Text>
@@ -25,18 +26,19 @@ const styles = StyleSheet.create({
         marginHorizontal: 16,
         justifyContent: 'center',
         flexDirection: 'row',
+        borderRadius: 4,
+        overflow: 'hidden'
       },
       clearChatBtnPressable: {
-        backgroundColor: '#2C5D6E',
+        backgroundColor: colors.priLighter,
         width: '100%',
         paddingVertical: 8,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 4
       },
       clearChatBtn: {
-        color: '#f5f5f5',
+        color: colors.white,
         fontWeight: 500,
         marginLeft: 5,
       }

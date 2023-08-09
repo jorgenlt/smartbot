@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Keyboard, ScrollView, StyleSheet, Text, View } from 'react-native';
+import Tooltip from 'rn-tooltip';
 import * as SplashScreen from 'expo-splash-screen';
 import NoMessages from './components/NoMessages';
 import Input from './components/Input';
@@ -9,6 +10,7 @@ import { StatusBar } from 'expo-status-bar';
 import uuid from 'react-native-uuid';
 import { API_KEY} from '@env';
 import * as Clipboard from 'expo-clipboard';
+import { colors } from './styles/colors'
 
 // Show splash screen
 SplashScreen.preventAutoHideAsync();
@@ -23,7 +25,7 @@ export default function App() {
   useEffect(() => {
     setTimeout(() => {
       SplashScreen.hideAsync();
-    }, 1500);
+    }, 500);
   }, []);
 
   // Async Storage
@@ -70,17 +72,16 @@ export default function App() {
     Keyboard.dismiss();
 
     if(currentUserMessage != '') {
-      setMessages(prevMessages => {
-        return [
-          ...prevMessages,
-          {
-            role: 'user',
-            content: currentUserMessage,
-          }
-        ]      
-      });
-
-      storeMessages(messages);
+      const updatedMessages = [
+            ...messages,
+            {
+              role: 'user',
+              content: currentUserMessage,
+            }
+          ]
+  
+      setMessages(updatedMessages);
+      storeMessages(updatedMessages);
       setUserMessage(currentUserMessage);
       setCurrentUserMessage('');
     }
@@ -105,14 +106,20 @@ export default function App() {
   const messageElements = messages.map((message) => {
     return (
       <View style={message.role === 'assistant' ? styles.messageWrapperAssistant : styles.messageWrapperUser} key={uuid.v4()} >
-        <Text style={message.role === 'assistant' ? styles.messageAssistant : styles.messageUser} onPress={() => copyToClipboard(message.content)} >
-          {message.content}
-        </Text>
+        <Tooltip 
+          popover={<Text style={{ color: colors.white }} >Copied to clipboard</Text>} 
+          onOpen={() => copyToClipboard(message.content)}
+          withOverlay={false}
+          backgroundColor='#121416'
+        >
+          <Text style={message.role === 'assistant' ? styles.messageAssistant : styles.messageUser} >
+            {message.content}
+          </Text>
+        </Tooltip>
       </View>
     )
   });
 
-  
   // API call
   useEffect(() => {
     if(userMessage !== '') {
@@ -152,6 +159,7 @@ export default function App() {
         .then(response => response.json())
         .then(data => {
           setMessages(prevMessages => {
+            console.log(data);
             const responseMessage = data.choices[0].message;
             const newMessages = [
               ...prevMessages,
@@ -203,18 +211,15 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#033c4f',
+    backgroundColor: colors.pri,
     justifyContent: 'flex-end',
     paddingVertical: 20,
     paddingHorizontal: 5,
     alignItems: 'center'
   },
   messagesWrapper: {
-    backgroundColor: '#033c4f',
+    backgroundColor: colors.pri,
     paddingHorizontal: 5,
-  },
-  history: {
-    color: 'gray'
   },
   messageWrapperUser: {
     flexDirection: 'row',
@@ -228,19 +233,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginVertical: 10
   },
-  messageRole: {
-    color: 'gray',
-    marginRight: 5,
-    fontSize: 10
-  },
   messageUser: {
-    backgroundColor: '#C0ECCE',
-    borderRadius: 5,
+    backgroundColor: colors.messageUser,
+    color: colors.white,
+    borderRadius: 20,
+    borderTopRightRadius: 2,
     padding: 10,
   },
   messageAssistant: {
-    backgroundColor: '#81D99D',
-    borderRadius: 5,
+    backgroundColor: colors.messageAssistant,
+    color: colors.white,
+    borderRadius: 20,
+    borderTopLeftRadius: 2,
     padding: 10,
   }
 });
