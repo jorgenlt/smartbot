@@ -2,7 +2,7 @@ import { Text, View, StyleSheet, Pressable, TextInput, ActivityIndicator } from 
 import { Entypo } from '@expo/vector-icons';
 
 
-export default function NoMessages(props) {
+export default function Input(props) {
     return (
         <View style={styles.inputWrapper}>
           <TextInput

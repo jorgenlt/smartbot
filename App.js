@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StatusBar } from 'expo-status-bar';
 import uuid from 'react-native-uuid';
 import { API_KEY} from '@env';
+import * as Clipboard from 'expo-clipboard';
 
 // Show splash screen
 SplashScreen.preventAutoHideAsync();
@@ -93,11 +94,18 @@ export default function App() {
   }
   
   const scrollRef = useRef();
+
+  const copyToClipboard = async text => {
+    if (text) {
+      await Clipboard.setStringAsync(text);
+    }
+  };
+  
   
   const messageElements = messages.map((message) => {
     return (
-      <View style={message.role === 'assistant' ? styles.messageWrapperAssistant : styles.messageWrapperUser} key={uuid.v4()}>
-        <Text style={message.role === 'assistant' ? styles.messageAssistant : styles.messageUser}>
+      <View style={message.role === 'assistant' ? styles.messageWrapperAssistant : styles.messageWrapperUser} key={uuid.v4()} >
+        <Text style={message.role === 'assistant' ? styles.messageAssistant : styles.messageUser} onPress={() => copyToClipboard(message.content)} >
           {message.content}
         </Text>
       </View>
@@ -132,9 +140,9 @@ export default function App() {
           'Authorization': `Bearer ${API_KEY}`
         },
         body: JSON.stringify({
-          model: "gpt-3.5-turbo",
+          model: "gpt-4",
           messages: requestMessages,
-          max_tokens: 1000
+          max_tokens: 5000
         })
       };
 

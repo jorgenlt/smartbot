@@ -7,7 +7,7 @@ export default function NoMessages(props) {
             <Pressable
               onPress={props.clearChat}
               style={styles.clearChatBtnPressable}
-              android_ripple={{color: '#81D99D', radius: 999}}
+              android_ripple={{color: '#81D99D', radius: 160}}
             >
               <MaterialIcons name="delete" size={24} color="#f5f5f5" />
               <Text style={styles.clearChatBtn}>
@@ -25,7 +25,6 @@ const styles = StyleSheet.create({
         marginHorizontal: 16,
         justifyContent: 'center',
         flexDirection: 'row',
-        borderRadius: 4
       },
       clearChatBtnPressable: {
         backgroundColor: '#2C5D6E',
@@ -33,12 +32,13 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        borderRadius: 4
       },
       clearChatBtn: {
         color: '#f5f5f5',
         fontWeight: 500,
-        marginLeft: 5
+        marginLeft: 5,
       }
   });
   
