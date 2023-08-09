@@ -12,7 +12,7 @@ import { API_KEY} from '@env';
 import * as Clipboard from 'expo-clipboard';
 import { colors } from './styles/colors'
 
-// Show splash screen
+// Prevent auto hiding of splash screen
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
@@ -21,15 +21,34 @@ export default function App() {
   const [userMessage, setUserMessage] = useState('')
   const [loading, setLoading] = useState(false);
 
-  // Hide splash screen after 1.5s.
-  useEffect(() => {
-    setTimeout(() => {
-      SplashScreen.hideAsync();
-    }, 500);
-  }, []);
+  const handleOnChangeText = value => {  
+    setCurrentUserMessage(value)
+  }
 
-  // Async Storage
-  // # store
+  const handleSendMessage = () => {
+    // Dismiss(hide) the keyboard.
+    Keyboard.dismiss();
+
+    // If currentUserMessage is not empty, add it to the message list
+    // Store messages with Async Storage
+    // Reset currentUserMessage
+    if(currentUserMessage != '') {
+      const updatedMessages = [
+        ...messages,
+        {
+          role: 'user',
+          content: currentUserMessage,
+        }
+      ]
+  
+      setMessages(updatedMessages);
+      storeMessages(updatedMessages);
+      setUserMessage(currentUserMessage);
+      setCurrentUserMessage('');
+    }
+  }
+  
+  // Storing messages with Async Storage.
   const storeMessages = async (value) => {
     try {
       const jsonValue = JSON.stringify(value)
@@ -39,7 +58,43 @@ export default function App() {
     }
   }
 
-  // # get from storage
+  // Function to clear the chat and delete Async Storage
+  const clearChat = () => {
+    removeValue();
+    setMessages([]);
+    setCurrentUserMessage('');
+    setUserMessage('');
+
+  }
+  // Function to delete Async Storage.
+  const removeValue = async () => {
+    try {
+      await AsyncStorage.removeItem('messages')
+    } catch(e) {
+      console.log('AsyncStorage could not remove the stored key.');
+    }
+    console.log('Async storage cleared.')
+  }
+  
+  // Ref for ScrollView
+  const scrollRef = useRef();
+
+  // Function to copy text(messages) to clipboard.
+  const copyToClipboard = async text => {
+    if (text) {
+      await Clipboard.setStringAsync(text);
+    }
+  };
+
+  // Hide splash screen after 0.5s.
+  useEffect(() => {
+    setTimeout(() => {
+      SplashScreen.hideAsync();
+    }, 500);
+  }, []);
+
+
+  // Get messages from storage on component mount.
   useEffect(() => {
     const getMessages = async () => {
       try {
@@ -54,55 +109,7 @@ export default function App() {
     getMessages();
   }, [])
 
-  // # clear async storage
-  const removeValue = async () => {
-    try {
-      await AsyncStorage.removeItem('messages')
-    } catch(e) {
-      console.log('AsyncStorage could not remove the stored key.');
-    }
-    console.log('Async storage cleared.')
-  }
-
-  const handleOnChangeText = value => {  
-    setCurrentUserMessage(value)
-  }
-
-  const handleSendMessage = () => {
-    Keyboard.dismiss();
-
-    if(currentUserMessage != '') {
-      const updatedMessages = [
-            ...messages,
-            {
-              role: 'user',
-              content: currentUserMessage,
-            }
-          ]
-  
-      setMessages(updatedMessages);
-      storeMessages(updatedMessages);
-      setUserMessage(currentUserMessage);
-      setCurrentUserMessage('');
-    }
-  }
-  
-  const clearChat = () => {
-    removeValue();
-    setMessages([]);
-    setCurrentUserMessage('');
-    setUserMessage('');
-  }
-  
-  const scrollRef = useRef();
-
-  const copyToClipboard = async text => {
-    if (text) {
-      await Clipboard.setStringAsync(text);
-    }
-  };
-  
-  
+  // Creating the message elements to render in the ScrollView.
   const messageElements = messages.map((message) => {
     return (
       <View style={message.role === 'assistant' ? styles.messageWrapperAssistant : styles.messageWrapperUser} key={uuid.v4()} >
@@ -120,10 +127,10 @@ export default function App() {
     )
   });
 
-  // API call
+  // Whenever a new userMessage is added, make an API call.
   useEffect(() => {
     if(userMessage !== '') {
-      // get the last 10 messages as context (chat history)
+      // Get the last 10 messages as context for the api (chat history).
       let contextMessages;
   
       if(messages.length > 10) {
@@ -140,6 +147,7 @@ export default function App() {
         }
       ];
   
+      // Put together options for the API call
       const options = {
         method: 'POST',
         headers: {
@@ -149,15 +157,18 @@ export default function App() {
         body: JSON.stringify({
           model: "gpt-4",
           messages: requestMessages,
-          max_tokens: 5000
+          max_tokens: 6000
         })
       };
 
+      // Enable the loading spinner.
       setLoading(true);
 
+      // Perform the API call and process the response.
       fetch('https://api.openai.com/v1/chat/completions', options)
         .then(response => response.json())
         .then(data => {
+          // Update state with the response message.
           setMessages(prevMessages => {
             console.log(data);
             const responseMessage = data.choices[0].message;
@@ -169,14 +180,14 @@ export default function App() {
               }
             ];
             
-            // storing message in async storage
+            // Storing message in async storage.
             storeMessages(newMessages);
 
-            // setting the messages state
+            // Setting the messages state.
             return newMessages;
           });
 
-          // stopping loading animation
+          // Disable loading spinner
           setLoading(false);
         })
         .catch(error => console.error(error));
@@ -201,7 +212,7 @@ export default function App() {
         <Input 
           loading={loading}
           currentUserMessage={currentUserMessage}
-          handleOnChangeText={handleOnChangeText}
+          handleOnChangeText={(handleOnChangeText)}
           handleSendMessage={() => handleSendMessage()}
         />
       </View>
