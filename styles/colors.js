@@ -1,10 +1,12 @@
 export const colors = {
-  pri: '#110E1B',
-  priLighter: '#191528',
-  sec: '#7C162E',
+  pri: '#f5f5f5',
+  priLighter: '#E0E0E0',
+  sec: '#B6FFAD',
   white: '#f5f5f5',
-  messageUser: '#3C162F',
-  messageAssistant: '#7C162E'
+  black: '#141414',
+  messageUser: '#B6FFAD',
+  messageAssistant: '#B5F3F8',
+  text: '#141414'
 }
 
 // export const colors = {

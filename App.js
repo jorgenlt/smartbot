@@ -235,14 +235,14 @@ const styles = StyleSheet.create({
   },
   messageUser: {
     backgroundColor: colors.messageUser,
-    color: colors.white,
+    color: colors.text,
     borderRadius: 20,
     borderTopRightRadius: 2,
     padding: 10,
   },
   messageAssistant: {
     backgroundColor: colors.messageAssistant,
-    color: colors.white,
+    color: colors.text,
     borderRadius: 20,
     borderTopLeftRadius: 2,
     padding: 10,

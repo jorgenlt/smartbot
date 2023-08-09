@@ -9,8 +9,8 @@ export default function Input(props) {
       <TextInput
       style={styles.input}
       placeholder='Message Smartbot...'
-      placeholderTextColor='#C0ECCE'
-      color={colors.white}
+      placeholderTextColor={colors.text}
+      color={colors.text}
       value={props.currentUserMessage}
       onChangeText={props.handleOnChangeText}
       onSubmitEditing={props.handleSendMessage}
@@ -23,12 +23,12 @@ export default function Input(props) {
         pressRetentionOffset={{bottom: 15, left: 15, right: 15, top: 15}}
         >
           <Text style={styles.sendBtn} >
-            <Entypo name="paper-plane" size={22} color="white" />
+            <Entypo name="paper-plane" size={22} color={colors.text} />
           </Text>
         </Pressable>
       </View>
       <View style={styles.activityIndicator}>
-        {props.loading && <ActivityIndicator size={35} color={colors.sec} />}
+        {props.loading && <ActivityIndicator size={35} color={colors.text} />}
       </View>
     </View>
   )
@@ -47,10 +47,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginEnd: 10,
     height: 45,
-    borderColor: colors.sec,
-    borderWidth: 1,
     borderRadius: 4,
-    color: '#f5f5f5',
     backgroundColor: colors.priLighter
   },
   sendWrapper: {

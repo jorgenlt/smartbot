@@ -1,4 +1,5 @@
 import { Text, View, StyleSheet } from 'react-native';
+import { colors } from '../styles/colors'
 
 export default function NoMessages() {
     return (
@@ -18,7 +19,7 @@ const styles = StyleSheet.create({
       alignItems: 'center'
     },
     noMessages: {
-      color: '#c0ecce',
+      color: colors.text,
       fontSize: 16
     }
   });

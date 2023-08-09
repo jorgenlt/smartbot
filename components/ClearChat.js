@@ -10,7 +10,7 @@ export default function NoMessages(props) {
               style={styles.clearChatBtnPressable}
               android_ripple={{color: colors.sec}}
             >
-              <MaterialIcons name="delete" size={24} color={colors.white} />
+              <MaterialIcons name="delete" size={24} color={colors.text} />
               <Text style={styles.clearChatBtn}>
                 CLEAR CHAT
               </Text>
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
       },
       clearChatBtn: {
-        color: colors.white,
+        color: colors.text,
         fontWeight: 500,
         marginLeft: 5,
       }
