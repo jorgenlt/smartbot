@@ -45,13 +45,12 @@ export const chat = createSlice({
     builder
       .addCase(getChatResponseThunk.pending, state => {
         state.status = 'loading';
-        console.log('loading...');
+        console.log('getChatResponseThunk loading...');
       })
       .addCase(getChatResponseThunk.fulfilled, (state, action) => {
-        console.log('getChatResponseThunk executed.');
         state.status = 'succeeded';
-        console.log('succeeded...');
-        console.log('action.payload:', action.payload);
+
+        console.log('getChatResponseThunk succeeded...');
 
         // update state
         state.messages = [
@@ -70,16 +69,8 @@ export const chat = createSlice({
       })
       .addCase(getChatResponseThunk.rejected, (state, action) => {
         state.status = 'failed';
-        console.log('failed...');
-        state.error = `
-          The fetching of images failed with the following 
-          error message: "${action.error.message}"
-        `;
-
-        console.log(`
-        The fetching of images failed with the following 
-        error message: "${action.error.message}"
-      `);
+        console.log('getChatResponseThunk failed...');
+        state.error = action.error.message;
       });
   },
 });

@@ -3,7 +3,6 @@
 const API_KEY = process.env.EXPO_PUBLIC_API_KEY; 
 
 async function fetchChatCompletion(context, prompt) {
-  console.log('fetchChatCompletion api executed', prompt);
   // Construct request
   const requestBody = {
     model: 'gpt-4',
@@ -31,17 +30,13 @@ async function fetchChatCompletion(context, prompt) {
 
   // Handle response
   const data = await response.json();
+
   if (!response.ok) {
-    throw new Error(data.error); 
+    throw new Error(data.error.message);
   }
 
   const responseMessage = data.choices[0].message;
 
-  console.log('response:', data.choices[0].message);
-  console.log({
-    role: responseMessage.role,
-    content: responseMessage.content,
-  });
   return {
     messages: requestBody.messages,
     role: responseMessage.role,

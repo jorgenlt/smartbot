@@ -1,6 +1,6 @@
 import { Text, View, StyleSheet, Pressable, TextInput, ActivityIndicator } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
-import colors from '../../styles/colors'
+import { colors } from '../../styles/colors'
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getChatResponseThunk, updateMessages } from './chatSlice'
@@ -33,7 +33,7 @@ const ChatInput = () => {
         color={colors.text}
         value={message}
         onChangeText={value => setMessage(value)}
-        onSubmitEditing={() => console.log(message)}
+        onSubmitEditing={handleSendMessage}
       />
       <View style={styles.sendWrapper}>
         <Pressable 

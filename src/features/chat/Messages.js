@@ -7,11 +7,12 @@ import {
   ScrollView 
 } from 'react-native'
 import uuid from 'react-native-uuid'
-import colors from '../../styles/colors'
+import { colors } from '../../styles/colors'
 
 const Messages = () => {
 
-  const messages = useSelector(state => state.chat.messages)
+  const messages = useSelector(state => state.chat.messages);
+  const error = useSelector(state => state.chat.error);
 
   // Ref for ScrollView
   const scrollRef = useRef();
@@ -41,6 +42,7 @@ const Messages = () => {
     onContentSizeChange={() => scrollRef.current.scrollToEnd({ animated: false })}
   >
     {messageElements}
+    {error && <Text>{error}</Text>}
   </ScrollView>
   )
 }

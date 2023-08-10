@@ -1,13 +1,13 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, Button } from 'react-native'
 import { useState, useEffect, useRef} from 'react'
 import { useSelector } from 'react-redux'
-import colors from '../../styles/colors'
+import { colors } from '../../styles/colors'
 import ChatInput from './ChatInput'
 import Messages from './Messages'
 
 import fetchChatCompletion from '../../api/api'
 
-export default function Chat() {
+export default function Chat({ route }) {
   const [messages, setMessages] = useState([])
   const [currentUserMessage, setCurrentUserMessage] = useState('')
   const [userMessage, setUserMessage] = useState('')
@@ -23,6 +23,10 @@ export default function Chat() {
   return (
     <View style={styles.container}>
       <View style={{width: '100%', height: '100%'}}>
+        {/* <Button 
+          title='go to details'
+          onPress={() => navigation.navigate('Details')}
+        /> */}
         <Messages />
         <ChatInput />
       </View>
