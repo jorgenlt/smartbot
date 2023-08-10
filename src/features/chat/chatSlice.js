@@ -1,10 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import fetchChatCompletion from '../../api/api';
+import uuid from 'react-native-uuid'
 
 const initialState = {
-  test: ['testing redux'],
+  conversations: {},
+  nextConversationId: 3,
+  currentMessages: [],
+  currentId: 2,
   messages: [],
-  userMessage: '',
   loading: false,
   status: 'idle',
   error: null
@@ -32,11 +35,37 @@ export const chat = createSlice({
   name: 'chat',
   initialState,
   reducers: {
+    addConversation: state => {
+      const id = state.nextConversationId;
+      state.currentId = id;
+      state.conversations[id] = [];
+      state.nextConversationId++;
+
+      console.log('new conversation added with id', id);
+      console.log('redux state:', state);
+    },
     updateMessages: (state, action) => {
-      state.messages = [
-        ...state.messages,
-        action.payload
-      ]
+      const id = state.currentId.toString();
+      state.conversations[id].push(action.payload);
+      // state.messages = [
+      //   ...state.messages,
+      //   action.payload
+      // ]
+    },
+    deleteMessages: state => {
+      state.messages = [];
+      state.conversations = {};
+      state.currentMessages = [];
+      state.currentId = null;
+      state.nextConversationId = 1;
+      state.loading = false;
+      state.status = 'idle';
+      state.error = null;
+
+      console.log('redux state:', state);
+    },
+    updateCurrentId: (state, action) => {
+      state.currentId = action.payload;
     }
   },
   extraReducers: builder => {
@@ -47,17 +76,26 @@ export const chat = createSlice({
       })
       .addCase(getChatResponseThunk.fulfilled, (state, action) => {
         state.status = 'succeeded';
-
+        state.error = null;
         console.log('getChatResponseThunk succeeded...');
 
-        // update state
-        state.messages = [
-          ...state.messages,
-          {
-            content: action.payload.content,
-            role: action.payload.role
-          }
-        ];
+        const id = state.currentId.toString();
+        const message = {
+          content: action.payload.content,
+          role: action.payload.role
+        };
+
+        state.conversations[id].push(message);
+
+
+        // // update state
+        // state.messages = [
+        //   ...state.messages,
+        //   {
+        //     content: action.payload.content,
+        //     role: action.payload.role
+        //   }
+        // ];
 
         // Set status back to idle.
         console.log('setting status to idle...');
@@ -74,6 +112,11 @@ export const chat = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { updateMessages } = chat.actions
+export const { 
+  updateMessages, 
+  deleteMessages,
+  addConversation,
+  updateCurrentId
+} = chat.actions
 
 export default chat.reducer;

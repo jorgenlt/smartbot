@@ -3,20 +3,37 @@ import { Entypo } from '@expo/vector-icons';
 import { colors } from '../../styles/colors'
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getChatResponseThunk, updateMessages } from './chatSlice'
+import { 
+  getChatResponseThunk, 
+  updateMessages,
+  addConversation 
+} from './chatSlice'
+import uuid from 'react-native-uuid'
 
 const ChatInput = () => {
   const [message, setMessage] = useState('');
 
   const status = useSelector(state => state.chat.status);
 
+  const conversations = useSelector(state => state.chat.conversations);
+
+  const currentId = useSelector(state => state.chat.currentId);
+
   const dispatch = useDispatch();
+  
+  if (!currentId) {
+    dispatch(addConversation());
+  }
+
 
   const handleSendMessage = () => {
     if (message) {
       console.log('handleSendMessage dispatch()');
 
-      dispatch(updateMessages({content: message, role: 'user'}));
+      dispatch(updateMessages({
+        content: message, 
+        role: 'user',
+      }));
 
       dispatch(getChatResponseThunk(message));
       setMessage('');

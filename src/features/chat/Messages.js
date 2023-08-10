@@ -11,29 +11,37 @@ import { colors } from '../../styles/colors'
 
 const Messages = () => {
 
-  const messages = useSelector(state => state.chat.messages);
+  const id = useSelector(state => state.chat.currentId).toString();
+  const messages = useSelector(state => state.chat.conversations[id]);
+  const conversations = useSelector(state => state.chat.conversations);
   const error = useSelector(state => state.chat.error);
 
   // Ref for ScrollView
   const scrollRef = useRef();
 
   // Creating the message elements to render in the ScrollView.
-  const messageElements = messages.map(message => {
-    return (
-      <View style={message.role === 'assistant' ? styles.messageWrapperAssistant : styles.messageWrapperUser} key={uuid.v4()} >
-        {/* <Tooltip 
-          popover={<Text style={{ color: colors.white }} >Copied to clipboard</Text>} 
-          onOpen={() => copyToClipboard(message.content)}
-          withOverlay={false}
-          backgroundColor='#121416'
-        > */}
-          <Text style={message.role === 'assistant' ? styles.messageAssistant : styles.messageUser} >
-            {message.content}
-          </Text>
-        {/* </Tooltip> */}
-      </View>
-    )
-  });
+  let messageElements;
+  if (messages) {
+    messageElements = messages.map(message => {
+      return (
+        <View 
+          style={message.role === 'assistant' ? styles.messageWrapperAssistant : styles.messageWrapperUser} 
+          key={uuid.v4()} 
+        >
+          {/* <Tooltip 
+            popover={<Text style={{ color: colors.white }} >Copied to clipboard</Text>} 
+            onOpen={() => copyToClipboard(message.content)}
+            withOverlay={false}
+            backgroundColor='#121416'
+          > */}
+            <Text style={message.role === 'assistant' ? styles.messageAssistant : styles.messageUser} >
+              {message.content}
+            </Text>
+          {/* </Tooltip> */}
+        </View>
+      )
+    });
+  }
 
   return (
     <ScrollView 

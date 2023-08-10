@@ -19,7 +19,7 @@ const persistConfig = {
   key: 'root',
   version: 1,
   storage: AsyncStorage,
-  whitelist: ['messages', 'status', 'error']
+  whitelist: ['messages', 'status', 'error', 'conversations', 'nextConversationId', 'currentId']
 };
 
 // Persisted reducer

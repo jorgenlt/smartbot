@@ -1,11 +1,12 @@
 // api.js
 
-const API_KEY = process.env.EXPO_PUBLIC_API_KEY; 
+const API_KEY = process.env.EXPO_PUBLIC_API_KEY;
+const url = 'https://api.openai.com/v1/chat/completions';
 
 async function fetchChatCompletion(context, prompt) {
   // Construct request
   const requestBody = {
-    model: 'gpt-4',
+    model: 'gpt-3.5-turbo',
     messages: [
       ...context, 
       { 
@@ -13,7 +14,7 @@ async function fetchChatCompletion(context, prompt) {
         content: prompt 
       }
     ],
-    max_tokens: 6000
+    max_tokens: 2000
   };
 
   const requestOptions = {
@@ -26,7 +27,7 @@ async function fetchChatCompletion(context, prompt) {
   };
 
   // Make API call    
-  const response = await fetch('https://api.openai.com/v1/chat/completions', requestOptions);
+  const response = await fetch(url, requestOptions);
 
   // Handle response
   const data = await response.json();

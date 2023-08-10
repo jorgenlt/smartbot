@@ -5,10 +5,11 @@ import { store, persistor } from './src/app/store'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { StatusBar } from 'expo-status-bar'
-import { Text } from 'react-native'
+import { Text, TouchableOpacity } from 'react-native'
 import Chat from './src/features/chat/Chat'
 import ChatList from './src/features/chat/ChatList'
 import Settings from './src/components/Settings'
+import NewChat from './src/features/chat/NewChat'
 import { colors, navTheme } from './src/styles/colors'
 
 // Navigation
@@ -51,7 +52,7 @@ export default function App() {
           >
             <Tab.Screen name="Chat" component={Chat} />
             <Tab.Screen name="ChatList" component={ChatList} />
-            <Tab.Screen name="NewChat" component={Settings} />
+            <Tab.Screen name="NewChat" component={NewChat}/>
             <Tab.Screen name="Settings" component={Settings} />
           </Tab.Navigator>
         </NavigationContainer>
