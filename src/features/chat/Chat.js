@@ -15,10 +15,6 @@ export default function Chat({ route }) {
 
   const status = useSelector(state => state.chat.status);
   const error = useSelector(state => state.chat.error);
-
-  // useEffect(() => {
-  //   fetchChatCompletion([], 'hey');
-  // }, [])
   
   return (
     <View style={styles.container}>

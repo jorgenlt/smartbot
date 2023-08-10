@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import fetchChatCompletion from '../../api/api';
-import { useSelector } from 'react-redux';
 
 const initialState = {
   test: ['testing redux'],
@@ -24,8 +23,7 @@ export const getChatResponseThunk = createAsyncThunk(
       const response = await fetchChatCompletion(context, prompt);
       return response;
     } catch (error) {
-      throw error; // Rethrow the error to trigger the rejected case
-      console.log('error from thunk');
+      throw error;
     }
   }
 );

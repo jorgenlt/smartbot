@@ -23,7 +23,6 @@ const ChatInput = () => {
     }
   }
 
-
   return (
     <View style={styles.inputWrapper}>
       <TextInput

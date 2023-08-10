@@ -5,7 +5,7 @@ import { store, persistor } from './src/app/store'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { StatusBar } from 'expo-status-bar'
-import { Text, View } from 'react-native'
+import { Text } from 'react-native'
 import Chat from './src/features/chat/Chat'
 import ChatList from './src/features/chat/ChatList'
 import Settings from './src/components/Settings'
@@ -39,6 +39,8 @@ export default function App() {
                   iconName = focused ? 'list' : 'list-outline';
                 } else if (route.name === 'Settings') {
                   iconName = focused ? 'settings' : 'settings-outline';
+                } else if (route.name === 'NewChat') {
+                  iconName = focused ? 'add' : 'add-outline';
                 }
 
                 return <Ionicons name={iconName} size={size} color={colors.navIcons} />;
@@ -49,6 +51,7 @@ export default function App() {
           >
             <Tab.Screen name="Chat" component={Chat} />
             <Tab.Screen name="ChatList" component={ChatList} />
+            <Tab.Screen name="NewChat" component={Settings} />
             <Tab.Screen name="Settings" component={Settings} />
           </Tab.Navigator>
         </NavigationContainer>
