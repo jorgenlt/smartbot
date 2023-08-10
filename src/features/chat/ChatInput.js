@@ -1,38 +1,64 @@
 import { Text, View, StyleSheet, Pressable, TextInput, ActivityIndicator } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
-import { colors } from '../styles/colors'
+import colors from '../../styles/colors'
+import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { getChatResponseThunk, updateMessages } from './chatSlice'
+
+const ChatInput = () => {
+  const [message, setMessage] = useState('');
+
+  const status = useSelector(state => state.chat.status);
+
+  const dispatch = useDispatch();
+
+  const handleSendMessage = () => {
+    if (message) {
+      console.log('handleSendMessage dispatch()');
+
+      dispatch(updateMessages({content: message, role: 'user'}));
+
+      dispatch(getChatResponseThunk(message));
+      setMessage('');
+    }
+  }
 
 
-export default function Input(props) {
   return (
     <View style={styles.inputWrapper}>
       <TextInput
-      style={styles.input}
-      placeholder='Message Smartbot...'
-      placeholderTextColor={colors.text}
-      color={colors.text}
-      value={props.currentUserMessage}
-      onChangeText={props.handleOnChangeText}
-      onSubmitEditing={props.handleSendMessage}
+        style={styles.input}
+        placeholder='Message Smartbot...'
+        placeholderTextColor={colors.text}
+        color={colors.text}
+        value={message}
+        onChangeText={value => setMessage(value)}
+        onSubmitEditing={() => console.log(message)}
       />
       <View style={styles.sendWrapper}>
         <Pressable 
-        onPress={props.handleSendMessage}
+        onPress={handleSendMessage}
         android_ripple={{color: colors.sec,}}
         style={styles.pressableSendBtn}
         pressRetentionOffset={{bottom: 15, left: 15, right: 15, top: 15}}
         >
           <Text style={styles.sendBtn} >
-            <Entypo name="paper-plane" size={22} color={colors.text} />
+            <Entypo 
+              name="paper-plane" 
+              size={22} 
+              color={colors.text} 
+            />
           </Text>
         </Pressable>
       </View>
       <View style={styles.activityIndicator}>
-        {props.loading && <ActivityIndicator size={35} color={colors.text} />}
+        {(status === 'loading') && <ActivityIndicator size={35} color={colors.text} />}
       </View>
     </View>
   )
 }
+
+export default ChatInput;
   
 const styles = StyleSheet.create({
   inputWrapper: {
@@ -63,7 +89,6 @@ const styles = StyleSheet.create({
   },
   sendBtn: {
     color: colors.white,
-    fontWeight: 500
   },
   activityIndicator: {
     position: 'absolute',

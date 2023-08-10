@@ -1,4 +1,4 @@
-export const colors = {
+const colors = {
   pri: '#f5f5f5',
   priLighter: '#E0E0E0',
   sec: '#B6FFAD',
@@ -17,3 +17,5 @@ export const colors = {
 //   messageUser: '#C0ECCE',
 //   messageAssistant: '#81D99D'
 // }
+
+export default colors;
