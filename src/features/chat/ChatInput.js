@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import { colors } from '../../styles/colors'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { 
   getChatResponseThunk, 
@@ -26,26 +26,29 @@ const ChatInput = () => {
 
   const dispatch = useDispatch();
   
-  if (!currentId) {
-    dispatch(addConversation());
-  }
-
   const handleSendMessage = () => {
     if (message) {
       // Dismiss(hide) the keyboard.
       Keyboard.dismiss();
 
       console.log('handleSendMessage dispatch()');
-
+      
       dispatch(updateMessages({
         content: message, 
         role: 'user',
       }));
-
+      
       dispatch(getChatResponseThunk(message));
       setMessage('');
     }
   }
+
+  useEffect(() => {
+    console.log('currentId:', currentId);
+    if (!currentId) {
+      dispatch(addConversation());
+    }
+  }, [])
 
   return (
     <View style={styles.inputWrapper}>

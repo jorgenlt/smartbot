@@ -12,8 +12,8 @@ import uuid from 'react-native-uuid'
 import { colors } from '../../styles/colors'
 
 const Messages = () => {
-  const id = useSelector(state => state.chat.currentId).toString();
-  const messages = useSelector(state => state.chat.conversations[id]);
+  const id = useSelector(state => state.chat.currentId)?.toString();
+  const messages = useSelector(state => state.chat.conversations?.[id]);
   const error = useSelector(state => state.chat.error);
 
   // Ref for ScrollView
@@ -55,7 +55,7 @@ const Messages = () => {
       onContentSizeChange={() => scrollRef.current.scrollToEnd({ animated: false })}
     >
       {
-        messages.length === 0 ? (
+        messages && messages.length === 0 ? (
           <View style={styles.noMessagesWrapper}>
             <Text style={styles.noMessages} >Start chatting with Smartbot 👇</Text>
           </View>

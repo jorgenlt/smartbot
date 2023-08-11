@@ -4,10 +4,8 @@ import uuid from 'react-native-uuid'
 
 const initialState = {
   conversations: {},
-  nextConversationId: 3,
-  currentMessages: [],
-  currentId: 2,
-  messages: [],
+  nextConversationId: 1,
+  currentId: null,
   loading: false,
   status: 'idle',
   error: null
@@ -47,22 +45,10 @@ export const chat = createSlice({
     updateMessages: (state, action) => {
       const id = state.currentId.toString();
       state.conversations[id].push(action.payload);
-      // state.messages = [
-      //   ...state.messages,
-      //   action.payload
-      // ]
     },
     deleteMessages: state => {
-      state.messages = [];
-      state.conversations = {};
-      state.currentMessages = [];
-      state.currentId = null;
-      state.nextConversationId = 1;
-      state.loading = false;
-      state.status = 'idle';
-      state.error = null;
-
-      console.log('redux state:', state);
+      console.log('Messages deleted. State set to inital state:', state);
+      return initialState;
     },
     updateCurrentId: (state, action) => {
       state.currentId = action.payload;
@@ -86,16 +72,6 @@ export const chat = createSlice({
         };
 
         state.conversations[id].push(message);
-
-
-        // // update state
-        // state.messages = [
-        //   ...state.messages,
-        //   {
-        //     content: action.payload.content,
-        //     role: action.payload.role
-        //   }
-        // ];
 
         // Set status back to idle.
         console.log('setting status to idle...');
