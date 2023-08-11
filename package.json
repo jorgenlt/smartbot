@@ -15,6 +15,7 @@
     "@react-navigation/native-stack": "^6.9.13",
     "@reduxjs/toolkit": "^1.9.5",
     "expo": "~49.0.7",
+    "expo-clipboard": "^4.3.1",
     "expo-status-bar": "~1.6.0",
     "react": "18.2.0",
     "react-native": "0.72.3",
@@ -22,7 +23,8 @@
     "react-native-screens": "~3.22.0",
     "react-native-uuid": "^2.0.1",
     "react-redux": "^8.1.2",
-    "redux-persist": "^6.0.0"
+    "redux-persist": "^6.0.0",
+    "rn-tooltip": "^3.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

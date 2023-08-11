@@ -5,9 +5,9 @@ import { store, persistor } from './src/app/store'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { StatusBar } from 'expo-status-bar'
-import { Text, TouchableOpacity } from 'react-native'
+import { Text } from 'react-native'
 import Chat from './src/features/chat/Chat'
-import ChatList from './src/features/chat/ChatList'
+import Conversations from './src/features/chat/Conversations'
 import Settings from './src/components/Settings'
 import NewChat from './src/features/chat/NewChat'
 import { colors, navTheme } from './src/styles/colors'
@@ -15,7 +15,7 @@ import { colors, navTheme } from './src/styles/colors'
 // Navigation
 const Tab = createBottomTabNavigator();
 
-export default function App() {
+const App = () => {
   return (
     <Provider store={store}>
       <StatusBar 
@@ -29,18 +29,18 @@ export default function App() {
         <NavigationContainer theme={navTheme} >
           <Tab.Navigator
             screenOptions={({ route }) => ({
-              headerShown: false,
+              headerShown: true,
               tabBarShowLabel: false,
               tabBarIcon: ({ focused, color, size }) => {
                 let iconName;
     
                 if (route.name === 'Chat') {
                   iconName = focused ? 'chatbox-ellipses' : 'chatbox-ellipses-outline';
-                } else if (route.name === 'ChatList') {
+                } else if (route.name === 'Conversations') {
                   iconName = focused ? 'list' : 'list-outline';
                 } else if (route.name === 'Settings') {
                   iconName = focused ? 'settings' : 'settings-outline';
-                } else if (route.name === 'NewChat') {
+                } else if (route.name === 'New Chat') {
                   iconName = focused ? 'add' : 'add-outline';
                 }
 
@@ -51,8 +51,8 @@ export default function App() {
             })}
           >
             <Tab.Screen name="Chat" component={Chat} />
-            <Tab.Screen name="ChatList" component={ChatList} />
-            <Tab.Screen name="NewChat" component={NewChat}/>
+            <Tab.Screen name="Conversations" component={Conversations} />
+            <Tab.Screen name="New Chat" component={NewChat}/>
             <Tab.Screen name="Settings" component={Settings} />
           </Tab.Navigator>
         </NavigationContainer>
@@ -60,3 +60,5 @@ export default function App() {
     </Provider>
   );
 }
+
+export default App;

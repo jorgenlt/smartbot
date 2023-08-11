@@ -1,4 +1,12 @@
-import { Text, View, StyleSheet, Pressable, TextInput, ActivityIndicator } from 'react-native';
+import { 
+  Text, 
+  View, 
+  StyleSheet, 
+  Pressable, 
+  TextInput, 
+  ActivityIndicator,
+  Keyboard
+} from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import { colors } from '../../styles/colors'
 import { useState } from 'react';
@@ -8,14 +16,11 @@ import {
   updateMessages,
   addConversation 
 } from './chatSlice'
-import uuid from 'react-native-uuid'
 
 const ChatInput = () => {
   const [message, setMessage] = useState('');
 
   const status = useSelector(state => state.chat.status);
-
-  const conversations = useSelector(state => state.chat.conversations);
 
   const currentId = useSelector(state => state.chat.currentId);
 
@@ -25,9 +30,11 @@ const ChatInput = () => {
     dispatch(addConversation());
   }
 
-
   const handleSendMessage = () => {
     if (message) {
+      // Dismiss(hide) the keyboard.
+      Keyboard.dismiss();
+
       console.log('handleSendMessage dispatch()');
 
       dispatch(updateMessages({
@@ -79,7 +86,7 @@ export default ChatInput;
 const styles = StyleSheet.create({
   inputWrapper: {
     position: 'relative',
-    marginTop: 10,
+    marginVertical: 10,
     marginHorizontal: 16,
     flexDirection: 'row',
     alignItems: 'center'

@@ -27,8 +27,7 @@ const Settings = ({ navigation }) => {
   }
 
   return (
-    <View style={styles} >
-      <Text>Settings</Text>
+    <View style={styles} rowGap={20} >
       <Button title='Delete messages' onPress={handleDeleteMessages} />
       <Button title='Get state' onPress={handleGetState} />
       <Button title='Get conversations' onPress={handleGetConversations} />

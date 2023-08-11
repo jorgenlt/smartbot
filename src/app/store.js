@@ -10,7 +10,6 @@ import {
   REGISTER,
 } from 'redux-persist'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import storage from 'redux-persist/lib/storage'
 import chatReducer from '../features/chat/chatSlice'
 
 // Configuration object for redux-persist.
