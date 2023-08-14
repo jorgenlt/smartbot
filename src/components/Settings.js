@@ -1,6 +1,6 @@
-import { StyleSheet, Text, View, Button, Pressable, Linking } from 'react-native'
+import { StyleSheet, Text, View, Button, Pressable, Linking, Alert } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import { addConversation, deleteMessages } from '../features/chat/chatSlice'
+import { addConversation, deleteMessages, deleteConversations } from '../features/chat/chatSlice'
 import { colors } from '../styles/colors';
 import { MaterialIcons, AntDesign } from '@expo/vector-icons';
 
@@ -11,9 +11,19 @@ const Settings = ({ navigation }) => {
 
   const dispatch = useDispatch();
 
-  const handleDeleteMessages = () => {
-    dispatch(deleteMessages());
-    navigation.navigate('Chat');
+  const handleDeleteConversations = id => {
+    Alert.alert('Delete all conversations?', 'Choose "Delete" to confirm.', [
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {text: 'Delete', onPress: () => {
+        dispatch(deleteConversations(id));
+        navigation.navigate('Chat');
+        Alert.alert('', 'All conversations deleted.');
+      }},
+    ]);
   }
 
   const handleGetState = () => {
@@ -27,7 +37,7 @@ const Settings = ({ navigation }) => {
   return (
     <View style={styles} >
       <Pressable
-        onPress={handleDeleteMessages}
+        onPress={handleDeleteConversations}
         android_ripple={{
           color: colors.sec,
           foreground: true,

@@ -46,7 +46,13 @@ export const chat = createSlice({
       const id = state.currentId.toString();
       state.conversations[id].push(action.payload);
     },
-    deleteMessages: state => {
+    deleteConversation: (state, action) => {
+      const id = action.payload;
+      if(state.conversations.hasOwnProperty(id)) {
+        delete state.conversations[id];
+      }
+    },
+    deleteConversations: state => {
       console.log('Messages deleted. State set to inital state:', state);
       return initialState;
     },
@@ -89,8 +95,9 @@ export const chat = createSlice({
 
 // Action creators are generated for each case reducer function
 export const { 
-  updateMessages, 
-  deleteMessages,
+  updateMessages,
+  deleteConversation, 
+  deleteConversations,
   addConversation,
   updateCurrentId
 } = chat.actions

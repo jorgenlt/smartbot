@@ -1,6 +1,6 @@
-import { StyleSheet, Text, ScrollView, View, Pressable } from 'react-native'
+import { StyleSheet, Text, ScrollView, View, Pressable, Alert } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux';
-import { updateCurrentId } from './chatSlice'
+import { updateCurrentId, deleteConversation } from './chatSlice'
 import { useRef } from 'react';
 import { colors } from '../../styles/colors'
 
@@ -25,6 +25,17 @@ const Conversations = ({ navigation }) => {
     console.log('ids:', ids);
   }
 
+  const handleDeleteConversation = id => {
+    Alert.alert('Delete conversation?', 'Choose "Delete" to confirm.', [
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {text: 'Delete', onPress: () => dispatch(deleteConversation(id))},
+    ]);
+  }
+
   // Ref for ScrollView
   const scrollRef = useRef();
 
@@ -42,6 +53,7 @@ const Conversations = ({ navigation }) => {
               <Pressable
                 key={id}
                 onPress={() => handleChangeConversation(id)}
+                onLongPress={() => handleDeleteConversation(id)}
                 android_ripple={{
                   color: colors.sec,
                   foreground: true,

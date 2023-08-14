@@ -10,7 +10,7 @@ import Chat from './src/features/chat/Chat'
 import Conversations from './src/features/chat/Conversations'
 import Settings from './src/components/Settings'
 import NewChat from './src/features/chat/NewChat'
-import { colors, navTheme } from './src/styles/colors'
+import { colors, navTheme, base } from './src/styles/colors'
 
 // Navigation
 const Tab = createBottomTabNavigator();
@@ -19,8 +19,9 @@ const App = () => {
   return (
     <Provider store={store}>
       <StatusBar 
-        backgroundColor={colors.statusBarBackgroundColor} 
-        barStyle={colors.statusBarColor} 
+        backgroundColor={base.statusBarBg}
+        // barStyle='light-content'
+        style="light"
       />
       <PersistGate 
         loading={<Text>Loading...</Text>} 
@@ -30,7 +31,7 @@ const App = () => {
           <Tab.Navigator
             screenOptions={({ route }) => ({
               headerShown: true,
-              tabBarShowLabel: false,
+              tabBarShowLabel: true,
               tabBarIcon: ({ focused, color, size }) => {
                 let iconName;
     

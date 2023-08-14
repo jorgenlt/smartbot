@@ -4,7 +4,10 @@ import {
   StyleSheet, 
   Text, 
   View, 
-  ScrollView 
+  ScrollView,
+  Pressable,
+  Share,
+  Alert
 } from 'react-native'
 import Tooltip from 'rn-tooltip';
 import * as Clipboard from 'expo-clipboard';
@@ -20,8 +23,21 @@ const Messages = () => {
 
   
   // Function to copy text(messages) to clipboard.
-  const copyToClipboard = async text => {
+  const handleCopyToClipboard = async text => {
     await Clipboard.setStringAsync(text);
+    Alert.alert('', 'Copied to Clipboard.')
+  };
+
+  // Share message
+  const handleShare = async message => {
+    try {
+      const result = await Share.share({
+        message:
+          message,
+      });
+    } catch (error) {
+      Alert.alert(error.message);
+    }
   };
   
   // Creating the message elements to render in the ScrollView.
@@ -33,18 +49,22 @@ const Messages = () => {
         style={message.role === 'assistant' ? styles.messageWrapperAssistant : styles.messageWrapperUser} 
         key={uuid.v4()} 
         >
-          <View style={message.role === 'assistant' ? styles.messageAssistant : styles.messageUser}>
-            <Tooltip 
+          <Pressable 
+            style={message.role === 'assistant' ? styles.messageAssistant : styles.messageUser}
+            onLongPress={() => handleShare(message.content)}
+            onPress={() => handleCopyToClipboard(message.content)}
+          >
+            {/* <Tooltip 
               popover={<Text style={{ color: colors.white }} >Copied to clipboard</Text>} 
               onOpen={() => copyToClipboard(message.content)}
               withOverlay={false}
               backgroundColor='#121416'
-              >
+              > */}
               <Text>
                 {message.content}
               </Text>
-            </Tooltip>
-          </View>
+            {/* </Tooltip> */}
+          </Pressable>
         </View>
       )
     });

@@ -7,17 +7,15 @@ export const colors = {
   black: '#141414', 
   gray: 'gray',
   lightGray: '#E0E0E0',
-  
   text: '#141414',
   chatListConversatioins: 'lightgray',
-  
-  statusBarBackgroundColor: '#f5f5f5',
-  statusBarColor: '#141414',
 };
 
 export const base = {
   loader: colors.pri,
-  loaderBg: colors.sec ,
+  loaderBg: colors.sec,
+  statusBarBg: colors.black,
+  statusBarColor: colors.white,
 }
 
 export const chat = {
