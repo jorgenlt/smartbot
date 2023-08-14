@@ -6,8 +6,10 @@ const url = 'https://api.openai.com/v1/chat/completions';
 async function fetchChatCompletion(context, prompt) {
   // Check if context is valid
   if (!context) {
-    context = [];
+    context = [{content: '', role: 'user'}];
   };
+
+  console.log('context from api.js:', context);
 
   // Construct request
   const requestBody = {
@@ -35,7 +37,8 @@ async function fetchChatCompletion(context, prompt) {
   const response = await fetch(url, requestOptions);
 
   if (!response.ok) {
-    throw new Error(data.error.message);
+    console.log('error from api', data?.error?.message);
+    throw new Error(data?.error?.message);
   }
   
   // Handle response

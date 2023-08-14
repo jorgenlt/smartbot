@@ -22,15 +22,15 @@ const ChatInput = () => {
       // Dismiss(hide) the keyboard.
       Keyboard.dismiss();
 
-      console.log('handleSendMessage()');
-      
+      dispatch(getChatResponseThunk(message));
+      setMessage('');
+
       dispatch(updateMessages({
         content: message, 
         role: 'user',
       }));
       
-      dispatch(getChatResponseThunk(message));
-      setMessage('');
+      console.log('handleSendMessage()');
     }
   }
 

@@ -14,11 +14,13 @@ const initialState = {
 export const getChatResponseThunk = createAsyncThunk(
   'chat/getResponse',
   async (message, { getState }) => {
-    const context = getState().chat.messages;
+    const id = getState().chat.currentId.toString();
+    const context = getState().chat.conversations[id];    
     const prompt = message;
 
     console.log('context:', context);
     console.log('prompt:', prompt);
+    console.log('conversations:', getState().chat.conversations);
 
     try {
       const response = await fetchChatCompletion(context, prompt);
@@ -50,6 +52,7 @@ export const chat = createSlice({
       const id = action.payload;
       if(state.conversations.hasOwnProperty(id)) {
         delete state.conversations[id];
+        addConversation();
       }
     },
     deleteConversations: state => {

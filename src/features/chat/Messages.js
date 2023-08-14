@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
   flowLoader: {
     padding: 15,
     alignItems: 'center',
-    backgroundColor: base.loaderBg,
+    backgroundColor: chat.messageAssistantBg,
     color: base.loader,
     borderRadius: 20,
     borderTopLeftRadius: 2,
