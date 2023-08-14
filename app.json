@@ -20,7 +20,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundImage": "./assets/icon.png"
       },
       "package": "com.jorgenlt.smartbot"
     },
