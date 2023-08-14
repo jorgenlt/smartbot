@@ -13,7 +13,7 @@ const Conversations = ({ navigation }) => {
     for (const key in conversations) {
       if (conversations[key]) {
         ids.push(key);
-        console.log(conversations[key]);
+        console.log('conversations[key]:', conversations[key]);
       }
     }
   }
@@ -21,6 +21,7 @@ const Conversations = ({ navigation }) => {
   const handleChangeConversation = id => {
     dispatch(updateCurrentId(id));
     navigation.navigate('Chat');
+    console.log('ids:', ids);
   }
 
   // Ref for ScrollView

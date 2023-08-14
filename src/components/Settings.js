@@ -10,8 +10,8 @@ const Settings = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const handleDeleteMessages = () => {
-    navigation.navigate('Chat');
     dispatch(deleteMessages());
+    navigation.navigate('Chat');
   }
 
   const handleGetState = () => {
