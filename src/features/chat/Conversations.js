@@ -34,11 +34,11 @@ const Conversations = ({ navigation }) => {
         ref={scrollRef}
         onContentSizeChange={() => scrollRef.current.scrollToEnd({ animated: false })}
       >
-        <View rowGap={10}>
+        <View>
           {
             ids.map(id => 
               <Pressable
-                  key={id}
+                key={id}
                 onPress={() => handleChangeConversation(id)}
                 android_ripple={{
                   color: colors.sec,
@@ -64,16 +64,22 @@ export default Conversations;
 
 const styles = StyleSheet.create({
   scrollView: {
-    alignItems: 'center', 
-    justifyContent: 'center',
-    justifyContent: 'flex-end',
-    marginTop: 10,
-    paddingHorizontal: 5,
-    alignItems: 'center'
+    // alignItems: 'center', 
+    // justifyContent: 'center',
+    // justifyContent: 'flex-end',
+    // marginTop: 10,
+    // paddingHorizontal: 5,
+    // paddingVertical: 10,
+    // marginVertical: 20,
+    height: '100%',
   },
   conversation: {
-    backgroundColor: colors.chatListConversatioins,
-    padding: 5,
-    borderRadius: 10
+    // backgroundColor: colors.chatListConversatioins,
+    borderBottomColor: colors.lightGray,
+    borderBottomWidth: 1,
+    paddingHorizontal: 5,
+    paddingVertical: 20,
+    justifyContent: 'center',
+    // borderRadius: 10
   }
 });

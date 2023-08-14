@@ -33,16 +33,18 @@ const Messages = () => {
         style={message.role === 'assistant' ? styles.messageWrapperAssistant : styles.messageWrapperUser} 
         key={uuid.v4()} 
         >
-          <Tooltip 
-            popover={<Text style={{ color: colors.white }} >Copied to clipboard</Text>} 
-            onOpen={() => copyToClipboard(message.content)}
-            withOverlay={false}
-            backgroundColor='#121416'
-            >
-            <Text style={message.role === 'assistant' ? styles.messageAssistant : styles.messageUser} >
-              {message.content}
-            </Text>
-          </Tooltip>
+          <View style={message.role === 'assistant' ? styles.messageAssistant : styles.messageUser}>
+            <Tooltip 
+              popover={<Text style={{ color: colors.white }} >Copied to clipboard</Text>} 
+              onOpen={() => copyToClipboard(message.content)}
+              withOverlay={false}
+              backgroundColor='#121416'
+              >
+              <Text>
+                {message.content}
+              </Text>
+            </Tooltip>
+          </View>
         </View>
       )
     });
@@ -88,18 +90,20 @@ export default Messages
 const styles = StyleSheet.create({
   messagesWrapper: {
     // flex: 1,
-    backgroundColor: colors.pri,
+    // backgroundColor: colors.pri,
     paddingHorizontal: 5,
-    justifyContent: 'flex-end',
+    paddingBottom: 20,
+    // justifyContent: 'flex-end',
     // alignItems: 'center'
     // height: '100%',
-    // width: '100%'
+    width: '100%'
   },
   messageWrapperUser: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',
     marginVertical: 10,
+    width: '100%'
   },
   messageWrapperAssistant: {
     flexDirection: 'row',
@@ -113,6 +117,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderTopRightRadius: 2,
     padding: 10,
+    width: '80%'
   },
   messageAssistant: {
     backgroundColor: colors.messageAssistant,
@@ -120,6 +125,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderTopLeftRadius: 2,
     padding: 10,
+    width: '90%'
   },
   noMessagesWrapper: {
     height: '100%',

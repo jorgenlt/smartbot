@@ -52,13 +52,13 @@ const ChatInput = () => {
         style={styles.pressableSendBtn}
         pressRetentionOffset={{bottom: 15, left: 15, right: 15, top: 15}}
         >
-          <Text style={styles.sendBtn} >
+          
             <Entypo 
               name="paper-plane" 
               size={22} 
               color={colors.text} 
             />
-          </Text>
+          
         </Pressable>
       </View>
     </View>
@@ -71,25 +71,30 @@ const styles = StyleSheet.create({
   inputWrapper: {
     position: 'relative',
     marginVertical: 10,
-    marginHorizontal: 16,
+    marginHorizontal: 5,
     flexDirection: 'row',
     alignItems: 'center',
   },
   input: {
     flex: 1,
-    padding: 10,
-    marginEnd: 10,
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 10,
+    paddingRight: 40,
     height: 45,
     borderRadius: 4,
     backgroundColor: colors.priLighter
   },
   sendWrapper: {
+    position: 'absolute',
+    bottom: 6,
+    right: 6,
     borderRadius: 20,
     overflow: 'hidden'
   },
   pressableSendBtn: {
-    height: 40, 
-    width: 40, 
+    height: 30, 
+    width: 30, 
     justifyContent: 'center', 
     alignItems: 'center', 
     borderRadius: 20
