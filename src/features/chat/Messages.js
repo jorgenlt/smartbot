@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderTopRightRadius: 2,
     padding: 10,
-    width: '80%'
+    maxWidth: '90%',
   },
   messageAssistant: {
     backgroundColor: colors.messageAssistant,
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderTopLeftRadius: 2,
     padding: 10,
-    width: '90%'
+    maxWidth: '90%'
   },
   noMessagesWrapper: {
     height: '100%',
