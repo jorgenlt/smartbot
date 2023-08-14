@@ -11,7 +11,7 @@ async function fetchChatCompletion(context, prompt) {
 
   // Construct request
   const requestBody = {
-    model: 'gpt-3.5-turbo',
+    model: 'gpt-4',
     messages: [
       ...context, 
       { 
@@ -19,7 +19,7 @@ async function fetchChatCompletion(context, prompt) {
         content: prompt 
       }
     ],
-    max_tokens: 2000
+    max_tokens: 6000
   };
 
   const requestOptions = {
