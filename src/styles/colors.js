@@ -1,24 +1,34 @@
 export const colors = {
   pri: '#f5f5f5',
   priLighter: '#E0E0E0',
-  sec: '#B6FFAD',
+  sec: '#C9FFC2',
+  secDarker: '#A5FF99',
   white: '#f5f5f5',
-  black: '#141414',
+  black: '#141414', 
   gray: 'gray',
-  lightGray: 'lightgray',
-  messageUser: '#B6FFAD',
-  messageAssistant: '#B5F3F8',
+  lightGray: '#E0E0E0',
+  
   text: '#141414',
   chatListConversatioins: 'lightgray',
-  navIcons: '#f5f5f5',
-  tabBarActiveTintColor: '#f5f5f5',
-  tabBarInactiveTintColor: 'gray',
+  
   statusBarBackgroundColor: '#f5f5f5',
   statusBarColor: '#141414',
 };
 
+export const base = {
+  loader: colors.pri,
+  loaderBg: colors.sec ,
+}
+
+export const chat = {
+  messageUserBg: '#C9FFC2',
+  messageAssistantBg: colors.lightGray,
+}
+
 export const navTheme = {
-  // dark: false,
+  tabBarActiveTintColor: colors.secDarker,
+  tabBarInactiveTintColor: colors.lightGray,
+  navIcons: '#f5f5f5',
   colors: {
     // primary: 'rgb(255, 45, 85)',
     background: colors.pri,

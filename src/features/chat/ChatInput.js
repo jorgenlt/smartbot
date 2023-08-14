@@ -44,6 +44,7 @@ const ChatInput = () => {
         value={message}
         onChangeText={value => setMessage(value)}
         onSubmitEditing={handleSendMessage}
+        multiline={true}
       />
       <View style={styles.sendWrapper}>
         <Pressable 
@@ -52,13 +53,11 @@ const ChatInput = () => {
         style={styles.pressableSendBtn}
         pressRetentionOffset={{bottom: 15, left: 15, right: 15, top: 15}}
         >
-          
-            <Entypo 
-              name="paper-plane" 
-              size={22} 
-              color={colors.text} 
-            />
-          
+          <Entypo 
+            name="paper-plane" 
+            size={22} 
+            color={colors.text} 
+          />
         </Pressable>
       </View>
     </View>
@@ -81,14 +80,13 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingLeft: 10,
     paddingRight: 40,
-    height: 45,
     borderRadius: 4,
     backgroundColor: colors.priLighter
   },
   sendWrapper: {
     position: 'absolute',
-    bottom: 6,
-    right: 6,
+    bottom: 8,
+    right: 8,
     borderRadius: 20,
     overflow: 'hidden'
   },

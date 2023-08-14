@@ -9,7 +9,7 @@ import {
 import Tooltip from 'rn-tooltip';
 import * as Clipboard from 'expo-clipboard';
 import uuid from 'react-native-uuid'
-import { colors } from '../../styles/colors'
+import { colors, chat, base } from '../../styles/colors'
 import { Flow } from 'react-native-animated-spinkit'
 
 const Messages = () => {
@@ -89,13 +89,8 @@ export default Messages
 
 const styles = StyleSheet.create({
   messagesWrapper: {
-    // flex: 1,
-    // backgroundColor: colors.pri,
     paddingHorizontal: 5,
     paddingBottom: 20,
-    // justifyContent: 'flex-end',
-    // alignItems: 'center'
-    // height: '100%',
     width: '100%'
   },
   messageWrapperUser: {
@@ -112,7 +107,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   messageUser: {
-    backgroundColor: colors.messageUser,
+    backgroundColor: chat.messageUserBg,
     color: colors.text,
     borderRadius: 20,
     borderTopRightRadius: 2,
@@ -120,7 +115,7 @@ const styles = StyleSheet.create({
     maxWidth: '90%',
   },
   messageAssistant: {
-    backgroundColor: colors.messageAssistant,
+    backgroundColor: chat.messageAssistantBg,
     color: colors.text,
     borderRadius: 20,
     borderTopLeftRadius: 2,
@@ -139,8 +134,8 @@ const styles = StyleSheet.create({
   flowLoader: {
     padding: 15,
     alignItems: 'center',
-    backgroundColor: colors.messageAssistant,
-    color: colors.text,
+    backgroundColor: base.loaderBg,
+    color: base.loader,
     borderRadius: 20,
     borderTopLeftRadius: 2,
   }

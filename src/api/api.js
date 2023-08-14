@@ -41,9 +41,6 @@ async function fetchChatCompletion(context, prompt) {
   // Handle response
   const data = await response.json();
 
-  console.log(data);
-
-
   const responseMessage = data.choices[0].message;
 
   return {

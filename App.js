@@ -44,10 +44,10 @@ const App = () => {
                   iconName = focused ? 'add' : 'add-outline';
                 }
 
-                return <Ionicons name={iconName} size={size} color={colors.navIcons} />;
+                return <Ionicons name={iconName} size={size} color={color} />;
               },
-              tabBarActiveTintColor: colors.tabBarActiveTintColor,
-              tabBarInactiveTintColor: colors.tabBarInactiveTintColor,
+              tabBarActiveTintColor: navTheme.tabBarActiveTintColor,
+              tabBarInactiveTintColor: navTheme.tabBarInactiveTintColor,
             })}
           >
             <Tab.Screen name="Chat" component={Chat} />

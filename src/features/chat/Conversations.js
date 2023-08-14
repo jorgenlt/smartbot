@@ -6,14 +6,15 @@ import { colors } from '../../styles/colors'
 
 const Conversations = ({ navigation }) => {
   const conversations = useSelector(state => state.chat.conversations);
+
   const dispatch = useDispatch();
+
   let ids = [];
 
   if (conversations) {
     for (const key in conversations) {
       if (conversations[key]) {
         ids.push(key);
-        console.log('conversations[key]:', conversations[key]);
       }
     }
   }
@@ -36,7 +37,8 @@ const Conversations = ({ navigation }) => {
       >
         <View>
           {
-            ids.map(id => 
+            ids.map(id =>
+              conversations[id][0]?.content.length > 0 &&
               <Pressable
                 key={id}
                 onPress={() => handleChangeConversation(id)}
@@ -46,11 +48,14 @@ const Conversations = ({ navigation }) => {
                 }}
                 style={styles.conversation}
               >
-                <Text numberOfLines={2} >
-                  You: {conversations[id][0]?.content}
-                  {"\n"}
-                  Smartbot: {conversations[id][1]?.content}
-                </Text>
+                <View style={{gap: 5}}>
+                  <Text numberOfLines={2}>
+                    <Text style={{fontWeight: 'bold'}}>You: </Text>{conversations[id][0]?.content}
+                  </Text>
+                  <Text numberOfLines={2}>
+                    <Text style={{fontWeight: 'bold'}}>Smartbot: </Text>{conversations[id][1]?.content}
+                  </Text>
+                </View>
               </Pressable>
             )
           }
@@ -64,22 +69,13 @@ export default Conversations;
 
 const styles = StyleSheet.create({
   scrollView: {
-    // alignItems: 'center', 
-    // justifyContent: 'center',
-    // justifyContent: 'flex-end',
-    // marginTop: 10,
-    // paddingHorizontal: 5,
-    // paddingVertical: 10,
-    // marginVertical: 20,
-    height: '100%',
   },
   conversation: {
-    // backgroundColor: colors.chatListConversatioins,
+    // backgroundColor: colors.lightGray,
     borderBottomColor: colors.lightGray,
     borderBottomWidth: 1,
-    paddingHorizontal: 5,
+    paddingHorizontal: 20,
     paddingVertical: 20,
     justifyContent: 'center',
-    // borderRadius: 10
   }
 });
