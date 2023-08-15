@@ -4,9 +4,7 @@ import uuid from 'react-native-uuid'
 
 const initialState = {
   conversations: {},
-  nextConversationId: 1,
   currentId: null,
-  loading: false,
   status: 'idle',
   error: null
 }
@@ -14,20 +12,25 @@ const initialState = {
 export const getChatResponseThunk = createAsyncThunk(
   'chat/getResponse',
   async (message, { getState }) => {
-    const id = getState().chat.currentId.toString();
-    const context = getState().chat.conversations[id].messages;    
-    const prompt = message;
+    const state = getState();
 
-    console.log('context from thunk:', context);
-    console.log('prompt from thunk:', prompt);
-    console.log('conversations from thunk:', getState().chat.conversations);
+    const id = state.chat.currentId;
 
-    try {
-      const response = await fetchAxiosChatCompletion(context, prompt);
-      return response;
-    } catch (error) {
-      throw error;
-    }
+    if (id) {
+      const context = state.chat.conversations[id].messages;    
+      const prompt = message;
+  
+      console.log('context from thunk:', context);
+      console.log('prompt from thunk:', prompt);
+      console.log('conversations from thunk:', state.chat.conversations);
+  
+      try {
+        const response = await fetchAxiosChatCompletion(context, prompt);
+        return response;
+      } catch (error) {
+        return Promise.reject(error.message);
+      };
+    };
   }
 );
 
@@ -39,7 +42,7 @@ export const chat = createSlice({
       const id = uuid.v4();
       state.currentId = id;
       state.conversations[id] = {
-        created: new Date(),
+        created: Date.now(),
         messages: []
       };
 
@@ -48,8 +51,10 @@ export const chat = createSlice({
     },
     updateMessages: (state, action) => {
       const id = state.currentId;
-      console.log('id from updateMessages:', id);
-      state.conversations[id].messages.push(action.payload);
+      if (id) {
+        console.log('id from updateMessages:', id);
+        state.conversations[id]?.messages.push(action.payload);
+      }
     },
     deleteConversation: (state, action) => {
       const id = action.payload;
@@ -62,9 +67,10 @@ export const chat = createSlice({
 
       console.log('state.currentId = null');
     },
-    deleteConversations: () => {
-      console.log('Messages deleted. State set to inital state:');
-      return initialState;
+    deleteConversations: state => {
+      state.conversations = {};
+      state.currentId = null;
+      console.log('Messages deleted.');
     },
     updateCurrentId: (state, action) => {
       state.currentId = action.payload;
@@ -77,23 +83,25 @@ export const chat = createSlice({
         console.log('getChatResponseThunk loading...');
       })
       .addCase(getChatResponseThunk.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        // state.status = 'succeeded';
         state.error = null;
-        console.log('getChatResponseThunk succeeded...');
-
-        const id = state.currentId.toString();
-        const message = {
-          content: action.payload.content,
-          role: action.payload.role
-        };
-
-        state.conversations[id].messages.push(message);
-
-        // Set status back to idle.
-        console.log('setting status to idle...');
         state.status = 'idle';
 
-        console.log('redux state:', state);
+        console.log('getChatResponseThunk succeeded...');
+
+        const id = state.currentId;
+        const content = action.payload.content;
+        const role = action.payload.role;
+
+        if (id && content && role) {
+          const message = {
+            content: action.payload.content,
+            role: action.payload.role
+          };
+  
+          state.conversations[id]?.messages.push(message);
+        }
+
       })
       .addCase(getChatResponseThunk.rejected, (state, action) => {
         state.status = 'failed';

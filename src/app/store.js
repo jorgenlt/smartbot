@@ -18,7 +18,7 @@ const persistConfig = {
   key: 'root',
   version: 1,
   storage: AsyncStorage,
-  whitelist: ['messages', 'status', 'error', 'conversations', 'nextConversationId', 'currentId']
+  whitelist: ['status', 'error', 'conversations', 'currentId']
 };
 
 // Persisted reducer
@@ -30,11 +30,10 @@ export const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: false,
-      // serializableCheck: {
-      //   // Ignore these action types
-      //   ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER, 'dataReader/updateFilterDate'],
-      // },
+      serializableCheck: {
+        // Ignore these action types
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER, 'chat/addConversation'],
+      },
     }),
 });
 
