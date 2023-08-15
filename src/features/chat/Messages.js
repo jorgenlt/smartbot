@@ -16,8 +16,8 @@ import { colors, chat, base } from '../../styles/colors'
 import { Flow } from 'react-native-animated-spinkit'
 
 const Messages = () => {
-  const id = useSelector(state => state.chat.currentId)?.toString();
-  const messages = useSelector(state => state.chat.conversations?.[id]);
+  const id = useSelector(state => state.chat.currentId);
+  const messages = useSelector(state => state.chat.conversations[id]?.messages);
   const error = useSelector(state => state.chat.error);
   const status = useSelector(state => state.chat.status);
 

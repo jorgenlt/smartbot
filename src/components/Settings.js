@@ -20,7 +20,8 @@ const Settings = ({ navigation }) => {
       },
       {text: 'Delete', onPress: () => {
         dispatch(deleteConversations(id));
-        navigation.navigate('Chat');
+        // dispatch(addConversation());
+        // navigation.navigate('Chat');
         Alert.alert('', 'All conversations deleted.');
       }},
     ]);
@@ -70,10 +71,10 @@ const Settings = ({ navigation }) => {
         <Text style={styles.pressableText}>Other projects</Text>
       </Pressable>
 
-      {/* <View style={{maxWidth: '70%', gap: 10, padding: 20, marginTop: 50, flex: 1, justifyContent: 'flex-end'}}>
+      <View style={{maxWidth: '70%', gap: 10, padding: 20, marginTop: 50, flex: 1, justifyContent: 'flex-end'}}>
         <Button title='console.log state' onPress={handleGetState} />
         <Button title='console.log conversations' onPress={handleGetConversations} />
-      </View> */}
+      </View>
     </View>
   )
 }

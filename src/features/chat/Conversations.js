@@ -15,6 +15,7 @@ const Conversations = ({ navigation }) => {
     for (const key in conversations) {
       if (conversations[key]) {
         ids.push(key);
+        console.log(key);
       }
     }
   }
@@ -49,7 +50,7 @@ const Conversations = ({ navigation }) => {
         <View>
           {
             ids.map(id =>
-              conversations[id][0]?.content.length > 0 &&
+              conversations?.[id]?.messages?.[0]?.content?.length > 0 &&
               <Pressable
                 key={id}
                 onPress={() => handleChangeConversation(id)}
@@ -61,11 +62,12 @@ const Conversations = ({ navigation }) => {
                 style={styles.conversation}
               >
                 <View style={{gap: 5}}>
+                  <Text>{conversations?.[id]?.created}</Text>
                   <Text numberOfLines={2}>
-                    <Text style={{fontWeight: 'bold'}}>You: </Text>{conversations[id][0]?.content}
+                    <Text style={{fontWeight: 'bold'}}>You: </Text>{conversations[id].messages[0]?.content}
                   </Text>
                   <Text numberOfLines={2}>
-                    <Text style={{fontWeight: 'bold'}}>Smartbot: </Text>{conversations[id][1]?.content}
+                    <Text style={{fontWeight: 'bold'}}>Smartbot: </Text>{conversations[id].messages[1]?.content}
                   </Text>
                 </View>
               </Pressable>

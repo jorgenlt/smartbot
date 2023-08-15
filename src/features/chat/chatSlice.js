@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import fetchChatCompletion from '../../api/api';
+import fetchAxiosChatCompletion from '../../api/apiAxios';
 import uuid from 'react-native-uuid'
 
 const initialState = {
@@ -15,15 +16,15 @@ export const getChatResponseThunk = createAsyncThunk(
   'chat/getResponse',
   async (message, { getState }) => {
     const id = getState().chat.currentId.toString();
-    const context = getState().chat.conversations[id];    
+    const context = getState().chat.conversations[id].messages;    
     const prompt = message;
 
-    console.log('context:', context);
-    console.log('prompt:', prompt);
-    console.log('conversations:', getState().chat.conversations);
+    console.log('context from thunk:', context);
+    console.log('prompt from thunk:', prompt);
+    console.log('conversations from thunk:', getState().chat.conversations);
 
     try {
-      const response = await fetchChatCompletion(context, prompt);
+      const response = await fetchAxiosChatCompletion(context, prompt);
       return response;
     } catch (error) {
       throw error;
@@ -36,27 +37,36 @@ export const chat = createSlice({
   initialState,
   reducers: {
     addConversation: state => {
-      const id = state.nextConversationId;
+      // const id = state.nextConversationId;
+      const id = uuid.v4();
       state.currentId = id;
-      state.conversations[id] = [];
-      state.nextConversationId++;
+      state.conversations[id] = {
+        created: new Date().toLocaleDateString(),
+        messages: []
+      };
+      // state.nextConversationId++;
 
       console.log('new conversation added with id', id);
       console.log('redux state:', state);
     },
     updateMessages: (state, action) => {
-      const id = state.currentId.toString();
-      state.conversations[id].push(action.payload);
+      const id = state.currentId;
+      console.log('id from updateMessages:', id);
+      state.conversations[id].messages.push(action.payload);
     },
     deleteConversation: (state, action) => {
       const id = action.payload;
-      if(state.conversations.hasOwnProperty(id)) {
-        delete state.conversations[id];
-        addConversation();
-      }
+      
+      delete state.conversations[id];
+
+      console.log(`message with id: ${id} was deleted.`);
+
+      state.currentId = null;
+
+      console.log('state.currentId = null');
     },
-    deleteConversations: state => {
-      console.log('Messages deleted. State set to inital state:', state);
+    deleteConversations: () => {
+      console.log('Messages deleted. State set to inital state:');
       return initialState;
     },
     updateCurrentId: (state, action) => {
@@ -80,7 +90,7 @@ export const chat = createSlice({
           role: action.payload.role
         };
 
-        state.conversations[id].push(message);
+        state.conversations[id].messages.push(message);
 
         // Set status back to idle.
         console.log('setting status to idle...');

@@ -1,6 +1,6 @@
 import { StyleSheet, View } from 'react-native'
-import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useFocusEffect } from '@react-navigation/native'
 import { colors } from '../../styles/colors'
 import ChatInput from './ChatInput'
 import Messages from './Messages'
@@ -11,12 +11,12 @@ export default function Chat({ route }) {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log('currentId:', currentId);
+  useFocusEffect(() => {
     if (!currentId) {
+      console.log('Chat.js: dispatch(addConversation()');
       dispatch(addConversation());
     }
-  }, [currentId])
+  })
 
   return (
     <View style={styles.container}>

@@ -13,7 +13,7 @@ async function fetchChatCompletion(context, prompt) {
 
   // Construct request
   const requestBody = {
-    model: 'gpt-4',
+    model: 'gpt-3.5-turbo',
     messages: [
       ...context, 
       { 
@@ -21,7 +21,7 @@ async function fetchChatCompletion(context, prompt) {
         content: prompt 
       }
     ],
-    max_tokens: 6000
+    max_tokens: 2000
   };
 
   const requestOptions = {
@@ -35,6 +35,7 @@ async function fetchChatCompletion(context, prompt) {
 
   // Make API call    
   const response = await fetch(url, requestOptions);
+  console.log('response:', response);
 
   if (!response.ok) {
     console.log('error from api', data?.error?.message);
