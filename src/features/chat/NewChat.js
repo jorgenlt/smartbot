@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { addConversation } from './chatSlice'
 import { useCallback } from 'react';

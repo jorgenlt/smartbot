@@ -9,7 +9,7 @@ import {
 import { Entypo } from '@expo/vector-icons';
 import { colors } from '../../styles/colors'
 import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { getChatResponseThunk, updateMessages } from './chatSlice'
 
 const ChatInput = () => {
@@ -29,8 +29,6 @@ const ChatInput = () => {
         content: message, 
         role: 'user',
       }));
-      
-      console.log('handleSendMessage()');
     }
   }
 
@@ -48,10 +46,10 @@ const ChatInput = () => {
       />
       <View style={styles.sendWrapper}>
         <Pressable 
-        onPress={handleSendMessage}
-        android_ripple={{color: colors.sec,}}
-        style={styles.pressableSendBtn}
-        pressRetentionOffset={{bottom: 15, left: 15, right: 15, top: 15}}
+          onPress={handleSendMessage}
+          android_ripple={{color: colors.sec,}}
+          style={styles.pressableSendBtn}
+          pressRetentionOffset={{bottom: 15, left: 15, right: 15, top: 15}}
         >
           <Entypo 
             name="paper-plane" 

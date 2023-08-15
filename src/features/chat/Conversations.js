@@ -2,7 +2,7 @@ import { StyleSheet, Text, ScrollView, View, Pressable, Alert } from 'react-nati
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCurrentId, deleteConversation } from './chatSlice'
 import { useRef } from 'react';
-import { format, formatDistance, subDays } from 'date-fns'
+import { format, formatDistance } from 'date-fns'
 import { colors } from '../../styles/colors'
 
 const Conversations = ({ navigation }) => {
@@ -16,7 +16,6 @@ const Conversations = ({ navigation }) => {
     for (const key in conversations) {
       if (conversations[key]) {
         ids.push(key);
-        console.log(key);
       }
     }
   }
@@ -24,7 +23,6 @@ const Conversations = ({ navigation }) => {
   const handleChangeConversation = id => {
     dispatch(updateCurrentId(id));
     navigation.navigate('Chat');
-    console.log('ids:', ids);
   }
 
   const handleDeleteConversation = id => {
@@ -34,17 +32,20 @@ const Conversations = ({ navigation }) => {
         onPress: () => console.log('Cancel Pressed'),
         style: 'cancel',
       },
-      {text: 'Delete', onPress: () => dispatch(deleteConversation(id))},
+      {
+        text: 'Delete', 
+        onPress: () => dispatch(deleteConversation(id))
+      },
     ]);
   }
 
   let conversationElements;
+
   if (ids) {
     conversationElements = ids.map(id => {
       const date = conversations?.[id]?.created;
       const formatedDate = format(date, 'LLLL d, y');
       const timeAgo = formatDistance(date, new Date(), { addSuffix: true });
-
       const userMessage = conversations[id].messages[0]?.content;
       const assistantMessage = conversations[id].messages[1]?.content;
 
@@ -100,7 +101,6 @@ const styles = StyleSheet.create({
   scrollView: {
   },
   conversation: {
-    // backgroundColor: colors.lightGray,
     borderBottomColor: colors.lightGray,
     borderBottomWidth: 1,
     paddingHorizontal: 20,

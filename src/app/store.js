@@ -32,7 +32,7 @@ export const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: {
         // Ignore these action types
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER, 'chat/addConversation'],
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }),
 });

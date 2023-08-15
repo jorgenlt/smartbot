@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import fetchAxiosChatCompletion from '../../api/apiAxios';
+import fetchChatCompletion from '../../api/api'
 import uuid from 'react-native-uuid'
 
 const initialState = {
@@ -7,25 +7,19 @@ const initialState = {
   currentId: null,
   status: 'idle',
   error: null
-}
+};
 
+// Get chat completion from ChatGPT (OpenAI) using async thunk
 export const getChatResponseThunk = createAsyncThunk(
   'chat/getResponse',
   async (message, { getState }) => {
-    const state = getState();
+    const { chat: { currentId, conversations } } = getState();
 
-    const id = state.chat.currentId;
-
-    if (id) {
-      const context = state.chat.conversations[id].messages;    
-      const prompt = message;
-  
-      console.log('context from thunk:', context);
-      console.log('prompt from thunk:', prompt);
-      console.log('conversations from thunk:', state.chat.conversations);
+    if (currentId) {
+      const context = conversations[currentId].messages;
   
       try {
-        const response = await fetchAxiosChatCompletion(context, prompt);
+        const response = await fetchChatCompletion(context, message);
         return response;
       } catch (error) {
         return Promise.reject(error.message);
@@ -34,43 +28,38 @@ export const getChatResponseThunk = createAsyncThunk(
   }
 );
 
+// Chat slice of the Redux store
 export const chat = createSlice({
   name: 'chat',
   initialState,
   reducers: {
     addConversation: state => {
       const id = uuid.v4();
+
       state.currentId = id;
       state.conversations[id] = {
         created: Date.now(),
         messages: []
       };
-
-      console.log('new conversation added with id', id);
-      console.log('redux state:', state);
     },
     updateMessages: (state, action) => {
-      const id = state.currentId;
-      if (id) {
-        console.log('id from updateMessages:', id);
-        state.conversations[id]?.messages.push(action.payload);
+      const { currentId } = state;
+      const message = action.payload;
+
+      if (currentId) {
+        state.conversations[currentId]?.messages.push(message);
       }
     },
     deleteConversation: (state, action) => {
       const id = action.payload;
-      
+
       delete state.conversations[id];
 
-      console.log(`message with id: ${id} was deleted.`);
-
       state.currentId = null;
-
-      console.log('state.currentId = null');
     },
     deleteConversations: state => {
       state.conversations = {};
       state.currentId = null;
-      console.log('Messages deleted.');
     },
     updateCurrentId: (state, action) => {
       state.currentId = action.payload;
@@ -78,34 +67,31 @@ export const chat = createSlice({
   },
   extraReducers: builder => {
     builder
+      // Case when fetching chat response is pending
       .addCase(getChatResponseThunk.pending, state => {
         state.status = 'loading';
-        console.log('getChatResponseThunk loading...');
       })
+      // Case where getting chat response is successful (fulfilled)
       .addCase(getChatResponseThunk.fulfilled, (state, action) => {
-        // state.status = 'succeeded';
         state.error = null;
         state.status = 'idle';
 
-        console.log('getChatResponseThunk succeeded...');
+        const { currentId } = state;
+        const { content, role } = action.payload;
 
-        const id = state.currentId;
-        const content = action.payload.content;
-        const role = action.payload.role;
-
-        if (id && content && role) {
+        if (currentId && content && role) {
           const message = {
-            content: action.payload.content,
-            role: action.payload.role
+            content,
+            role
           };
-  
-          state.conversations[id]?.messages.push(message);
-        }
-
+          
+          // Push the fetched message into the messages of current conversation
+          state.conversations[currentId]?.messages.push(message);
+        };
       })
+      // Case where getting chat response failed
       .addCase(getChatResponseThunk.rejected, (state, action) => {
         state.status = 'failed';
-        console.log('getChatResponseThunk failed...');
         state.error = action.error.message;
       });
   },

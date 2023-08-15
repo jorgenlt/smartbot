@@ -23,6 +23,7 @@ const Messages = () => {
   const date = useSelector(state => state.chat.conversations[id]?.created);
   
   let formatedDate;
+
   if (date) {
     formatedDate = format(date, 'LLLL d, y');
   }
@@ -47,6 +48,7 @@ const Messages = () => {
   
   // Creating the message elements to render in the ScrollView.
   let messageElements;
+
   if (messages) {
     messageElements = messages.map(message => {
       return (
@@ -100,8 +102,9 @@ const Messages = () => {
               </View>
             }
           </ScrollView>
-          )
-        }
+        )
+      }
+
       {error && <Text>{error}</Text>}
     </>
   )
@@ -168,6 +171,5 @@ const styles = StyleSheet.create({
   },
   dateText: {
     color: colors.gray,
-    // fontWeight: 'bold'
   }
 })

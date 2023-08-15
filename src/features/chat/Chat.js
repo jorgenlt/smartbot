@@ -6,14 +6,13 @@ import ChatInput from './ChatInput'
 import Messages from './Messages'
 import { addConversation } from './chatSlice'
 
-export default function Chat({ route }) {
+export default function Chat() {
   const currentId = useSelector(state => state.chat.currentId);
 
   const dispatch = useDispatch();
 
   useFocusEffect(() => {
     if (!currentId) {
-      console.log('Chat.js: dispatch(addConversation()');
       dispatch(addConversation());
     }
   })
@@ -32,7 +31,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.pri,
-    // justifyContent: 'flex-end',
     paddingVertical: 0,
     paddingHorizontal: 5,
     alignItems: 'center'
