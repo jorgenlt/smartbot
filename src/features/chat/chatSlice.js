@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import fetchChatCompletion from '../../api/api';
 import fetchAxiosChatCompletion from '../../api/apiAxios';
 import uuid from 'react-native-uuid'
 
@@ -37,14 +36,12 @@ export const chat = createSlice({
   initialState,
   reducers: {
     addConversation: state => {
-      // const id = state.nextConversationId;
       const id = uuid.v4();
       state.currentId = id;
       state.conversations[id] = {
-        created: new Date().toLocaleDateString(),
+        created: new Date(),
         messages: []
       };
-      // state.nextConversationId++;
 
       console.log('new conversation added with id', id);
       console.log('redux state:', state);

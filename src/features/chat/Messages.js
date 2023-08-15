@@ -9,8 +9,8 @@ import {
   Share,
   Alert
 } from 'react-native'
-import Tooltip from 'rn-tooltip';
-import * as Clipboard from 'expo-clipboard';
+import * as Clipboard from 'expo-clipboard'
+import { format } from 'date-fns'
 import uuid from 'react-native-uuid'
 import { colors, chat, base } from '../../styles/colors'
 import { Flow } from 'react-native-animated-spinkit'
@@ -20,7 +20,12 @@ const Messages = () => {
   const messages = useSelector(state => state.chat.conversations[id]?.messages);
   const error = useSelector(state => state.chat.error);
   const status = useSelector(state => state.chat.status);
-
+  const date = useSelector(state => state.chat.conversations[id]?.created);
+  
+  let formatedDate;
+  if (date) {
+    formatedDate = format(date, 'LLLL d, y');
+  }
   
   // Function to copy text(messages) to clipboard.
   const handleCopyToClipboard = async text => {
@@ -54,16 +59,9 @@ const Messages = () => {
             onLongPress={() => handleShare(message.content)}
             onPress={() => handleCopyToClipboard(message.content)}
           >
-            {/* <Tooltip 
-              popover={<Text style={{ color: colors.white }} >Copied to clipboard</Text>} 
-              onOpen={() => copyToClipboard(message.content)}
-              withOverlay={false}
-              backgroundColor='#121416'
-              > */}
-              <Text>
-                {message.content}
-              </Text>
-            {/* </Tooltip> */}
+            <Text>
+              {message.content}
+            </Text>
           </Pressable>
         </View>
       )
@@ -86,17 +84,21 @@ const Messages = () => {
             ref={scrollRef}
             onContentSizeChange={() => scrollRef.current.scrollToEnd({ animated: false })}
             showsHorizontalScrollIndicator={false}
-            >
-              {messageElements}
+          >
+            <View style={styles.date}>
+              <Text style={styles.dateText}>{formatedDate}</Text>
+            </View>
 
-              {
-                status === 'loading' && 
-                <View style={styles.messageWrapperAssistant}>
-                  <View style={styles.flowLoader}>
-                    <Flow size={30} color='#202020'  />
-                  </View>
+            {messageElements}
+
+            {
+              status === 'loading' && 
+              <View style={styles.messageWrapperAssistant}>
+                <View style={styles.flowLoader}>
+                  <Flow size={30} color='#202020'  />
                 </View>
-              }
+              </View>
+            }
           </ScrollView>
           )
         }
@@ -158,5 +160,14 @@ const styles = StyleSheet.create({
     color: base.loader,
     borderRadius: 20,
     borderTopLeftRadius: 2,
+  },
+  date: {
+    width: '100%',
+    alignItems: 'center',
+    marginTop: 10
+  },
+  dateText: {
+    color: colors.gray,
+    // fontWeight: 'bold'
   }
 })
