@@ -75,36 +75,27 @@ const Messages = () => {
 
   return (
     <>
-      {
-        messages && messages.length === 0 ? (
-          <View style={styles.noMessagesWrapper}>
-            <Text style={styles.noMessages} >Start chatting with Smartbot 👇</Text>
-          </View>
-        ) : (
-          <ScrollView 
-            contentContainerStyle={styles.messagesWrapper}
-            ref={scrollRef}
-            onContentSizeChange={() => scrollRef.current.scrollToEnd({ animated: false })}
-            showsHorizontalScrollIndicator={false}
-          >
-            <View style={styles.date}>
-              <Text style={styles.dateText}>{formatedDate}</Text>
+      <ScrollView 
+        contentContainerStyle={styles.messagesWrapper}
+        ref={scrollRef}
+        onContentSizeChange={() => scrollRef.current.scrollToEnd({ animated: false })}
+        showsHorizontalScrollIndicator={false}
+      >
+        <View style={styles.date}>
+          <Text style={styles.dateText}>{formatedDate}</Text>
+        </View>
+
+        {messageElements}
+
+        {
+          status === 'loading' && 
+          <View style={styles.messageWrapperAssistant}>
+            <View style={styles.flowLoader}>
+              <Flow size={30} color='#202020'  />
             </View>
-
-            {messageElements}
-
-            {
-              status === 'loading' && 
-              <View style={styles.messageWrapperAssistant}>
-                <View style={styles.flowLoader}>
-                  <Flow size={30} color='#202020'  />
-                </View>
-              </View>
-            }
-          </ScrollView>
-        )
-      }
-
+          </View>
+        }
+      </ScrollView>
       {error && <Text>{error}</Text>}
     </>
   )

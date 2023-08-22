@@ -15,7 +15,6 @@ const Settings = () => {
     Alert.alert('Delete all conversations?', 'Choose "Delete" to confirm.', [
       {
         text: 'Cancel',
-        onPress: () => console.log('Cancel Pressed'),
         style: 'cancel',
       },
       {

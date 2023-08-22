@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateCurrentId, deleteConversation } from './chatSlice'
 import { useRef } from 'react';
 import { format, formatDistance } from 'date-fns'
+import { capitalizeFirstWord } from '../../common/utils/capitalizeFirstWord'
+import { findObject } from '../../common/utils/findObject'
 import { colors } from '../../styles/colors'
 
 const Conversations = ({ navigation }) => {
@@ -29,7 +31,6 @@ const Conversations = ({ navigation }) => {
     Alert.alert('Delete conversation?', 'Choose "Delete" to confirm.', [
       {
         text: 'Cancel',
-        onPress: () => console.log('Cancel Pressed'),
         style: 'cancel',
       },
       {
@@ -43,11 +44,16 @@ const Conversations = ({ navigation }) => {
 
   if (ids) {
     conversationElements = ids.map(id => {
+      // Formatting date
       const date = conversations?.[id]?.created;
       const formatedDate = format(date, 'LLLL d, y');
       const timeAgo = formatDistance(date, new Date(), { addSuffix: true });
-      const userMessage = conversations[id].messages[0]?.content;
-      const assistantMessage = conversations[id].messages[1]?.content;
+
+      // Setting user message and assistant message
+      const userObject = findObject(conversations[id].messages, 'role', 'user');
+      const assistantObject = findObject(conversations[id].messages, 'role', 'assistant');
+      const userMessage = userObject ? userObject.content : '';
+      const assistantMessage = assistantObject ? assistantObject.content : '';
 
       return (
         <Pressable
@@ -62,8 +68,8 @@ const Conversations = ({ navigation }) => {
         >
           <View style={{gap: 5}}>
             <View style={styles.date}>
-              <Text style={styles.dateText}>{timeAgo}</Text>
               <Text style={styles.dateText}>{formatedDate}</Text>
+              <Text style={styles.dateText}>{capitalizeFirstWord(timeAgo)}</Text>
             </View>
             <Text numberOfLines={2}>
               <Text style={{fontWeight: 'bold'}}>You: </Text>{userMessage}
