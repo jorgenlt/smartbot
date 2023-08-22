@@ -27,7 +27,8 @@
     "react-native-uuid": "^2.0.1",
     "react-redux": "^8.1.2",
     "redux-persist": "^6.0.0",
-    "rn-tooltip": "^3.0.3"
+    "rn-tooltip": "^3.0.3",
+    "expo-av": "~13.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

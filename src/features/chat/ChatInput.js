@@ -6,18 +6,48 @@ import {
   TextInput, 
   Keyboard
 } from 'react-native';
+import { useState, useEffect } from 'react';
+import { Audio } from 'expo-av';
 import { Entypo } from '@expo/vector-icons';
 import { colors } from '../../styles/colors'
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getChatResponseThunk, updateMessages } from './chatSlice'
 
 const ChatInput = () => {
   const [message, setMessage] = useState('');
+  const [sound, setSound] = useState();
 
   const dispatch = useDispatch();
   
+  // Load sound when component mounts
+  useEffect(() => {
+    async function loadSound() {
+      console.log('Loading click Sound');
+      const { sound } = await Audio.Sound.createAsync(
+        require('../../../assets/click.mp3')
+      );
+      setSound(sound);
+    }
+
+    loadSound();
+
+    // Cleanup
+    return sound ? () => {
+      console.log('Unloading Sound');
+      sound.unloadAsync(); 
+    } : undefined;
+  }, []);
+
+  // Play sound
+  const playSound = async () => {
+    console.log('Playing click Sound');
+    if (sound) {
+      await sound.replayAsync();
+    }
+  };
+
   const handleSendMessage = () => {
+    playSound();
     if (message) {
       // Dismiss(hide) the keyboard.
       Keyboard.dismiss();
@@ -29,8 +59,11 @@ const ChatInput = () => {
         content: message, 
         role: 'user',
       }));
+
     }
   }
+
+
 
   return (
     <View style={styles.inputWrapper}>

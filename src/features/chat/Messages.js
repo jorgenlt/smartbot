@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { 
   StyleSheet, 
@@ -9,6 +9,7 @@ import {
   Share,
   Alert
 } from 'react-native'
+import { Audio } from 'expo-av';
 import * as Clipboard from 'expo-clipboard'
 import { format } from 'date-fns'
 import uuid from 'react-native-uuid'
@@ -16,6 +17,8 @@ import { colors, chat, base } from '../../styles/colors'
 import { Flow } from 'react-native-animated-spinkit'
 
 const Messages = () => {
+  const [sound, setSound] = useState();
+
   const id = useSelector(state => state.chat.currentId);
   const messages = useSelector(state => state.chat.conversations[id]?.messages);
   const error = useSelector(state => state.chat.error);
@@ -72,6 +75,28 @@ const Messages = () => {
   
   // Ref for ScrollView
   const scrollRef = useRef();
+
+  // Sound
+  async function playSound() {
+    console.log('Loading bubble Sound');
+    const { sound } = await Audio.Sound.createAsync(require('../../../assets/bubbles.mp3')
+    );
+    setSound(sound);
+
+    console.log('Playing Sound');
+    setTimeout(() => {
+      sound.playAsync();
+    }, 500);
+  }
+
+  useEffect(() => {    
+    if (status === 'loading') {
+      playSound();
+    } else if (sound && status === 'idle') {
+      console.log('Unloading Sound');
+      sound.unloadAsync();
+    }
+  }, [status])
 
   return (
     <>
