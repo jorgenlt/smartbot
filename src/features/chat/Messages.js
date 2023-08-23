@@ -17,14 +17,12 @@ import { colors, chat, base } from '../../styles/colors'
 import { Flow } from 'react-native-animated-spinkit'
 
 const Messages = () => {
-  const [sound, setSound] = useState();
+  const [typingSound, setTypingSound] = useState();
 
-  const id = useSelector(state => state.chat.currentId);
-  const messages = useSelector(state => state.chat.conversations[id]?.messages);
-  const error = useSelector(state => state.chat.error);
-  const status = useSelector(state => state.chat.status);
-  const date = useSelector(state => state.chat.conversations[id]?.created);
-  
+  const { currentId, conversations, error, status } = useSelector(state => state.chat);
+  const messages = conversations[currentId]?.messages;
+  const date = conversations[currentId]?.created;
+
   let formatedDate;
 
   if (date) {
@@ -76,25 +74,36 @@ const Messages = () => {
   // Ref for ScrollView
   const scrollRef = useRef();
 
-  // Sound
-  async function playSound() {
-    console.log('Loading bubble Sound');
-    const { sound } = await Audio.Sound.createAsync(require('../../../assets/bubbles.mp3')
-    );
-    setSound(sound);
+  // Sound effects
+  // Load sound when component mounts
+  useEffect(() => {
+    async function loadTypingSound() {
+      const { sound } = await Audio.Sound.createAsync(require('../../../assets/typing.mp3'));
+      setTypingSound(sound);
+    }
 
-    console.log('Playing Sound');
-    setTimeout(() => {
-      sound.playAsync();
-    }, 500);
-  }
+    loadTypingSound();
 
-  useEffect(() => {    
+     // Cleanup
+     return typingSound ? () => {
+      typingSound.unloadAsync(); 
+    } : undefined;
+  }, []);
+
+  // Function to play sound
+  const playTypingSound = async () => {
+    if (typingSound) {
+      await typingSound.replayAsync();
+    }
+  };
+
+  // Play typing sound when status is 'loading'
+  useEffect(() => {
     if (status === 'loading') {
-      playSound();
-    } else if (sound && status === 'idle') {
-      console.log('Unloading Sound');
-      sound.unloadAsync();
+      playTypingSound();
+    } else if (typingSound && status === 'idle') {
+      // Stop typing sound
+      typingSound.stopAsync();
     }
   }, [status])
 

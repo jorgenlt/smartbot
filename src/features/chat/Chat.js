@@ -7,7 +7,7 @@ import Messages from './Messages'
 import { addConversation } from './chatSlice'
 
 export default function Chat() {
-  const currentId = useSelector(state => state.chat.currentId);
+  const { currentId } = useSelector(state => state.chat);
 
   const dispatch = useDispatch();
 

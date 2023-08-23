@@ -3,7 +3,8 @@ import axios from 'axios';
 // Setting up api key, base url and model info
 const API_KEY = process.env.EXPO_PUBLIC_API_KEY;
 const url = 'https://api.openai.com/v1/chat/completions';
-const model = 'gpt-4';
+const model = 'gpt-3.5-turbo';
+// const model = 'gpt-4';
 
 // Fetch chat completion with the axios library.
 async function fetchChatCompletion(context, prompt) {

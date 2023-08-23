@@ -15,39 +15,35 @@ import { getChatResponseThunk, updateMessages } from './chatSlice'
 
 const ChatInput = () => {
   const [message, setMessage] = useState('');
-  const [sound, setSound] = useState();
+  const [clickSound, setClickSound] = useState();
 
   const dispatch = useDispatch();
   
+  // Sound effects
   // Load sound when component mounts
   useEffect(() => {
     async function loadSound() {
-      console.log('Loading click Sound');
-      const { sound } = await Audio.Sound.createAsync(
-        require('../../../assets/click.mp3')
-      );
-      setSound(sound);
+      const { sound } = await Audio.Sound.createAsync(require('../../../assets/click.mp3'));
+      setClickSound(sound);
     }
 
     loadSound();
 
     // Cleanup
-    return sound ? () => {
-      console.log('Unloading Sound');
-      sound.unloadAsync(); 
+    return clickSound ? () => {
+      clickSound.unloadAsync(); 
     } : undefined;
   }, []);
 
   // Play sound
-  const playSound = async () => {
-    console.log('Playing click Sound');
-    if (sound) {
-      await sound.replayAsync();
+  const playClickSound = async () => {
+    if (clickSound) {
+      await clickSound.replayAsync();
     }
   };
 
   const handleSendMessage = () => {
-    playSound();
+    playClickSound();
     if (message) {
       // Dismiss(hide) the keyboard.
       Keyboard.dismiss();
@@ -62,8 +58,6 @@ const ChatInput = () => {
 
     }
   }
-
-
 
   return (
     <View style={styles.inputWrapper}>

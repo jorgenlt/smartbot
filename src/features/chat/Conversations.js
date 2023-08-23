@@ -8,7 +8,7 @@ import { findObject } from '../../common/utils/findObject'
 import { colors } from '../../styles/colors'
 
 const Conversations = ({ navigation }) => {
-  const conversations = useSelector(state => state.chat.conversations);
+  const { conversations } = useSelector(state => state.chat);
 
   const dispatch = useDispatch();
 
