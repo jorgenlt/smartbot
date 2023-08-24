@@ -50,8 +50,10 @@ const Conversations = ({ navigation }) => {
       const timeAgo = formatDistance(date, new Date(), { addSuffix: true });
 
       // Setting user message and assistant message
-      const userObject = findObject(conversations[id].messages, 'role', 'user');
-      const assistantObject = findObject(conversations[id].messages, 'role', 'assistant');
+      const conversation = conversations[id].messages;
+      const lastTwoItems = conversation.slice(-2);
+      const userObject = findObject(lastTwoItems, 'role', 'user');
+      const assistantObject = findObject(lastTwoItems, 'role', 'assistant');
       const userMessage = userObject ? userObject.content : '';
       const assistantMessage = assistantObject ? assistantObject.content : '';
 
