@@ -1,45 +1,50 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import fetchChatCompletion from '../../api/api'
-import uuid from 'react-native-uuid'
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import fetchChatCompletion from "../../api/api";
+import uuid from "react-native-uuid";
 
 const initialState = {
   conversations: {},
   currentId: null,
-  status: 'idle',
-  error: null
+  status: "idle",
+  keys: { openAi: null },
+  error: null,
 };
 
 // Get chat completion from ChatGPT (OpenAI) using async thunk
 export const getChatResponseThunk = createAsyncThunk(
-  'chat/getResponse',
+  "chat/getResponse",
   async (message, { getState }) => {
-    const { chat: { currentId, conversations } } = getState();
+    const {
+      chat: { currentId, conversations, keys },
+    } = getState();
 
     if (currentId) {
       const context = conversations[currentId].messages;
-  
+
       try {
-        const response = await fetchChatCompletion(context, message);
+        const response = await fetchChatCompletion(context, message, keys);
         return response;
       } catch (error) {
         return Promise.reject(error.message);
-      };
-    };
+      }
+    }
   }
 );
 
 // Chat slice of the Redux store
 export const chat = createSlice({
-  name: 'chat',
+  name: "chat",
   initialState,
   reducers: {
-    addConversation: state => {
+    addConversation: (state) => {
       const id = uuid.v4();
 
       state.currentId = id;
       state.conversations[id] = {
         created: Date.now(),
-        messages: [{"content": "Hello! How can I assist you today?", "role": "assistant"}]
+        messages: [
+          { content: "Hello! How can I assist you today?", role: "assistant" },
+        ],
       };
     },
     updateMessages: (state, action) => {
@@ -57,24 +62,31 @@ export const chat = createSlice({
 
       state.currentId = null;
     },
-    deleteConversations: state => {
+    deleteConversations: (state) => {
       state.conversations = {};
+      state.keys = {};
       state.currentId = null;
+    },
+    deleteKeys: (state) => {
+      state.keys = {};
     },
     updateCurrentId: (state, action) => {
       state.currentId = action.payload;
-    }
+    },
+    addKey: (state, action) => {
+      state.keys.openAi = action.payload;
+    },
   },
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
       // Case when fetching chat response is pending
-      .addCase(getChatResponseThunk.pending, state => {
-        state.status = 'loading';
+      .addCase(getChatResponseThunk.pending, (state) => {
+        state.status = "loading";
       })
       // Case where getting chat response is successful (fulfilled)
       .addCase(getChatResponseThunk.fulfilled, (state, action) => {
         state.error = null;
-        state.status = 'idle';
+        state.status = "idle";
 
         const { currentId } = state;
         const { content, role } = action.payload;
@@ -82,28 +94,30 @@ export const chat = createSlice({
         if (currentId && content && role) {
           const message = {
             content,
-            role
+            role,
           };
-          
+
           // Push the fetched message into the messages of current conversation
           state.conversations[currentId]?.messages.push(message);
-        };
+        }
       })
       // Case where getting chat response failed
       .addCase(getChatResponseThunk.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = "failed";
         state.error = action.error.message;
       });
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { 
+export const {
   updateMessages,
-  deleteConversation, 
+  deleteConversation,
   deleteConversations,
+  deleteKeys,
   addConversation,
-  updateCurrentId
-} = chat.actions
+  updateCurrentId,
+  addKey,
+} = chat.actions;
 
 export default chat.reducer;

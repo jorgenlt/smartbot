@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Pressable, Linking, Alert } from 'react-native'
 import { useDispatch } from 'react-redux'
-import { deleteConversations } from '../features/chat/chatSlice'
+import { deleteConversations, deleteKeys } from '../features/chat/chatSlice'
 import { colors } from '../styles/colors'
 import { MaterialIcons, AntDesign } from '@expo/vector-icons'
 
@@ -22,6 +22,22 @@ const Settings = () => {
         onPress: () => {
           dispatch(deleteConversations());
           Alert.alert('', 'All conversations deleted.');
+        }
+      },
+    ]);
+  
+  }
+  const handleDeleteKeys = () => {
+    Alert.alert('Delete all API keys?', 'Choose "Delete" to confirm.', [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+      {
+        text: 'Delete', 
+        onPress: () => {
+          dispatch(deleteKeys());
+          Alert.alert('', 'All API keys deleted.');
         }
       },
     ]);
@@ -47,6 +63,12 @@ const Settings = () => {
         onPress={handleDeleteConversations}
         iconName='delete'
         text='Delete all conversations'
+        IconComponent={MaterialIcons}
+      />
+      <PressableSetting 
+        onPress={handleDeleteKeys}
+        iconName='delete'
+        text='Delete all API keys'
         IconComponent={MaterialIcons}
       />
       <PressableSetting 

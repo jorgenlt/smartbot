@@ -1,32 +1,28 @@
-import axios from 'axios';
+import axios from "axios";
 
-// Setting up api key, base url and model info
-const API_KEY = process.env.EXPO_PUBLIC_API_KEY;
-const url = 'https://api.openai.com/v1/chat/completions';
-const model = 'gpt-3.5-turbo';
+const url = "https://api.openai.com/v1/chat/completions";
+const model = "gpt-3.5-turbo";
 // const model = 'gpt-4';
 
 // Fetch chat completion with the axios library.
-async function fetchChatCompletion(context, prompt) {
+async function fetchChatCompletion(context, prompt, keys) {
+  const API_KEY = keys.openAi;
 
   const userMessage = {
-    role: 'user',
-    content: prompt
+    role: "user",
+    content: prompt,
   };
 
   const requestBody = {
     model: model,
-    messages: [
-      ...context, 
-      userMessage
-    ]
+    messages: [...context, userMessage],
   };
 
   const config = {
     headers: {
-      'Authorization': `Bearer ${API_KEY}`,
-      'Content-Type': 'application/json'
-    }
+      Authorization: `Bearer ${API_KEY}`,
+      "Content-Type": "application/json",
+    },
   };
 
   try {
@@ -37,11 +33,13 @@ async function fetchChatCompletion(context, prompt) {
 
     return {
       role,
-      content
-    }
-    
+      content,
+    };
   } catch (error) {
-    console.error('Error in fetchChatCompletion:', error.message || error.response.data.error?.message);
+    console.error(
+      "Error in fetchChatCompletion:",
+      error.message || error.response.data.error?.message
+    );
     throw error;
   }
 }
