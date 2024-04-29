@@ -78,7 +78,6 @@ const ChatInput = () => {
       }
     } else {
       setModalVisible(true);
-      console.log("set modal true");
     }
   };
 
