@@ -15,7 +15,7 @@ import { colors } from "../../styles/colors";
 import { useDispatch, useSelector } from "react-redux";
 import { getChatResponseThunk, updateMessages, addKey } from "./chatSlice";
 
-const ChatInput = () => {
+const ChatInput = ({navigation}) => {
   const { keys } = useSelector((state) => state.chat);
 
   const [message, setMessage] = useState("");
@@ -81,6 +81,11 @@ const ChatInput = () => {
     }
   };
 
+  const handleKeyError = () => {
+    setModalVisible(false);
+    navigation.navigate("Settings");
+  }
+
   return (
     <View style={styles.inputWrapper}>
       <TextInput
@@ -113,15 +118,8 @@ const ChatInput = () => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>OpenAI API key is required</Text>
-            <TextInput
-              style={styles.keyInput}
-              onChangeText={setApiKey}
-              value={apiKey}
-              placeholder="Paste key"
-              inputMode="none"
-            />
-            <Button title="save" onPress={handleAddKey} />
+            <Text style={styles.modalText}>No key found. Go to settings to choose provider and add key.</Text>
+            <Button title="settings" onPress={handleKeyError} />
           </View>
         </View>
       </Modal>

@@ -67,18 +67,16 @@ export const chat = createSlice({
       state.keys = {};
       state.currentId = null;
     },
-    deleteKeys: (state) => {
-      state.keys = {};
+    deleteKey: (state, action) => {
+      const { provider } = action.payload;
+      state.keys[provider] = null;
     },
     updateCurrentId: (state, action) => {
       state.currentId = action.payload;
     },
     addKey: (state, action) => {
       const { provider, apiKey } = action.payload;
-      console.log(action.payload)
       state.keys[provider] = apiKey;
-
-      console.log(state.keys)
     },
   },
   extraReducers: (builder) => {
@@ -118,10 +116,10 @@ export const {
   updateMessages,
   deleteConversation,
   deleteConversations,
-  deleteKeys,
   addConversation,
   updateCurrentId,
   addKey,
+  deleteKey,
 } = chat.actions;
 
 export default chat.reducer;

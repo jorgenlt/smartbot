@@ -42,6 +42,7 @@ const SettingsStackScreen = () => {
       <SettingsStack.Screen
         name="Anthropic"
         component={ChatSettingsProvider}
+        initialParams={{ name: "Anthropic", provider: "anthropic"}}
       ></SettingsStack.Screen>
     </SettingsStack.Navigator>
   );

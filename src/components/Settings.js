@@ -1,49 +1,40 @@
-import { StyleSheet, Text, View, Pressable, Linking, Alert } from 'react-native'
-import { useDispatch } from 'react-redux'
-import { deleteConversations, deleteKeys } from '../features/chat/chatSlice'
-import { colors } from '../styles/colors'
-import { MaterialIcons, AntDesign } from '@expo/vector-icons'
+import {
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+  Linking,
+  Alert,
+} from "react-native";
+import { useDispatch } from "react-redux";
+import { deleteConversations, deleteKeys } from "../features/chat/chatSlice";
+import { colors } from "../styles/colors";
+import { MaterialIcons, AntDesign } from "@expo/vector-icons";
 
 // URLs
-const GITHUB_URL = 'https://github.com/jorgenlt/smartbot';
-const PROJECTS_URL = 'https://jorgenlt.no';
+const GITHUB_URL = "https://github.com/jorgenlt/smartbot";
+const PROJECTS_URL = "https://jorgenlt.no";
 
 const Settings = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const handleDeleteConversations = () => {
-    Alert.alert('Delete all conversations?', 'Choose "Delete" to confirm.', [
+    Alert.alert("Delete all conversations?", 'Choose "Delete" to confirm.', [
       {
-        text: 'Cancel',
-        style: 'cancel',
+        text: "Cancel",
+        style: "cancel",
       },
       {
-        text: 'Delete', 
+        text: "Delete",
         onPress: () => {
           dispatch(deleteConversations());
-          Alert.alert('', 'All conversations deleted.');
-        }
+          Alert.alert("", "All conversations deleted.");
+        },
       },
     ]);
-  
-  }
-  const handleDeleteKeys = () => {
-    Alert.alert('Delete all API keys?', 'Choose "Delete" to confirm.', [
-      {
-        text: 'Cancel',
-        style: 'cancel',
-      },
-      {
-        text: 'Delete', 
-        onPress: () => {
-          dispatch(deleteKeys());
-          Alert.alert('', 'All API keys deleted.');
-        }
-      },
-    ]);
-  }
+  };
 
-  const PressableSetting = ({onPress, iconName, text, IconComponent}) => (
+  const PressableSetting = ({ onPress, iconName, text, IconComponent }) => (
     <Pressable
       onPress={onPress}
       android_ripple={{
@@ -58,40 +49,34 @@ const Settings = ({ navigation }) => {
   );
 
   return (
-    <View style={styles.settingsWrapper} >
-      <PressableSetting 
-        onPress={handleDeleteConversations}
-        iconName='delete'
-        text='Delete all conversations'
-        IconComponent={MaterialIcons}
-      />
-      <PressableSetting 
-        onPress={handleDeleteKeys}
-        iconName='delete'
-        text='Delete all API keys'
-        IconComponent={MaterialIcons}
-      />
-      <PressableSetting 
+    <View style={styles.settingsWrapper}>
+      <PressableSetting
         onPress={() => navigation.navigate("Chat Settings")}
-        iconName='rebase-edit'
-        text='Change provider/model'
+        iconName="rebase-edit"
+        text="Change provider/model"
         IconComponent={MaterialIcons}
       />
-      <PressableSetting 
+      <PressableSetting
+        onPress={handleDeleteConversations}
+        iconName="delete"
+        text="Delete all conversations"
+        IconComponent={MaterialIcons}
+      />
+      <PressableSetting
         onPress={() => Linking.openURL(GITHUB_URL)}
-        iconName='github'
-        text='Source code'
+        iconName="github"
+        text="Source code"
         IconComponent={AntDesign}
       />
-      <PressableSetting 
+      <PressableSetting
         onPress={() => Linking.openURL(PROJECTS_URL)}
-        iconName='code'
-        text='Other projects'
+        iconName="code"
+        text="Other projects"
         IconComponent={MaterialIcons}
       />
     </View>
-  )
-}
+  );
+};
 
 export default Settings;
 
@@ -100,16 +85,16 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   pressable: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '100%',
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
     paddingVertical: 20,
     paddingHorizontal: 20,
   },
   pressableText: {
     fontSize: 20,
     fontWeight: 600,
-    marginLeft: 10,
-    fontWeight: 'bold'
-  }
+    marginLeft: 20,
+    fontWeight: "normal",
+  },
 });

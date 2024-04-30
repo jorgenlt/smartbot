@@ -1,13 +1,13 @@
-import { StyleSheet, View } from 'react-native'
-import { useSelector, useDispatch } from 'react-redux';
-import { useFocusEffect } from '@react-navigation/native'
-import { colors } from '../../styles/colors'
-import ChatInput from './ChatInput'
-import Messages from './Messages'
-import { addConversation } from './chatSlice'
+import { StyleSheet, View } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
+import { useFocusEffect } from "@react-navigation/native";
+import { colors } from "../../styles/colors";
+import ChatInput from "./ChatInput";
+import Messages from "./Messages";
+import { addConversation } from "./chatSlice";
 
-export default function Chat() {
-  const { currentId } = useSelector(state => state.chat);
+const Chat = ({ navigation }) => {
+  const { currentId } = useSelector((state) => state.chat);
 
   const dispatch = useDispatch();
 
@@ -15,17 +15,19 @@ export default function Chat() {
     if (!currentId) {
       dispatch(addConversation());
     }
-  })
+  });
 
   return (
     <View style={styles.container}>
-      <View style={{width: '100%', height: '100%'}}>
+      <View style={{ width: "100%", height: "100%" }}>
         <Messages />
-        <ChatInput />
+        <ChatInput navigation={navigation} />
       </View>
     </View>
-  )
-}
+  );
+};
+
+export default Chat;
 
 const styles = StyleSheet.create({
   container: {
@@ -33,23 +35,23 @@ const styles = StyleSheet.create({
     backgroundColor: colors.pri,
     paddingVertical: 0,
     paddingHorizontal: 5,
-    alignItems: 'center'
+    alignItems: "center",
   },
   messagesWrapper: {
     backgroundColor: colors.pri,
     paddingHorizontal: 5,
   },
   messageWrapperUser: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    marginVertical: 10
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    marginVertical: 10,
   },
   messageWrapperAssistant: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    marginVertical: 10
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    marginVertical: 10,
   },
   messageUser: {
     backgroundColor: colors.messageUser,
@@ -64,5 +66,5 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderTopLeftRadius: 2,
     padding: 10,
-  }
+  },
 });

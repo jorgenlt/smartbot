@@ -6,11 +6,12 @@ import {
   Pressable,
   Modal,
   Button,
+  Alert,
 } from "react-native";
 import { colors } from "../../styles/colors";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-import { addKey } from "./chatSlice";
+import { addKey, deleteKey } from "./chatSlice";
 import { MaterialIcons } from "@expo/vector-icons";
 
 const ChatSettingsProvider = ({ route }) => {
@@ -20,7 +21,8 @@ const ChatSettingsProvider = ({ route }) => {
 
   const key = keys[provider] ? keys[provider] : "Add key";
 
-  const [modalVisible, setModalVisible] = useState(false);
+  const [keyModalVisible, setKeyModalVisible] = useState(false);
+  const [modelModalVisible, setModelModalVisible] = useState(false);
 
   const [apiKey, setApiKey] = useState("");
 
@@ -28,36 +30,76 @@ const ChatSettingsProvider = ({ route }) => {
 
   const handleAddKey = () => {
     if (apiKey) {
-      setModalVisible(false);
+      setKeyModalVisible(false);
       dispatch(addKey({ provider, apiKey }));
     }
   };
 
+  const handleDeleteKey = () => {
+    Alert.alert(`Delete ${name} API key?`, 'Choose "Delete" to confirm.', [
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+      {
+        text: "Delete",
+        onPress: () => {
+          dispatch(deleteKey({ provider }));
+          Alert.alert("", `${name} API key deleted.`);
+          setKeyModalVisible(false);
+        },
+      },
+    ]);
+  };
+
   return (
     <View style={styles.settingsWrapper}>
-      <View style={styles.pressable}>
-        <Text style={styles.pressableText}>{name}</Text>
+      <View style={styles.setting}>
+        <Text style={styles.header}>{name}</Text>
       </View>
       <Pressable
-        style={styles.pressable}
-        onPress={() => setModalVisible(true)}
+        style={styles.setting}
+        // style={styles.pressable}
+        onPress={() => setKeyModalVisible(true)}
         android_ripple={{
           color: colors.sec,
           foreground: true,
         }}
       >
-        <Text style={styles.text} numberOfLines={1}>
-          {key}
-        </Text>
-        <MaterialIcons name="edit" size={24} color="black" />
+        <View>
+          <Text style={styles.settingDescription}>Key</Text>
+        </View>
+        <View style={styles.settingValue}>
+          <Text style={styles.settingValue.text} numberOfLines={1}>
+            {key}
+          </Text>
+        </View>
+      </Pressable>
+      <Pressable
+        // style={styles.pressable}
+        style={styles.setting}
+        onPress={() => setModelModalVisible(true)}
+        android_ripple={{
+          color: colors.sec,
+          foreground: true,
+        }}
+      >
+        <View>
+          <Text style={styles.settingDescription}>Model</Text>
+        </View>
+        <View style={styles.settingValue}>
+          <Text style={styles.settingValue.text} numberOfLines={1}>
+            Choose model
+          </Text>
+        </View>
       </Pressable>
 
       <Modal
         animationType="fade"
         transparent={true}
-        visible={modalVisible}
+        visible={keyModalVisible}
         onRequestClose={() => {
-          setModalVisible(!modalVisible);
+          setKeyModalVisible(!keyModalVisible);
         }}
       >
         <View style={styles.centeredView}>
@@ -70,7 +112,29 @@ const ChatSettingsProvider = ({ route }) => {
               placeholder="Paste key"
               inputMode="none"
             />
-            <Button title="save" onPress={handleAddKey} />
+            <View style={styles.modalButtonsWrapper}>
+              <Button title="delete" onPress={handleDeleteKey} />
+              <Button title="save" onPress={handleAddKey} />
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modelModalVisible}
+        onRequestClose={() => {
+          setModelModalVisible(!modelModalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Choose model</Text>
+
+            <View style={styles.modalButtonsWrapper}>
+              <Button title="save" onPress={() => console.log("pressed")} />
+            </View>
           </View>
         </View>
       </Modal>
@@ -84,25 +148,27 @@ const styles = StyleSheet.create({
   settingsWrapper: {
     flex: 1,
   },
-  pressable: {
+  header: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  settingDescription: {
+    fontSize: 20,
+  },
+  setting: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    width: "100%",
+    gap: 10,
     paddingVertical: 20,
     paddingHorizontal: 20,
   },
-  pressableText: {
-    fontSize: 20,
-    fontWeight: 600,
-    marginLeft: 10,
-    fontWeight: "bold",
-  },
-  text: {
-    fontSize: 20,
-    fontWeight: 600,
-    marginLeft: 10,
-    fontWeight: "normal",
+  settingValue: {
+    fontSize: 14,
+    maxWidth: "70%",
+    text: {
+      color: colors.gray,
+    },
   },
   centeredView: {
     flex: 1,
@@ -137,5 +203,9 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 10,
     borderRadius: 2,
+  },
+  modalButtonsWrapper: {
+    flexDirection: "row",
+    gap: 10,
   },
 });
