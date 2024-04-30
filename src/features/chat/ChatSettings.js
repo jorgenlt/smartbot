@@ -7,15 +7,46 @@ import {
   Alert,
 } from "react-native";
 import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { colors } from "../../styles/colors";
 import { MaterialIcons, AntDesign } from "@expo/vector-icons";
 
-const ChatSettings = () => {
+const ChatSettings = ({ navigation }) => {
+  const keys = useSelector(state => state.chat.keys);
+
   const dispatch = useDispatch();
+
+  const PressableSetting = ({onPress, iconName, text, IconComponent}) => (
+    <Pressable
+      onPress={onPress}
+      android_ripple={{
+        color: colors.sec,
+        foreground: true,
+      }}
+      style={styles.pressable}
+    >
+      {/* <IconComponent name={iconName} size={40} color={colors.black} /> */}
+      <Text style={styles.pressableText}>{text}</Text>
+    </Pressable>
+  );
 
   return (
     <View style={styles.settingsWrapper}>
-      <Text>Change provider/model/key</Text>
+
+      <PressableSetting 
+        onPress={() => navigation.navigate("OpenAI")}
+        text="OpenAI"
+      />
+
+      <PressableSetting 
+        onPress={() => console.log("anthropic")}
+        text="Anthropic"
+      />
+
+      <Text>OpenAI</Text>
+      <Text>Key: {keys.openAi ? keys.openAi : "Key not set."}</Text>
+      <Text>Anthropic</Text>
+      <Text>Key: {keys.anthropic ? keys.anthropic : "Key not set."}</Text>
     </View>
   );
 };

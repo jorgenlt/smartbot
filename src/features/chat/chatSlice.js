@@ -6,7 +6,7 @@ const initialState = {
   conversations: {},
   currentId: null,
   status: "idle",
-  keys: { openAi: null },
+  keys: { openAi: null, anthropic: null },
   error: null,
 };
 
@@ -74,7 +74,11 @@ export const chat = createSlice({
       state.currentId = action.payload;
     },
     addKey: (state, action) => {
-      state.keys.openAi = action.payload;
+      const { provider, apiKey } = action.payload;
+      console.log(action.payload)
+      state.keys[provider] = apiKey;
+
+      console.log(state.keys)
     },
   },
   extraReducers: (builder) => {

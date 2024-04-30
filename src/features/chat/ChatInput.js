@@ -21,7 +21,7 @@ const ChatInput = () => {
   const [message, setMessage] = useState("");
   const [clickSound, setClickSound] = useState();
   const [modalVisible, setModalVisible] = useState(false);
-  const [key, setKey] = useState("");
+  const [apiKey, setApiKey] = useState("");
 
   const dispatch = useDispatch();
 
@@ -53,9 +53,9 @@ const ChatInput = () => {
   };
 
   const handleAddKey = () => {
-    if (key.length > 10) {
+    if (apiKey) {
       setModalVisible(false);
-      dispatch(addKey(key));
+      dispatch(addKey({ provider: "openAi", apiKey }));
     }
   };
 
@@ -116,8 +116,8 @@ const ChatInput = () => {
             <Text style={styles.modalText}>OpenAI API key is required</Text>
             <TextInput
               style={styles.keyInput}
-              onChangeText={setKey}
-              value={key}
+              onChangeText={setApiKey}
+              value={apiKey}
               placeholder="Paste key"
               inputMode="none"
             />
