@@ -19,11 +19,13 @@ const Setting = ({
       }}
       style={styles.setting}
     >
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
+      <View style={styles.setting.name}>
         {IconComponent && (
-          <IconComponent name={iconName} size={40} color={colors.black} />
+          <View style={styles.setting.icon}>
+            <IconComponent name={iconName} size={40} color={colors.black} />
+          </View>
         )}
-        <Text style={styles.setting.name}>{name}</Text>
+        <Text style={styles.setting.name.text}>{name}</Text>
       </View>
       {submenu && (
         <View>
@@ -53,13 +55,21 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal: 20,
     name: {
-      fontSize: 20,
-      fontWeight: 600,
-      marginLeft: 20,
-      fontWeight: "normal",
+      flexDirection: "row",
+      alignItems: "center",
+      text: {
+        fontSize: 20,
+        fontWeight: 600,
+        fontWeight: "normal",
+      },
     },
     settingValue: {
       color: colors.gray,
+    },
+    icon: {
+      flexDirection: "row",
+      alignItems: "center",
+      marginRight: 10,
     },
   },
   pressableSubmenu: {

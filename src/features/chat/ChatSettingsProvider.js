@@ -22,6 +22,8 @@ const ChatSettingsProvider = ({ route }) => {
 
   const key = keys[provider] ? keys[provider] : "Add key";
 
+  const model = "Change model"
+
   const [keyModalVisible, setKeyModalVisible] = useState(false);
   const [modelModalVisible, setModelModalVisible] = useState(false);
 
@@ -63,7 +65,7 @@ const ChatSettingsProvider = ({ route }) => {
       <Setting
         onPress={() => setModelModalVisible(true)}
         name="Model"
-        settingValue={key}
+        settingValue={model}
       />
 
       <Modal
@@ -119,28 +121,6 @@ export default ChatSettingsProvider;
 const styles = StyleSheet.create({
   settingsWrapper: {
     flex: 1,
-  },
-  header: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  settingDescription: {
-    fontSize: 20,
-  },
-  setting: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    gap: 10,
-    paddingVertical: 20,
-    paddingHorizontal: 20,
-  },
-  settingValue: {
-    fontSize: 14,
-    maxWidth: "70%",
-    text: {
-      color: colors.gray,
-    },
   },
   centeredView: {
     flex: 1,
