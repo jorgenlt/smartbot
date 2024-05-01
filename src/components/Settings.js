@@ -1,15 +1,13 @@
 import {
   StyleSheet,
-  Text,
   View,
-  Pressable,
   Linking,
   Alert,
 } from "react-native";
 import { useDispatch } from "react-redux";
-import { deleteConversations, deleteKeys } from "../features/chat/chatSlice";
-import { colors } from "../styles/colors";
+import { deleteConversations } from "../features/chat/chatSlice";
 import { MaterialIcons, AntDesign } from "@expo/vector-icons";
+import Setting from "./Setting";
 
 // URLs
 const GITHUB_URL = "https://github.com/jorgenlt/smartbot";
@@ -34,45 +32,35 @@ const Settings = ({ navigation }) => {
     ]);
   };
 
-  const PressableSetting = ({ onPress, iconName, text, IconComponent }) => (
-    <Pressable
-      onPress={onPress}
-      android_ripple={{
-        color: colors.sec,
-        foreground: true,
-      }}
-      style={styles.pressable}
-    >
-      <IconComponent name={iconName} size={40} color={colors.black} />
-      <Text style={styles.pressableText}>{text}</Text>
-    </Pressable>
-  );
-
   return (
     <View style={styles.settingsWrapper}>
-      <PressableSetting
+      <Setting
         onPress={() => navigation.navigate("Chat Settings")}
         iconName="rebase-edit"
-        text="Change provider/model"
+        name="Change provider/model"
         IconComponent={MaterialIcons}
+        submenu={true}
       />
-      <PressableSetting
+      <Setting
         onPress={handleDeleteConversations}
         iconName="delete"
-        text="Delete all conversations"
+        name="Delete all conversations"
         IconComponent={MaterialIcons}
+        submenu={false}
       />
-      <PressableSetting
+      <Setting
         onPress={() => Linking.openURL(GITHUB_URL)}
         iconName="github"
-        text="Source code"
+        name="Source code"
         IconComponent={AntDesign}
+        submenu={false}
       />
-      <PressableSetting
+      <Setting
         onPress={() => Linking.openURL(PROJECTS_URL)}
         iconName="code"
-        text="Other projects"
+        name="Other projects"
         IconComponent={MaterialIcons}
+        submenu={false}
       />
     </View>
   );
@@ -83,18 +71,5 @@ export default Settings;
 const styles = StyleSheet.create({
   settingsWrapper: {
     flex: 1,
-  },
-  pressable: {
-    flexDirection: "row",
-    alignItems: "center",
-    width: "100%",
-    paddingVertical: 20,
-    paddingHorizontal: 20,
-  },
-  pressableText: {
-    fontSize: 20,
-    fontWeight: 600,
-    marginLeft: 20,
-    fontWeight: "normal",
   },
 });

@@ -1,45 +1,21 @@
 import {
   StyleSheet,
-  Text,
   View,
-  Pressable,
-  Linking,
-  Alert,
 } from "react-native";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { colors } from "../../styles/colors";
-import { MaterialIcons, AntDesign } from "@expo/vector-icons";
+import Setting from "../../components/Setting";
 
 const ChatSettings = ({ navigation }) => {
-  const keys = useSelector((state) => state.chat.keys);
-
-  const dispatch = useDispatch();
-
-  const PressableSetting = ({ onPress, iconName, text, IconComponent }) => (
-    <Pressable
-      onPress={onPress}
-      android_ripple={{
-        color: colors.sec,
-        foreground: true,
-      }}
-      style={styles.pressable}
-    >
-      {/* <IconComponent name={iconName} size={40} color={colors.black} /> */}
-      <Text style={styles.pressableText}>{text}</Text>
-    </Pressable>
-  );
-
   return (
     <View style={styles.settingsWrapper}>
-      <PressableSetting
+      <Setting
         onPress={() => navigation.navigate("OpenAI")}
-        text="OpenAI"
+        name="OpenAI"
+        submenu={true}
       />
-
-      <PressableSetting
+      <Setting
         onPress={() => navigation.navigate("Anthropic")}
-        text="Anthropic"
+        name="Anthropic"
+        submenu={true}
       />
     </View>
   );

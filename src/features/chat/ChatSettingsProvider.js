@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { addKey, deleteKey } from "./chatSlice";
 import { MaterialIcons } from "@expo/vector-icons";
+import Setting from "../../components/Setting";
 
 const ChatSettingsProvider = ({ route }) => {
   const { name, provider } = route.params;
@@ -54,45 +55,16 @@ const ChatSettingsProvider = ({ route }) => {
 
   return (
     <View style={styles.settingsWrapper}>
-      <View style={styles.setting}>
-        <Text style={styles.header}>{name}</Text>
-      </View>
-      <Pressable
-        style={styles.setting}
-        // style={styles.pressable}
+      <Setting
         onPress={() => setKeyModalVisible(true)}
-        android_ripple={{
-          color: colors.sec,
-          foreground: true,
-        }}
-      >
-        <View>
-          <Text style={styles.settingDescription}>Key</Text>
-        </View>
-        <View style={styles.settingValue}>
-          <Text style={styles.settingValue.text} numberOfLines={1}>
-            {key}
-          </Text>
-        </View>
-      </Pressable>
-      <Pressable
-        // style={styles.pressable}
-        style={styles.setting}
+        name="Key"
+        settingValue={key}
+      />
+      <Setting
         onPress={() => setModelModalVisible(true)}
-        android_ripple={{
-          color: colors.sec,
-          foreground: true,
-        }}
-      >
-        <View>
-          <Text style={styles.settingDescription}>Model</Text>
-        </View>
-        <View style={styles.settingValue}>
-          <Text style={styles.settingValue.text} numberOfLines={1}>
-            Choose model
-          </Text>
-        </View>
-      </Pressable>
+        name="Model"
+        settingValue={key}
+      />
 
       <Modal
         animationType="fade"
