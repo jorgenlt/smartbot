@@ -93,7 +93,6 @@ export const chat = createSlice({
       const { provider } = action.payload;
       state.providers.current.provider = provider;
       state.providers.current.model = state.providers[provider].model
-      console.log("stae", state.providers)
     },
     resetProviders: (state) => {
       state.providers = initialState.providers;
