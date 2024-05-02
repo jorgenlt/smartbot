@@ -13,7 +13,7 @@ import { Audio } from "expo-av";
 import { Entypo } from "@expo/vector-icons";
 import { colors } from "../../styles/colors";
 import { useDispatch, useSelector } from "react-redux";
-import { getChatResponseThunk, updateMessages, addKey } from "./chatSlice";
+import { getChatResponseThunk, updateMessages } from "./chatSlice";
 
 const ChatInput = ({navigation}) => {
   const { keys } = useSelector((state) => state.chat);
@@ -21,7 +21,6 @@ const ChatInput = ({navigation}) => {
   const [message, setMessage] = useState("");
   const [clickSound, setClickSound] = useState();
   const [modalVisible, setModalVisible] = useState(false);
-  const [apiKey, setApiKey] = useState("");
 
   const dispatch = useDispatch();
 
@@ -49,13 +48,6 @@ const ChatInput = ({navigation}) => {
   const playClickSound = async () => {
     if (clickSound) {
       await clickSound.replayAsync();
-    }
-  };
-
-  const handleAddKey = () => {
-    if (apiKey) {
-      setModalVisible(false);
-      dispatch(addKey({ provider: "openAi", apiKey }));
     }
   };
 

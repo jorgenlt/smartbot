@@ -18,11 +18,15 @@ import Setting from "../../components/Setting";
 const ChatSettingsProvider = ({ route }) => {
   const { name, provider } = route.params;
 
-  const keys = useSelector((state) => state.chat.keys);
+  const key =
+    useSelector((state) => state.chat.providers[provider].key) || "Add key";
+  console.log("🚀 ~ ChatSettingsProvider ~ key:", key);
 
-  const key = keys[provider] ? keys[provider] : "Add key";
+  const model =
+    useSelector((state) => state.chat.providers[provider].model) ||
+    "No model chosen";
 
-  const model = "Change model"
+  const models = useSelector((state) => state.chat.providers[provider].models);
 
   const [keyModalVisible, setKeyModalVisible] = useState(false);
   const [modelModalVisible, setModelModalVisible] = useState(false);
@@ -33,6 +37,7 @@ const ChatSettingsProvider = ({ route }) => {
 
   const handleAddKey = () => {
     if (apiKey) {
+      console.log("handleAddKey");
       setKeyModalVisible(false);
       dispatch(addKey({ provider, apiKey }));
     }
