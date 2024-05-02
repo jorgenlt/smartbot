@@ -11,7 +11,7 @@ import {
 import { colors } from "../../styles/colors";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-import { addKey, deleteKey } from "./chatSlice";
+import { addKey, deleteKey, setProvider } from "./chatSlice";
 import { MaterialIcons } from "@expo/vector-icons";
 import Setting from "../../components/Setting";
 
@@ -20,13 +20,19 @@ const ChatSettingsProvider = ({ route }) => {
 
   const key =
     useSelector((state) => state.chat.providers[provider].key) || "Add key";
-  console.log("🚀 ~ ChatSettingsProvider ~ key:", key);
 
   const model =
-    useSelector((state) => state.chat.providers[provider].model) ||
-    "No model chosen";
-
+  useSelector((state) => state.chat.providers[provider].model) ||
+  "No model chosen";
+  console.log("🚀 ~ ChatSettingsProvider ~ model:", model)
+  
   const models = useSelector((state) => state.chat.providers[provider].models);
+
+  const { provider: currentProvider, model: currentModel } = useSelector(
+    (state) => state.chat.providers.current
+  );
+
+  const isCurrent = currentProvider === provider;
 
   const [keyModalVisible, setKeyModalVisible] = useState(false);
   const [modelModalVisible, setModelModalVisible] = useState(false);
@@ -60,8 +66,24 @@ const ChatSettingsProvider = ({ route }) => {
     ]);
   };
 
+  const handleSetProvider = () => {
+    if (!isCurrent) {
+      dispatch(setProvider({ provider }));
+      Alert.alert("", `${name} set as provider`);
+    }
+  };
+
   return (
     <View style={styles.settingsWrapper}>
+      <Setting
+        onPress={handleSetProvider}
+        name={
+          isCurrent
+            ? `${name} is your current provider`
+            : `Set ${name} as provider`
+        }
+      />
+
       <Setting
         onPress={() => setKeyModalVisible(true)}
         name="Key"
@@ -70,7 +92,7 @@ const ChatSettingsProvider = ({ route }) => {
       <Setting
         onPress={() => setModelModalVisible(true)}
         name="Model"
-        settingValue={model}
+        settingValue={isCurrent && currentModel ? currentModel : model}
       />
 
       <Modal

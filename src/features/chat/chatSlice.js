@@ -7,14 +7,13 @@ const initialState = {
   currentId: null,
   status: "idle",
   providers: {
+    current: { provider: "openAi", model: "gpt-3.5-turbo" },
     openAi: {
-      current: true,
       key: null,
-      model: null,
+      model: "gpt-3.5-turbo",
       models: ["gpt-3.5-turbo", "gpt-4-turbo"],
     },
     anthropic: {
-      current: false,
       key: null,
       model: null,
     },
@@ -90,6 +89,15 @@ export const chat = createSlice({
       const { provider, apiKey } = action.payload;
       state.providers[provider].key = apiKey;
     },
+    setProvider: (state, action) => {
+      const { provider } = action.payload;
+      state.providers.current.provider = provider;
+      state.providers.current.model = state.providers[provider].model
+      console.log("stae", state.providers)
+    },
+    resetProviders: (state) => {
+      state.providers = initialState.providers;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -132,6 +140,8 @@ export const {
   updateCurrentId,
   addKey,
   deleteKey,
+  setProvider,
+  resetProviders,
 } = chat.actions;
 
 export default chat.reducer;
