@@ -14,6 +14,7 @@ import { useState } from "react";
 import { addKey, deleteKey, setProvider } from "./chatSlice";
 import { MaterialIcons } from "@expo/vector-icons";
 import Setting from "../../components/Setting";
+import { turncateString } from "../../common/utils/turncateString";
 
 const ChatSettingsProvider = ({ route }) => {
   const { name, provider } = route.params;
@@ -22,10 +23,9 @@ const ChatSettingsProvider = ({ route }) => {
     useSelector((state) => state.chat.providers[provider].key) || "Add key";
 
   const model =
-  useSelector((state) => state.chat.providers[provider].model) ||
-  "No model chosen";
-  console.log("🚀 ~ ChatSettingsProvider ~ model:", model)
-  
+    useSelector((state) => state.chat.providers[provider].model) ||
+    "No model chosen";
+
   const models = useSelector((state) => state.chat.providers[provider].models);
 
   const { provider: currentProvider, model: currentModel } = useSelector(
@@ -43,7 +43,6 @@ const ChatSettingsProvider = ({ route }) => {
 
   const handleAddKey = () => {
     if (apiKey) {
-      console.log("handleAddKey");
       setKeyModalVisible(false);
       dispatch(addKey({ provider, apiKey }));
     }
@@ -87,7 +86,7 @@ const ChatSettingsProvider = ({ route }) => {
       <Setting
         onPress={() => setKeyModalVisible(true)}
         name="Key"
-        settingValue={key}
+        settingValue={turncateString(key, 20)}
       />
       <Setting
         onPress={() => setModelModalVisible(true)}

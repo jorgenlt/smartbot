@@ -16,7 +16,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getChatResponseThunk, updateMessages } from "./chatSlice";
 
 const ChatInput = ({navigation}) => {
-  const { keys } = useSelector((state) => state.chat);
+  const currentProvider = useSelector((state) => state.chat.providers.current.provider);
+  const key = useSelector(state => state.chat.providers[currentProvider].key);
 
   const [message, setMessage] = useState("");
   const [clickSound, setClickSound] = useState();
@@ -55,7 +56,7 @@ const ChatInput = ({navigation}) => {
     // Dismiss(hide) the keyboard.
     Keyboard.dismiss();
 
-    if (keys.openAi) {
+    if (key) {
       playClickSound();
       if (message) {
         dispatch(getChatResponseThunk(message));

@@ -5,8 +5,8 @@ const model = "gpt-3.5-turbo";
 // const model = 'gpt-4';
 
 // Fetch chat completion with the axios library.
-async function fetchChatCompletion(context, prompt, keys) {
-  const API_KEY = keys.openAi;
+async function fetchChatCompletion(context, prompt, providers) {
+  const API_KEY = providers.openAi.key;
 
   const userMessage = {
     role: "user",

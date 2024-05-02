@@ -26,14 +26,14 @@ export const getChatResponseThunk = createAsyncThunk(
   "chat/getResponse",
   async (message, { getState }) => {
     const {
-      chat: { currentId, conversations, keys },
+      chat: { currentId, conversations, providers },
     } = getState();
 
     if (currentId) {
       const context = conversations[currentId].messages;
 
       try {
-        const response = await fetchChatCompletion(context, message, keys);
+        const response = await fetchChatCompletion(context, message, providers);
         return response;
       } catch (error) {
         return Promise.reject(error.message);
