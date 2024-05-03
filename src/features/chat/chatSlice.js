@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import fetchChatCompletion from "../../api/api";
+import fetchAnthropicChatCompletion from "../../api/anthropicApi";
 import uuid from "react-native-uuid";
 
 const initialState = {
@@ -15,7 +16,12 @@ const initialState = {
     },
     anthropic: {
       key: null,
-      model: null,
+      model: "claude-3-sonnet-20240229",
+      models: [
+        "claude-3-haiku-20240307",
+        "claude-3-sonnet-20240229",
+        "claude-3-opus-20240229",
+      ],
     },
   },
   error: null,
@@ -33,8 +39,13 @@ export const getChatResponseThunk = createAsyncThunk(
       const context = conversations[currentId].messages;
 
       try {
-        const response = await fetchChatCompletion(context, message, providers);
-        return response;
+        if (providers.current.provider === "openAi") {
+          const response = await fetchChatCompletion(context, message, providers);
+          return response;
+        } else {
+          const response = await fetchAnthropicChatCompletion(context, message, providers);
+          return response;
+        }
       } catch (error) {
         return Promise.reject(error.message);
       }
@@ -92,7 +103,7 @@ export const chat = createSlice({
     setProvider: (state, action) => {
       const { provider } = action.payload;
       state.providers.current.provider = provider;
-      state.providers.current.model = state.providers[provider].model
+      state.providers.current.model = state.providers[provider].model;
     },
     resetProviders: (state) => {
       state.providers = initialState.providers;

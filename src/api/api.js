@@ -1,12 +1,11 @@
 import axios from "axios";
 
-const url = "https://api.openai.com/v1/chat/completions";
-const model = "gpt-3.5-turbo";
-// const model = 'gpt-4';
-
+// OpenAI
 // Fetch chat completion with the axios library.
 async function fetchChatCompletion(context, prompt, providers) {
+  const URL = "https://api.openai.com/v1/chat/completions";
   const API_KEY = providers.openAi.key;
+  const MODEL = providers.openAi.model;
 
   const userMessage = {
     role: "user",
@@ -14,7 +13,7 @@ async function fetchChatCompletion(context, prompt, providers) {
   };
 
   const requestBody = {
-    model: model,
+    model: MODEL,
     messages: [...context, userMessage],
   };
 
@@ -26,10 +25,9 @@ async function fetchChatCompletion(context, prompt, providers) {
   };
 
   try {
-    const response = await axios.post(url, requestBody, config);
+    const response = await axios.post(URL, requestBody, config);
 
-    const role = response.data.choices[0].message.role;
-    const content = response.data.choices[0].message.content;
+    const { role, content } = response.data.choices[0].message;
 
     return {
       role,
