@@ -10,11 +10,12 @@ import {
 } from "react-native";
 import { colors } from "../../styles/colors";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
-import { addKey, deleteKey, setProvider } from "./chatSlice";
+import { useState, useMemo } from "react";
+import { addKey, deleteKey, setProvider, setModel } from "./chatSlice";
 import { MaterialIcons } from "@expo/vector-icons";
 import Setting from "../../components/Setting";
 import { turncateString } from "../../common/utils/turncateString";
+import RadioGroup from "react-native-radio-buttons-group";
 
 const ChatSettingsProvider = ({ route }) => {
   const { name, provider } = route.params;
@@ -70,6 +71,24 @@ const ChatSettingsProvider = ({ route }) => {
       dispatch(setProvider({ provider }));
       Alert.alert("", `${name} set as provider`);
     }
+  };
+
+  const [selectedModel, setSelectedModel] = useState();
+
+  const radioButtons = useMemo(() => {
+    return models.map((model, index) => {
+      return {
+        id: model,
+        label: model,
+        value: model,
+        size: 16,
+      };
+    });
+  }, []);
+
+  const handleSetModel = () => {
+    dispatch(setModel({ provider, model: selectedModel }));
+    setModelModalVisible(false);
   };
 
   return (
@@ -132,8 +151,14 @@ const ChatSettingsProvider = ({ route }) => {
           <View style={styles.modalView}>
             <Text style={styles.modalText}>Choose model</Text>
 
+            <RadioGroup
+              radioButtons={radioButtons}
+              onPress={setSelectedModel}
+              selectedId={selectedModel}
+              containerStyle={{ alignItems: "flex-start" }}
+            />
             <View style={styles.modalButtonsWrapper}>
-              <Button title="save" onPress={() => console.log("pressed")} />
+              <Button title="save" onPress={handleSetModel} />
             </View>
           </View>
         </View>
@@ -175,7 +200,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   keyInput: {
-    marginBottom: 20,
     width: "100%",
     backgroundColor: colors.lightGray,
     paddingVertical: 5,
@@ -184,6 +208,7 @@ const styles = StyleSheet.create({
   },
   modalButtonsWrapper: {
     flexDirection: "row",
+    marginTop: 20,
     gap: 10,
   },
 });

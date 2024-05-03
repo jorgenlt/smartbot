@@ -110,6 +110,18 @@ export const chat = createSlice({
     resetProviders: (state) => {
       state.providers = initialState.providers;
     },
+    setModel: (state, action) => {
+      const { provider, model } = action.payload;
+      
+      const currentProvider = state.providers.current.provider;
+
+      if (provider === currentProvider) {
+        state.providers.current.model = model;
+        state.providers[provider].model = model;
+      } else {
+        state.providers[provider].model = model;
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -154,6 +166,7 @@ export const {
   deleteKey,
   setProvider,
   resetProviders,
+  setModel
 } = chat.actions;
 
 export default chat.reducer;
