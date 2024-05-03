@@ -2,7 +2,7 @@ import axios from "axios";
 
 // OpenAI
 // Fetch chat completion with the axios library.
-async function fetchChatCompletion(context, prompt, providers) {
+async function fetchOpenAiChatCompletion(context, prompt, providers) {
   const URL = "https://api.openai.com/v1/chat/completions";
   const API_KEY = providers.openAi.key;
   const MODEL = providers.openAi.model;
@@ -42,4 +42,4 @@ async function fetchChatCompletion(context, prompt, providers) {
   }
 }
 
-export default fetchChatCompletion;
+export default fetchOpenAiChatCompletion;

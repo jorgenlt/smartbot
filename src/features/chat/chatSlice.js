@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import fetchChatCompletion from "../../api/api";
+import fetchOpenAiChatCompletion from "../../api/openAiApi";
 import fetchAnthropicChatCompletion from "../../api/anthropicApi";
 import uuid from "react-native-uuid";
 
@@ -35,20 +35,22 @@ export const getChatResponseThunk = createAsyncThunk(
       chat: { currentId, conversations, providers },
     } = getState();
 
-    if (currentId) {
-      const context = conversations[currentId].messages;
+    if (!currentId) {
+      return; // Exit early if currentId is falsy
+    }
 
-      try {
-        if (providers.current.provider === "openAi") {
-          const response = await fetchChatCompletion(context, message, providers);
-          return response;
-        } else {
-          const response = await fetchAnthropicChatCompletion(context, message, providers);
-          return response;
-        }
-      } catch (error) {
-        return Promise.reject(error.message);
-      }
+    const context = conversations[currentId].messages;
+    const provider = providers.current.provider;
+
+    try {
+      const response =
+        provider === "openAi"
+          ? await fetchOpenAiChatCompletion(context, message, providers)
+          : await fetchAnthropicChatCompletion(context, message, providers);
+
+      return response;
+    } catch (error) {
+      return Promise.reject(error.message);
     }
   }
 );
