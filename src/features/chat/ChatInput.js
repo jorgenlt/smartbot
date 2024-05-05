@@ -14,10 +14,15 @@ import { Entypo } from "@expo/vector-icons";
 import { colors } from "../../styles/colors";
 import { useDispatch, useSelector } from "react-redux";
 import { getChatResponseThunk, updateMessages } from "./chatSlice";
+import { turncateString } from "../../common/utils/turncateString";
 
-const ChatInput = ({navigation}) => {
-  const currentProvider = useSelector((state) => state.chat.providers.current.provider);
-  const key = useSelector(state => state.chat.providers[currentProvider].key);
+const ChatInput = ({ navigation }) => {
+  const {
+    provider: currentProvider,
+    name,
+    model,
+  } = useSelector((state) => state.chat.providers.current);
+  const key = useSelector((state) => state.chat.providers[currentProvider].key);
 
   const [message, setMessage] = useState("");
   const [clickSound, setClickSound] = useState();
@@ -77,14 +82,14 @@ const ChatInput = ({navigation}) => {
   const handleKeyError = () => {
     setModalVisible(false);
     navigation.navigate("Settings");
-  }
+  };
 
   return (
     <View style={styles.inputWrapper}>
       <TextInput
         style={styles.input}
-        placeholder="Message Smartbot..."
-        placeholderTextColor={colors.text}
+        placeholder={`${name} (${turncateString(model, 30)})`}
+        placeholderTextColor={colors.gray}
         color={colors.text}
         value={message}
         onChangeText={(value) => setMessage(value)}
@@ -111,7 +116,9 @@ const ChatInput = ({navigation}) => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>No key found. Go to settings to choose provider and add key.</Text>
+            <Text style={styles.modalText}>
+              No key found. Go to settings to choose provider and add key.
+            </Text>
             <Button title="settings" onPress={handleKeyError} />
           </View>
         </View>

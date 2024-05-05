@@ -8,13 +8,15 @@ const initialState = {
   currentId: null,
   status: "idle",
   providers: {
-    current: { provider: "openAi", model: "gpt-3.5-turbo" },
+    current: { name: "OpenAI", provider: "openAi", model: "gpt-3.5-turbo" },
     openAi: {
+      name: "OpenAI",
       key: null,
       model: "gpt-3.5-turbo",
       models: ["gpt-3.5-turbo", "gpt-4-turbo"],
     },
     anthropic: {
+      name: "Anthropic",
       key: null,
       model: "claude-3-sonnet-20240229",
       models: [
@@ -104,6 +106,7 @@ export const chat = createSlice({
     },
     setProvider: (state, action) => {
       const { provider } = action.payload;
+      state.providers.current.name = state.providers[provider].name
       state.providers.current.provider = provider;
       state.providers.current.model = state.providers[provider].model;
     },
