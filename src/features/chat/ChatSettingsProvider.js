@@ -20,25 +20,24 @@ import RadioGroup from "react-native-radio-buttons-group";
 const ChatSettingsProvider = ({ route }) => {
   const { name, provider } = route.params;
 
-  const key =
-    useSelector((state) => state.chat.providers[provider].key) || "Add key";
-
-  const model =
-    useSelector((state) => state.chat.providers[provider].model) ||
-    "No model chosen";
-
-  const models = useSelector((state) => state.chat.providers[provider].models);
-
-  const { provider: currentProvider, model: currentModel } = useSelector(
-    (state) => state.chat.providers.current
+  // Getting data from state
+  const currentProvider = useSelector(
+    (state) => state.chat.providers.current.provider
   );
-
+  const providerData = useSelector((state) => state.chat.providers[provider]);
+  const { models, model: chosenModel } = providerData;
+  const key = providerData.key || "Add key";
   const isCurrent = currentProvider === provider;
 
+  // Modals state
   const [keyModalVisible, setKeyModalVisible] = useState(false);
   const [modelModalVisible, setModelModalVisible] = useState(false);
 
+  // API key state
   const [apiKey, setApiKey] = useState("");
+
+  // Select model state
+  const [selectedModel, setSelectedModel] = useState(chosenModel);
 
   const dispatch = useDispatch();
 
@@ -73,10 +72,8 @@ const ChatSettingsProvider = ({ route }) => {
     }
   };
 
-  const [selectedModel, setSelectedModel] = useState();
-
   const radioButtons = useMemo(() => {
-    return models.map((model, index) => {
+    return models.map((model) => {
       return {
         id: model,
         label: model,
@@ -101,7 +98,6 @@ const ChatSettingsProvider = ({ route }) => {
             : `Set ${name} as provider`
         }
       />
-
       <Setting
         onPress={() => setKeyModalVisible(true)}
         name="Key"
@@ -110,9 +106,10 @@ const ChatSettingsProvider = ({ route }) => {
       <Setting
         onPress={() => setModelModalVisible(true)}
         name="Model"
-        settingValue={isCurrent && currentModel ? currentModel : model}
+        settingValue={chosenModel}
       />
 
+      {/* Modals */}
       <Modal
         animationType="fade"
         transparent={true}
@@ -138,7 +135,6 @@ const ChatSettingsProvider = ({ route }) => {
           </View>
         </View>
       </Modal>
-
       <Modal
         animationType="fade"
         transparent={true}
