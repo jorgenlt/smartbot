@@ -12,7 +12,7 @@ import Conversations from "./src/features/chat/Conversations";
 import Settings from "./src/components/Settings";
 import ChatSettings from "./src/features/chat/ChatSettings";
 import NewChat from "./src/features/chat/NewChat";
-import ChatSettingsProvider from './src/features/chat/ChatSettingsProvider'
+import ChatSettingsProvider from "./src/features/chat/ChatSettingsProvider";
 import { colors, navTheme, base } from "./src/styles/colors";
 
 // Navigation
@@ -37,12 +37,12 @@ const SettingsStackScreen = () => {
       <SettingsStack.Screen
         name="OpenAI"
         component={ChatSettingsProvider}
-        initialParams={{ name: "OpenAI", provider: "openAi"}}
+        initialParams={{ name: "OpenAI", provider: "openAi" }}
       ></SettingsStack.Screen>
       <SettingsStack.Screen
         name="Anthropic"
         component={ChatSettingsProvider}
-        initialParams={{ name: "Anthropic", provider: "anthropic"}}
+        initialParams={{ name: "Anthropic", provider: "anthropic" }}
       ></SettingsStack.Screen>
     </SettingsStack.Navigator>
   );
