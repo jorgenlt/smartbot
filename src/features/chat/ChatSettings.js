@@ -7,20 +7,24 @@ const ChatSettings = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const handleResetProviders = () => {
-    Alert.alert("Reset to default providers settings?", "This will delete saved keys and chosen provider/model.", [
-      {
-        text: "Cancel",
-        style: "cancel",
-      },
-      {
-        text: "Reset",
-        onPress: () => {
-          dispatch(resetProviders());
-          Alert.alert("", "Provider settings was set to default");
+    Alert.alert(
+      "Reset to default providers settings?",
+      "This will delete saved keys and chosen provider/model.",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
         },
-      },
-    ]);
-  }
+        {
+          text: "Reset",
+          onPress: () => {
+            dispatch(resetProviders());
+            Alert.alert("", "Provider settings was set to default");
+          },
+        },
+      ]
+    );
+  };
 
   return (
     <View style={styles.settingsWrapper}>
@@ -35,9 +39,11 @@ const ChatSettings = ({ navigation }) => {
         submenu={true}
       />
       <Setting
-        onPress={handleResetProviders}
-        name="Reset to default"
+        onPress={() => navigation.navigate("Mistral")}
+        name="Mistral"
+        submenu={true}
       />
+      <Setting onPress={handleResetProviders} name="Reset to default" />
     </View>
   );
 };

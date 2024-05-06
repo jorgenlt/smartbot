@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import fetchOpenAiChatCompletion from "../../api/openAiApi";
 import fetchAnthropicChatCompletion from "../../api/anthropicApi";
+import fetchMistralChatCompletion from "../../api/mistralApi";
 import uuid from "react-native-uuid";
 
 const initialState = {
@@ -25,6 +26,12 @@ const initialState = {
         "claude-3-opus-20240229",
       ],
     },
+    mistral: {
+      name: "Mistral",
+      key: null,
+      model: "mistral-small-latest",
+      models: ["mistral-small-latest", "mistral-large-latest"],
+    },
   },
   error: null,
 };
@@ -45,11 +52,34 @@ export const getChatResponseThunk = createAsyncThunk(
     const provider = providers.current.provider;
 
     try {
-      const response =
-        provider === "openAi"
-          ? await fetchOpenAiChatCompletion(context, message, providers)
-          : await fetchAnthropicChatCompletion(context, message, providers);
+      let response;
 
+      switch (provider) {
+        case "openAi":
+          response = await fetchOpenAiChatCompletion(
+            context,
+            message,
+            providers
+          );
+          break;
+        case "anthropic":
+          response = await fetchAnthropicChatCompletion(
+            context,
+            message,
+            providers
+          );
+          break;
+        case "mistral":
+          response = await fetchMistralChatCompletion(
+            context,
+            message,
+            providers
+          );
+          break;
+        default:
+          throw new Error("Unsupported chat completion provider: " + provider);
+      }
+      
       return response;
     } catch (error) {
       return Promise.reject(error.message);
@@ -106,7 +136,7 @@ export const chat = createSlice({
     },
     setProvider: (state, action) => {
       const { provider } = action.payload;
-      state.providers.current.name = state.providers[provider].name
+      state.providers.current.name = state.providers[provider].name;
       state.providers.current.provider = provider;
       state.providers.current.model = state.providers[provider].model;
     },
@@ -115,7 +145,7 @@ export const chat = createSlice({
     },
     setModel: (state, action) => {
       const { provider, model } = action.payload;
-      
+
       const currentProvider = state.providers.current.provider;
 
       if (provider === currentProvider) {
@@ -169,7 +199,7 @@ export const {
   deleteKey,
   setProvider,
   resetProviders,
-  setModel
+  setModel,
 } = chat.actions;
 
 export default chat.reducer;
