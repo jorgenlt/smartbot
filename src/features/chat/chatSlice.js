@@ -14,7 +14,7 @@ const initialState = {
       name: "OpenAI",
       key: null,
       model: "gpt-3.5-turbo",
-      models: ["gpt-3.5-turbo", "gpt-4-turbo"],
+      models: ["gpt-3.5-turbo", "gpt-4o"],
     },
     anthropic: {
       name: "Anthropic",
@@ -79,7 +79,7 @@ export const getChatResponseThunk = createAsyncThunk(
         default:
           throw new Error("Unsupported chat completion provider: " + provider);
       }
-      
+
       return response;
     } catch (error) {
       return Promise.reject(error.message);
@@ -141,7 +141,27 @@ export const chat = createSlice({
       state.providers.current.model = state.providers[provider].model;
     },
     resetProviders: (state) => {
-      state.providers = initialState.providers;
+      // Preserve the current keys
+      const openAiKey = state.providers.openAi.key;
+      const anthropicKey = state.providers.anthropic.key;
+      const mistralKey = state.providers.mistral.key;
+
+      // Reset providers to initial state
+      state.providers = {
+        ...initialState.providers,
+        openAi: {
+          ...initialState.providers.openAi,
+          key: openAiKey,
+        },
+        anthropic: {
+          ...initialState.providers.anthropic,
+          key: anthropicKey,
+        },
+        mistral: {
+          ...initialState.providers.mistral,
+          key: mistralKey,
+        },
+      };
     },
     setModel: (state, action) => {
       const { provider, model } = action.payload;

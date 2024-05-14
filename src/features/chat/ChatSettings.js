@@ -9,7 +9,7 @@ const ChatSettings = ({ navigation }) => {
   const handleResetProviders = () => {
     Alert.alert(
       "Reset to default providers settings?",
-      "This will delete saved keys and chosen provider/model.",
+      "Saved keys will not be deleted.",
       [
         {
           text: "Cancel",
