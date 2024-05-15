@@ -5,10 +5,11 @@ import {
   View,
   Pressable,
   Alert,
+  TextInput,
 } from "react-native";
+import { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateCurrentId, deleteConversation } from "./chatSlice";
-import { useRef } from "react";
 import { format, formatDistance } from "date-fns";
 import { capitalizeFirstWord } from "../../common/utils/capitalizeFirstWord";
 import { findObject } from "../../common/utils/findObject";
@@ -19,15 +20,9 @@ const Conversations = ({ navigation }) => {
 
   const dispatch = useDispatch();
 
-  let ids = [];
+  const [filterKeyword, setFilterKeyword] = useState("");
 
-  if (conversations) {
-    for (const key in conversations) {
-      if (conversations[key]) {
-        ids.push(key);
-      }
-    }
-  }
+  const ids = conversations ? Object.keys(conversations) : [];
 
   const handleChangeConversation = (id) => {
     dispatch(updateCurrentId(id));
@@ -47,10 +42,23 @@ const Conversations = ({ navigation }) => {
     ]);
   };
 
+  const handleClearFilter = () => {
+    setFilterKeyword("");
+  };
+
+  const filterConversations = (id) => {
+    const conversation = conversations[id].messages;
+    const keyword = filterKeyword.toLowerCase();
+
+    return conversation.some((message) =>
+      message.content.toLowerCase().includes(keyword)
+    );
+  };
+
   let conversationElements;
 
   if (ids) {
-    conversationElements = ids.map((id) => {
+    conversationElements = ids.filter(filterConversations).map((id) => {
       // Formatting date
       const date = conversations?.[id]?.created;
       const formatedDate = format(date, "LLLL d, y");
@@ -96,7 +104,7 @@ const Conversations = ({ navigation }) => {
   const scrollRef = useRef();
 
   return (
-    <View style={{ width: "100%", height: "100%" }}>
+    <View style={styles.conversationsWrapper}>
       <ScrollView
         contentContainerStyle={styles.scrollView}
         ref={scrollRef}
@@ -106,6 +114,25 @@ const Conversations = ({ navigation }) => {
       >
         <View>{conversationElements}</View>
       </ScrollView>
+      <View style={styles.filterWrapper}>
+        <TextInput
+          style={styles.filterInput}
+          placeholder="Filter conversations..."
+          value={filterKeyword}
+          onChangeText={setFilterKeyword}
+        />
+
+        {filterKeyword && (
+          <View style={styles.clearWrapper}>
+            <Pressable
+              onPress={handleClearFilter}
+              style={styles.pressableClearBtn}
+            >
+              <Text style={styles.pressableClearBtn.text}>CLEAR</Text>
+            </Pressable>
+          </View>
+        )}
+      </View>
     </View>
   );
 };
@@ -113,6 +140,10 @@ const Conversations = ({ navigation }) => {
 export default Conversations;
 
 const styles = StyleSheet.create({
+  conversationsWrapper: {
+    width: "100%",
+    height: "100%",
+  },
   scrollView: {},
   conversation: {
     borderBottomColor: colors.lightGray,
@@ -128,5 +159,33 @@ const styles = StyleSheet.create({
   },
   dateText: {
     color: colors.gray,
+  },
+  filterWrapper: {
+    position: "relative",
+    shadowColor: "black",
+    elevation: 1,
+  },
+  filterInput: {
+    borderRadius: 4,
+    padding: 10,
+  },
+  clearWrapper: {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    height: "100%",
+    paddingVertical: 10,
+    paddingRight: 10,
+    width: 80,
+  },
+  pressableClearBtn: {
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    text: {
+      fontWeight: "bold",
+      color: "black",
+    },
   },
 });
