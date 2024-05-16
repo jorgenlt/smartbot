@@ -14,12 +14,14 @@ import { format, formatDistance } from "date-fns";
 import { capitalizeFirstWord } from "../../common/utils/capitalizeFirstWord";
 import { findObject } from "../../common/utils/findObject";
 import { colors } from "../../styles/colors";
+import { FontAwesome } from "@expo/vector-icons";
 
 const Conversations = ({ navigation }) => {
   const { conversations } = useSelector((state) => state.chat);
 
   const dispatch = useDispatch();
 
+  const [filterIsOpen, setFilterIsOpen] = useState(false);
   const [filterKeyword, setFilterKeyword] = useState("");
 
   const ids = conversations ? Object.keys(conversations) : [];
@@ -40,6 +42,10 @@ const Conversations = ({ navigation }) => {
         onPress: () => dispatch(deleteConversation(id)),
       },
     ]);
+  };
+
+  const handleToggleFilter = () => {
+    setFilterIsOpen(!filterIsOpen);
   };
 
   const handleClearFilter = () => {
@@ -114,25 +120,33 @@ const Conversations = ({ navigation }) => {
       >
         <View>{conversationElements}</View>
       </ScrollView>
-      <View style={styles.filterWrapper}>
-        <TextInput
-          style={styles.filterInput}
-          placeholder="Filter conversations..."
-          value={filterKeyword}
-          onChangeText={setFilterKeyword}
-        />
 
-        {filterKeyword && (
+      {!filterIsOpen && (
+        <Pressable style={styles.searchIcon} onPress={handleToggleFilter}>
+          <FontAwesome name="search" size={32} color="black" />
+        </Pressable>
+      )}
+
+      {filterIsOpen && (
+        <View style={styles.filterWrapper}>
+          <TextInput
+            style={styles.filterInput}
+            placeholder="Filter conversations..."
+            value={filterKeyword}
+            onChangeText={setFilterKeyword}
+          />
           <View style={styles.clearWrapper}>
             <Pressable
-              onPress={handleClearFilter}
+              onPress={filterKeyword ? handleClearFilter : handleToggleFilter}
               style={styles.pressableClearBtn}
             >
-              <Text style={styles.pressableClearBtn.text}>CLEAR</Text>
+              <Text style={styles.pressableClearBtn.text}>
+                {filterKeyword ? "CLEAR" : "CLOSE"}
+              </Text>
             </Pressable>
           </View>
-        )}
-      </View>
+        </View>
+      )}
     </View>
   );
 };
@@ -162,8 +176,13 @@ const styles = StyleSheet.create({
   },
   filterWrapper: {
     position: "relative",
-    shadowColor: "black",
-    elevation: 1,
+    borderTopColor: colors.lightGray,
+    borderTopWidth: 1,
+  },
+  searchIcon: {
+    position: "absolute",
+    bottom: 16,
+    right: 16,
   },
   filterInput: {
     borderRadius: 4,
