@@ -315,7 +315,7 @@ export default chat.reducer;
 </p>
 
 ```.javascript
-// src/api/anthropicAPI.js
+// src/api/anthropicApi.js
 
 import Anthropic from "@anthropic-ai/sdk";
 
