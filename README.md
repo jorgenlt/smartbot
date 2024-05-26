@@ -1,18 +1,16 @@
-# SmartBot - Powered by ChatGPT
+# SmartBot - Chat with assistants from OpenAI, Anthropic and Mistral
 ## A native Android app created with React Native on the Expo framework.
 
 ## Building and Running the App
-Follow the steps below to build and run the SmartBot app (requires Android Studio SDK installed):
+Follow the steps below to build and run the SmartBot app (requires Android Studio SDK):
 
 1. Install the app dependencies by running `npm install`.
 2. Test the app using `npx expo start`.
 3. Build the .apk file by running `eas build -p android --profile preview`.
 4. Scan QR code with your phone to download the app
+5. Go to Settings to enter your API key of the providers you wish to use.
 
 </br>
-
-<p>A native Android app powered by ChatGPT.</p>
-<p><a href="https://github.com/jorgenlt/smartbot" target="_blank">View on GitHub</a></p>
 
 <div>
   <img className="smartbot-mobile" src="https://github.com/jorgenlt/smartbot/assets/108831121/bc8e0a64-74c3-42ee-8b6b-c98481c1d2ed" alt="Smartbot screenshot" width="300px" />
@@ -25,7 +23,8 @@ Follow the steps below to build and run the SmartBot app (requires Android Studi
 
 <h2>Features</h2>
 <ul>
-  <li>Acess to a powerful conversational AI with the <a href="https://platform.openai.com/docs/introduction" target="_blank">OpenAI API</a></li>
+  <li>Chat with assistants from OpenAi, Anthropic and Mistral</li>
+  <li>Switch between providers and models</li>
   <li>Create, browse and delete conversations</li>
   <li>Continue an earlier conversation</li>
   <li>Copy a message to clipboard</li>
@@ -83,48 +82,109 @@ Follow the steps below to build and run the SmartBot app (requires Android Studi
 ```.javascript
 // src/features/chat/chatSlice.js
 
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import fetchChatCompletion from '../../api/api'
-import uuid from 'react-native-uuid'
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import fetchOpenAiChatCompletion from "../../api/openAiApi";
+import fetchAnthropicChatCompletion from "../../api/anthropicApi";
+import fetchMistralChatCompletion from "../../api/mistralApi";
+import uuid from "react-native-uuid";
 
 const initialState = {
   conversations: {},
   currentId: null,
-  status: 'idle',
-  error: null
+  status: "idle",
+  providers: {
+    current: { name: "OpenAI", provider: "openAi", model: "gpt-3.5-turbo" },
+    openAi: {
+      name: "OpenAI",
+      key: null,
+      model: "gpt-3.5-turbo",
+      models: ["gpt-3.5-turbo", "gpt-4o"],
+    },
+    anthropic: {
+      name: "Anthropic",
+      key: null,
+      model: "claude-3-sonnet-20240229",
+      models: [
+        "claude-3-haiku-20240307",
+        "claude-3-sonnet-20240229",
+        "claude-3-opus-20240229",
+      ],
+    },
+    mistral: {
+      name: "Mistral",
+      key: null,
+      model: "mistral-small-latest",
+      models: ["mistral-small-latest", "mistral-large-latest"],
+    },
+  },
+  error: null,
 };
 
 // Get chat completion from ChatGPT (OpenAI) using async thunk
 export const getChatResponseThunk = createAsyncThunk(
-  'chat/getResponse',
+  "chat/getResponse",
   async (message, { getState }) => {
-    const { chat: { currentId, conversations } } = getState();
+    const {
+      chat: { currentId, conversations, providers },
+    } = getState();
 
-    if (currentId) {
-      const context = conversations[currentId].messages;
-  
-      try {
-        const response = await fetchChatCompletion(context, message);
-        return response;
-      } catch (error) {
-        return Promise.reject(error.message);
-      };
-    };
+    if (!currentId) {
+      return; // Exit early if currentId is falsy
+    }
+
+    const context = conversations[currentId].messages;
+    const provider = providers.current.provider;
+
+    try {
+      let response;
+
+      switch (provider) {
+        case "openAi":
+          response = await fetchOpenAiChatCompletion(
+            context,
+            message,
+            providers
+          );
+          break;
+        case "anthropic":
+          response = await fetchAnthropicChatCompletion(
+            context,
+            message,
+            providers
+          );
+          break;
+        case "mistral":
+          response = await fetchMistralChatCompletion(
+            context,
+            message,
+            providers
+          );
+          break;
+        default:
+          throw new Error("Unsupported chat completion provider: " + provider);
+      }
+
+      return response;
+    } catch (error) {
+      return Promise.reject(error.message);
+    }
   }
 );
 
 // Chat slice of the Redux store
 export const chat = createSlice({
-  name: 'chat',
+  name: "chat",
   initialState,
   reducers: {
-    addConversation: state => {
+    addConversation: (state) => {
       const id = uuid.v4();
 
       state.currentId = id;
       state.conversations[id] = {
         created: Date.now(),
-        messages: [{"content": "Hello! How can I assist you today?", "role": "assistant"}]
+        messages: [
+          { content: "Hello! How can I assist you today?", role: "assistant" },
+        ],
       };
     },
     updateMessages: (state, action) => {
@@ -142,24 +202,74 @@ export const chat = createSlice({
 
       state.currentId = null;
     },
-    deleteConversations: state => {
+    deleteConversations: (state) => {
       state.conversations = {};
+      state.keys = {};
       state.currentId = null;
+    },
+    deleteKey: (state, action) => {
+      const { provider } = action.payload;
+      state.providers[provider].key = null;
     },
     updateCurrentId: (state, action) => {
       state.currentId = action.payload;
-    }
+    },
+    addKey: (state, action) => {
+      const { provider, apiKey } = action.payload;
+      state.providers[provider].key = apiKey;
+    },
+    setProvider: (state, action) => {
+      const { provider } = action.payload;
+      state.providers.current.name = state.providers[provider].name;
+      state.providers.current.provider = provider;
+      state.providers.current.model = state.providers[provider].model;
+    },
+    resetProviders: (state) => {
+      // Preserve the current keys
+      const openAiKey = state.providers.openAi.key;
+      const anthropicKey = state.providers.anthropic.key;
+      const mistralKey = state.providers.mistral.key;
+
+      // Reset providers to initial state
+      state.providers = {
+        ...initialState.providers,
+        openAi: {
+          ...initialState.providers.openAi,
+          key: openAiKey,
+        },
+        anthropic: {
+          ...initialState.providers.anthropic,
+          key: anthropicKey,
+        },
+        mistral: {
+          ...initialState.providers.mistral,
+          key: mistralKey,
+        },
+      };
+    },
+    setModel: (state, action) => {
+      const { provider, model } = action.payload;
+
+      const currentProvider = state.providers.current.provider;
+
+      if (provider === currentProvider) {
+        state.providers.current.model = model;
+        state.providers[provider].model = model;
+      } else {
+        state.providers[provider].model = model;
+      }
+    },
   },
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
       // Case when fetching chat response is pending
-      .addCase(getChatResponseThunk.pending, state => {
-        state.status = 'loading';
+      .addCase(getChatResponseThunk.pending, (state) => {
+        state.status = "loading";
       })
       // Case where getting chat response is successful (fulfilled)
       .addCase(getChatResponseThunk.fulfilled, (state, action) => {
         state.error = null;
-        state.status = 'idle';
+        state.status = "idle";
 
         const { currentId } = state;
         const { content, role } = action.payload;
@@ -167,29 +277,34 @@ export const chat = createSlice({
         if (currentId && content && role) {
           const message = {
             content,
-            role
+            role,
           };
-          
+
           // Push the fetched message into the messages of current conversation
           state.conversations[currentId]?.messages.push(message);
-        };
+        }
       })
       // Case where getting chat response failed
       .addCase(getChatResponseThunk.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = "failed";
         state.error = action.error.message;
       });
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { 
+export const {
   updateMessages,
-  deleteConversation, 
+  deleteConversation,
   deleteConversations,
   addConversation,
-  updateCurrentId
-} = chat.actions
+  updateCurrentId,
+  addKey,
+  deleteKey,
+  setProvider,
+  resetProviders,
+  setModel,
+} = chat.actions;
 
 export default chat.reducer;
 ```
@@ -200,131 +315,49 @@ export default chat.reducer;
 </p>
 
 ```.javascript
-// src/api/api.js
+// src/api/anthropicAPI.js
 
-import axios from 'axios';
+import Anthropic from "@anthropic-ai/sdk";
 
-// Setting up api key, base url and model info
-const API_KEY = process.env.EXPO_PUBLIC_API_KEY;
-const url = 'https://api.openai.com/v1/chat/completions';
-const model = 'gpt-3.5-turbo';
-// const model = 'gpt-4';
-
-// Fetch chat completion with the axios library.
-async function fetchChatCompletion(context, prompt) {
+async function fetchAnthropicChatCompletion(context, prompt, providers) {
+  const { key: API_KEY, model: MODEL } = providers.anthropic;
 
   const userMessage = {
-    role: 'user',
-    content: prompt
+    role: "user",
+    content: prompt,
   };
 
-  const requestBody = {
-    model: model,
-    messages: [
-      ...context, 
-      userMessage
-    ]
-  };
+  const messages = [...context, userMessage].slice(1); // Anthropic API messages must start with a message with the role "user", remove the first item in the array
 
-  const config = {
-    headers: {
-      'Authorization': \`Bearer \${API_KEY}\`,
-      'Content-Type': 'application/json'
-    }
-  };
+  const anthropic = new Anthropic({
+    apiKey: API_KEY,
+  });
 
   try {
-    const response = await axios.post(url, requestBody, config);
+    const msg = await anthropic.messages.create({
+      model: MODEL,
+      max_tokens: 3500,
+      messages: messages,
+    });
 
-    const role = response.data.choices[0].message.role;
-    const content = response.data.choices[0].message.content;
+    const role = msg.role;
+
+    const content = msg.content[0].text;
 
     return {
       role,
-      content
-    }
-    
+      content,
+    };
   } catch (error) {
-    console.error('Error in fetchChatCompletion:', error.message || error.response.data.error?.message);
+    console.error(
+      "Error in fetchAnthropicChatCompletion:",
+      error.message || error.response.data.error?.message
+    );
     throw error;
   }
 }
 
-export default fetchChatCompletion;
-
-```
-
-<h3>App.js</h3>
-<p></p>
-
-```.javascript
-// App.js
-
-import { NavigationContainer } from '@react-navigation/native'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Ionicons from '@expo/vector-icons/Ionicons'
-import { store, persistor } from './src/app/store'
-import { Provider } from 'react-redux'
-import { PersistGate } from 'redux-persist/integration/react'
-import { StatusBar } from 'expo-status-bar'
-import { Text } from 'react-native'
-import Chat from './src/features/chat/Chat'
-import Conversations from './src/features/chat/Conversations'
-import Settings from './src/components/Settings'
-import NewChat from './src/features/chat/NewChat'
-import { colors, navTheme, base } from './src/styles/colors'
-
-// Navigation
-const Tab = createBottomTabNavigator();
-
-const App = () => {
-  return (
-    <Provider store={store}>
-      <StatusBar 
-        backgroundColor={base.statusBarBg}
-        // barStyle='light-content'
-        style="light"
-      />
-      <PersistGate 
-        loading={<Text>Loading...</Text>} 
-        persistor={persistor} 
-      >
-        <NavigationContainer theme={navTheme} >
-          <Tab.Navigator
-            screenOptions={({ route }) => ({
-              headerShown: true,
-              tabBarShowLabel: true,
-              tabBarIcon: ({ focused, color, size }) => {
-                let iconName;
-    
-                if (route.name === 'Chat') {
-                  iconName = focused ? 'chatbox-ellipses' : 'chatbox-ellipses-outline';
-                } else if (route.name === 'Conversations') {
-                  iconName = focused ? 'list' : 'list-outline';
-                } else if (route.name === 'Settings') {
-                  iconName = focused ? 'settings' : 'settings-outline';
-                } else if (route.name === 'New Chat') {
-                  iconName = focused ? 'add' : 'add-outline';
-                }
-
-                return <Ionicons name={iconName} size={size} color={color} />;
-              },
-              tabBarActiveTintColor: navTheme.tabBarActiveTintColor,
-              tabBarInactiveTintColor: navTheme.tabBarInactiveTintColor,
-            })}
-          >
-            <Tab.Screen name="Chat" component={Chat} />
-            <Tab.Screen name="Conversations" component={Conversations} />
-            <Tab.Screen name="New Chat" component={NewChat}/>
-            <Tab.Screen name="Settings" component={Settings} />
-          </Tab.Navigator>
-        </NavigationContainer>
-      </PersistGate>
-    </Provider>
-  );
-}
-
-export default App;
+export default fetchAnthropicChatCompletion;
 ```
 
 <h3>Displaying messages</h3>
@@ -540,7 +573,8 @@ const styles = StyleSheet.create({
 <h2>Upcoming features</h2>
 <ul>
   <li>Dark mode</li>
-  <li>Personal account with authentication.</li>
-  <li>Database storage of conversations (Firebase)</li>
-  <li>Option to add OpenAI API key manually and change model.</li>
+  <li><s>Enter API key in app</s> ✅</li>
+  <li><s>Switch between models</s> ✅</li>
+  <li><s>Add Antropic as provider</s> ✅</li>
+  <li><s>Add Mistral as provider</s> ✅</li>
 </ul>
