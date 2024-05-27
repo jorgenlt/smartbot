@@ -35,9 +35,7 @@ Follow the steps below to build and run the SmartBot app (requires Android Studi
 <h2>Technologies</h2>
 <p>
   Smartbot is a native mobile app for Android that was built using <a href="https://reactnative.dev/" target="_blank">React Native</a> and 
-  the <a href="https://expo.dev/" target="_blank">Expo framework</a>. The app connects to 
-  the <a href="https://platform.openai.com/docs/introduction" target="_blank">OpenAI API</a> to utilize its artificial intelligence 
-  capabilities. To manage state and actions across the app, it uses <a href="https://redux-toolkit.js.org/" target="_blank">Redux Toolkit</a>. When 
+  the <a href="https://expo.dev/" target="_blank">Expo framework</a>. The app connects to one of the AI assistant providers chosen by the user. To manage state and actions across the app, it uses <a href="https://redux-toolkit.js.org/" target="_blank">Redux Toolkit</a>. When 
   the app needs to get data asynchronously from the API, it uses the <a href="https://redux.js.org/usage/writing-logic-thunks" target="_blank">Redux Thunk</a> middleware. 
   The app also utilizes the <a href="https://axios-http.com/" target="_blank">Axios</a> library for API requests, 
   the <a href="https://date-fns.org/" target="_blank">Date-fns</a> library for working with dates and times, 
