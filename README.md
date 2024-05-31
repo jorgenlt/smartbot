@@ -1,7 +1,9 @@
 # SmartBot - Chat with assistants from OpenAI, Anthropic and Mistral
+
 ## A native Android app created with React Native on the Expo framework.
 
 ## Building and Running the App
+
 Follow the steps below to build and run the SmartBot app (requires Android Studio SDK):
 
 1. Install the app dependencies by running `npm install`.
@@ -13,12 +15,18 @@ Follow the steps below to build and run the SmartBot app (requires Android Studi
 </br>
 
 <div>
-  <img className="smartbot-mobile" src="https://github.com/jorgenlt/smartbot/assets/108831121/bc8e0a64-74c3-42ee-8b6b-c98481c1d2ed" alt="Smartbot screenshot" width="300px" />
-  <img className="smartbot-mobile" src="https://github.com/jorgenlt/smartbot/assets/108831121/06d921df-317b-45b7-aae9-ddac6738b11b" alt="Smartbot screenshot" width="300px" />
+  <img className="smartbot-mobile" src="https://jorgenlt.no/images/smartbot-mobile-frame4.png" alt="Smartbot screenshot" width="300px" />
+  <img className="smartbot-mobile" src="https://jorgenlt.no/images/smartbot-mobile-frame2.png" alt="Smartbot screenshot" width="300px" />
 </div>
+</br>
 <div>
-  <img className="smartbot-mobile" src="https://github.com/jorgenlt/smartbot/assets/108831121/babe6088-a9a4-4c87-aac9-eadb8fd723a1" alt="Smartbot screenshot" width="300px" />
-  <img className="smartbot-mobile" src="https://github.com/jorgenlt/smartbot/assets/108831121/1c154398-c493-4701-907e-e9543650be3f" alt="Smartbot screenshot" width="300px" />
+  <img className="smartbot-mobile" src="https://jorgenlt.no/images/smartbot-mobile-frame1.png" alt="Smartbot screenshot" width="300px" />
+  <img className="smartbot-mobile" src="https://jorgenlt.no/images/smartbot-mobile-frame3.png" alt="Smartbot screenshot" width="300px" />
+</div>
+</br>
+<div>
+  <img className="smartbot-mobile" src="https://jorgenlt.no/images/smartbot-mobile-frame5.png" alt="Smartbot screenshot" width="300px" />
+  <img className="smartbot-mobile" src="https://jorgenlt.no/images/smartbot-mobile-frame6.png" alt="Smartbot screenshot" width="300px" />
 </div>
 
 <h2>Features</h2>
@@ -307,7 +315,7 @@ export const {
 
 export default chat.reducer;
 ```
-  
+
 <h3>API call</h3>
 <p>
   Chat completions API call.
@@ -369,10 +377,10 @@ export default fetchAnthropicChatCompletion;
 
 import { useRef, useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { 
-  StyleSheet, 
-  Text, 
-  View, 
+import {
+  StyleSheet,
+  Text,
+  View,
   ScrollView,
   Pressable,
   Share,
@@ -397,7 +405,7 @@ const Messages = () => {
   if (date) {
     formatedDate = format(date, 'LLLL d, y');
   }
-  
+
   // Function to copy text(messages) to clipboard.
   const handleCopyToClipboard = async text => {
     await Clipboard.setStringAsync(text);
@@ -415,18 +423,18 @@ const Messages = () => {
       Alert.alert(error.message);
     }
   };
-  
+
   // Creating the message elements to render in the ScrollView.
   let messageElements;
 
   if (messages) {
     messageElements = messages.map(message => {
       return (
-        <View 
-        style={message.role === 'assistant' ? styles.messageWrapperAssistant : styles.messageWrapperUser} 
-        key={uuid.v4()} 
+        <View
+        style={message.role === 'assistant' ? styles.messageWrapperAssistant : styles.messageWrapperUser}
+        key={uuid.v4()}
         >
-          <Pressable 
+          <Pressable
             style={message.role === 'assistant' ? styles.messageAssistant : styles.messageUser}
             onLongPress={() => handleShare(message.content)}
             onPress={() => handleCopyToClipboard(message.content)}
@@ -439,7 +447,7 @@ const Messages = () => {
       )
     });
   }
-  
+
   // Ref for ScrollView
   const scrollRef = useRef();
 
@@ -455,7 +463,7 @@ const Messages = () => {
 
      // Cleanup
      return typingSound ? () => {
-      typingSound.unloadAsync(); 
+      typingSound.unloadAsync();
     } : undefined;
   }, []);
 
@@ -478,7 +486,7 @@ const Messages = () => {
 
   return (
     <>
-      <ScrollView 
+      <ScrollView
         contentContainerStyle={styles.messagesWrapper}
         ref={scrollRef}
         onContentSizeChange={() => scrollRef.current.scrollToEnd({ animated: false })}
@@ -491,7 +499,7 @@ const Messages = () => {
         {messageElements}
 
         {
-          status === 'loading' && 
+          status === 'loading' &&
           <View style={styles.messageWrapperAssistant}>
             <View style={styles.flowLoader}>
               <Flow size={30} color='#202020'  />
