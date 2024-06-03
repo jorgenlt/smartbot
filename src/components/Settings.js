@@ -1,19 +1,21 @@
-import {
-  StyleSheet,
-  View,
-  Linking,
-  Alert,
-} from "react-native";
-import { useDispatch } from "react-redux";
-import { deleteConversations } from "../features/chat/chatSlice";
+import { StyleSheet, View, Linking, Alert, Switch } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteConversations, toggleTheme } from "../features/chat/chatSlice";
 import { MaterialIcons, AntDesign } from "@expo/vector-icons";
 import Setting from "./Setting";
+import { colors } from "../styles/colors";
 
 // URLs
 const GITHUB_URL = "https://github.com/jorgenlt/smartbot";
 const PROJECTS_URL = "https://jorgenlt.no";
 
 const Settings = ({ navigation }) => {
+  const theme = useSelector((state) => state.chat.theme);
+
+  const isDarkMode = theme === "dark";
+
+  const styles = styling(theme);
+
   const dispatch = useDispatch();
 
   const handleDeleteConversations = () => {
@@ -30,6 +32,10 @@ const Settings = ({ navigation }) => {
         },
       },
     ]);
+  };
+
+  const handleToggleTheme = () => {
+    dispatch(toggleTheme());
   };
 
   return (
@@ -62,14 +68,26 @@ const Settings = ({ navigation }) => {
         IconComponent={MaterialIcons}
         submenu={false}
       />
+      <Setting
+        onPress={() => console.log("pressed")}
+        iconName="dark-mode"
+        name="Dark mode"
+        IconComponent={MaterialIcons}
+        submenu={false}
+        switchButton={true}
+        onSwitchButtonPress={handleToggleTheme}
+        switchValue={isDarkMode}
+      />
     </View>
   );
 };
 
 export default Settings;
 
-const styles = StyleSheet.create({
-  settingsWrapper: {
-    flex: 1,
-  },
-});
+const styling = (theme) =>
+  StyleSheet.create({
+    settingsWrapper: {
+      flex: 1,
+      backgroundColor: colors[theme].pri,
+    },
+  });

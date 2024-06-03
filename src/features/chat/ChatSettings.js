@@ -1,9 +1,14 @@
 import { StyleSheet, View, Alert } from "react-native";
 import Setting from "../../components/Setting";
 import { resetProviders } from "./chatSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { colors } from "../../styles/colors";
 
 const ChatSettings = ({ navigation }) => {
+  const theme = useSelector(state => state.chat.theme);
+
+  const styles = styling(theme);
+
   const dispatch = useDispatch();
 
   const handleResetProviders = () => {
@@ -50,21 +55,23 @@ const ChatSettings = ({ navigation }) => {
 
 export default ChatSettings;
 
-const styles = StyleSheet.create({
-  settingsWrapper: {
-    flex: 1,
-  },
-  pressable: {
-    flexDirection: "row",
-    alignItems: "center",
-    width: "100%",
-    paddingVertical: 20,
-    paddingHorizontal: 20,
-  },
-  pressableText: {
-    fontSize: 20,
-    fontWeight: 600,
-    marginLeft: 10,
-    fontWeight: "bold",
-  },
-});
+const styling = (theme) =>
+  StyleSheet.create({
+    settingsWrapper: {
+      flex: 1,
+      backgroundColor: colors[theme].pri,
+    },
+    pressable: {
+      flexDirection: "row",
+      alignItems: "center",
+      width: "100%",
+      paddingVertical: 20,
+      paddingHorizontal: 20,
+    },
+    pressableText: {
+      fontSize: 20,
+      fontWeight: 600,
+      marginLeft: 10,
+      fontWeight: "bold",
+    },
+  });

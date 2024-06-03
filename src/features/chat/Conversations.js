@@ -17,7 +17,10 @@ import { colors } from "../../styles/colors";
 import { FontAwesome } from "@expo/vector-icons";
 
 const Conversations = ({ navigation }) => {
-  const { conversations } = useSelector((state) => state.chat);
+  const conversations = useSelector((state) => state.chat.conversations);
+  const theme = useSelector((state) => state.chat.theme);
+
+  const styles = styling(theme);
 
   const dispatch = useDispatch();
 
@@ -92,12 +95,12 @@ const Conversations = ({ navigation }) => {
                 {capitalizeFirstWord(timeAgo)}
               </Text>
             </View>
-            <Text numberOfLines={2}>
-              <Text style={{ fontWeight: "bold" }}>You: </Text>
+            <Text numberOfLines={2} style={{ color: colors[theme].text }}>
+              <Text style={{ fontWeight: "bold", color: colors[theme].text }}>You: </Text>
               {userMessage}
             </Text>
-            <Text numberOfLines={2}>
-              <Text style={{ fontWeight: "bold" }}>Smartbot: </Text>
+            <Text numberOfLines={2} style={{ color: colors[theme].text }}>
+              <Text style={{ fontWeight: "bold", color: colors[theme].text }}>Smartbot: </Text>
               {assistantMessage}
             </Text>
           </View>
@@ -123,7 +126,7 @@ const Conversations = ({ navigation }) => {
 
       {!filterIsOpen && (
         <Pressable style={styles.searchIcon} onPress={handleToggleFilter}>
-          <FontAwesome name="search" size={32} color="black" />
+          <FontAwesome name="search" size={32} color={colors[theme].icon} />
         </Pressable>
       )}
 
@@ -153,58 +156,60 @@ const Conversations = ({ navigation }) => {
 
 export default Conversations;
 
-const styles = StyleSheet.create({
-  conversationsWrapper: {
-    width: "100%",
-    height: "100%",
-  },
-  scrollView: {},
-  conversation: {
-    borderBottomColor: colors.lightGray,
-    borderBottomWidth: 1,
-    paddingHorizontal: 20,
-    paddingVertical: 20,
-    justifyContent: "center",
-  },
-  date: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 10,
-  },
-  dateText: {
-    color: colors.gray,
-  },
-  filterWrapper: {
-    position: "relative",
-    borderTopColor: colors.lightGray,
-    borderTopWidth: 1,
-  },
-  searchIcon: {
-    position: "absolute",
-    bottom: 16,
-    right: 16,
-  },
-  filterInput: {
-    borderRadius: 4,
-    padding: 10,
-  },
-  clearWrapper: {
-    position: "absolute",
-    bottom: 0,
-    right: 0,
-    height: "100%",
-    paddingVertical: 10,
-    paddingRight: 10,
-    width: 80,
-  },
-  pressableClearBtn: {
-    width: "100%",
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    text: {
-      fontWeight: "bold",
-      color: "black",
+const styling = (theme) =>
+  StyleSheet.create({
+    conversationsWrapper: {
+      width: "100%",
+      height: "100%",
+      backgroundColor: colors[theme].pri,
     },
-  },
-});
+    scrollView: {},
+    conversation: {
+      borderBottomColor: colors[theme].lightGray,
+      borderBottomWidth: 1,
+      paddingHorizontal: 20,
+      paddingVertical: 20,
+      justifyContent: "center",
+    },
+    date: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      marginBottom: 10,
+    },
+    dateText: {
+      color: colors[theme].gray,
+    },
+    filterWrapper: {
+      position: "relative",
+      borderTopColor: colors[theme].lightGray,
+      borderTopWidth: 1,
+    },
+    searchIcon: {
+      position: "absolute",
+      bottom: 16,
+      right: 16,
+    },
+    filterInput: {
+      borderRadius: 4,
+      padding: 10,
+    },
+    clearWrapper: {
+      position: "absolute",
+      bottom: 0,
+      right: 0,
+      height: "100%",
+      paddingVertical: 10,
+      paddingRight: 10,
+      width: 80,
+    },
+    pressableClearBtn: {
+      width: "100%",
+      height: "100%",
+      justifyContent: "center",
+      alignItems: "center",
+      text: {
+        fontWeight: "bold",
+        color: "black",
+      },
+    },
+  });

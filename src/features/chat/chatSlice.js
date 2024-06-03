@@ -34,6 +34,7 @@ const initialState = {
     },
   },
   error: null,
+  theme: "light",
 };
 
 // Get chat completion from ChatGPT (OpenAI) using async thunk
@@ -92,6 +93,9 @@ export const chat = createSlice({
   name: "chat",
   initialState,
   reducers: {
+    toggleTheme: (state) => {
+      state.theme = state.theme === "light" ? "dark" : "light";
+    },
     addConversation: (state) => {
       const id = uuid.v4();
 
@@ -210,6 +214,7 @@ export const chat = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
+  toggleTheme,
   updateMessages,
   deleteConversation,
   deleteConversations,

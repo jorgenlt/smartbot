@@ -21,13 +21,19 @@ const ChatSettingsProvider = ({ route }) => {
   const { name, provider } = route.params;
 
   // Getting data from state
+  const theme = useSelector((state) => state.chat.theme);
   const currentProvider = useSelector(
     (state) => state.chat.providers.current.provider
   );
   const providerData = useSelector((state) => state.chat.providers[provider]);
+
   const { models, model: chosenModel } = providerData;
+
   const key = providerData.key || "Add key";
+
   const isCurrent = currentProvider === provider;
+
+  const styles = styling(theme);
 
   // Modals state
   const [keyModalVisible, setKeyModalVisible] = useState(false);
@@ -165,46 +171,48 @@ const ChatSettingsProvider = ({ route }) => {
 
 export default ChatSettingsProvider;
 
-const styles = StyleSheet.create({
-  settingsWrapper: {
-    flex: 1,
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 0,
-  },
-  modalView: {
-    margin: 0,
-    backgroundColor: "white",
-    borderRadius: 5,
-    padding: 20,
-    width: "80%",
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
+const styling = (theme) =>
+  StyleSheet.create({
+    settingsWrapper: {
+      flex: 1,
+      backgroundColor: colors[theme].pri,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center",
-  },
-  keyInput: {
-    width: "100%",
-    backgroundColor: colors.lightGray,
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    borderRadius: 2,
-  },
-  modalButtonsWrapper: {
-    flexDirection: "row",
-    marginTop: 20,
-    gap: 10,
-  },
-});
+    centeredView: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop: 0,
+    },
+    modalView: {
+      margin: 0,
+      backgroundColor: "white",
+      borderRadius: 5,
+      padding: 20,
+      width: "80%",
+      alignItems: "center",
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 5,
+    },
+    modalText: {
+      marginBottom: 15,
+      textAlign: "center",
+    },
+    keyInput: {
+      width: "100%",
+      backgroundColor: colors[theme].lightGray,
+      paddingVertical: 5,
+      paddingHorizontal: 10,
+      borderRadius: 2,
+    },
+    modalButtonsWrapper: {
+      flexDirection: "row",
+      marginTop: 20,
+      gap: 10,
+    },
+  });
