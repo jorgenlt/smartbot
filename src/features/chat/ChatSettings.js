@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { colors } from "../../styles/colors";
 
 const ChatSettings = ({ navigation }) => {
-  const theme = useSelector(state => state.chat.theme);
+  const theme = useSelector((state) => state.chat.theme);
 
   const styles = styling(theme);
 

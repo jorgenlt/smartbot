@@ -21,10 +21,14 @@ const Setting = ({
   return (
     <Pressable
       onPress={onPress}
-      android_ripple={{
-        color: colors[theme].sec,
-        foreground: true,
-      }}
+      android_ripple={
+        switchButton
+          ? {}
+          : {
+              color: colors[theme].sec,
+              foreground: true,
+            }
+      }
       style={styles.setting}
     >
       <View style={styles.setting.name}>
@@ -53,7 +57,9 @@ const Setting = ({
         <View>
           <Switch
             trackColor={{ false: "#767577", true: colors[theme].secDarker }}
-            thumbColor={switchValue ? colors[theme].white : colors[theme].lightGray}
+            thumbColor={
+              switchValue ? colors[theme].white : colors[theme].lightGray
+            }
             ios_backgroundColor="#3e3e3e"
             onValueChange={onSwitchButtonPress}
             value={switchValue}
