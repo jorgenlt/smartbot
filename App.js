@@ -13,7 +13,7 @@ import Settings from "./src/components/Settings";
 import ChatSettings from "./src/features/chat/ChatSettings";
 import NewChat from "./src/features/chat/NewChat";
 import ChatSettingsProvider from "./src/features/chat/ChatSettingsProvider";
-import { colors, navTheme, base } from "./src/styles/colors";
+import { navTheme, base } from "./src/styles/colors";
 
 // Navigation
 const Tab = createBottomTabNavigator();
