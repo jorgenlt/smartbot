@@ -10,9 +10,7 @@ const Chat = ({ navigation }) => {
   const currentId = useSelector((state) => state.chat.currentId);
   const theme = useSelector((state) => state.chat.theme);
 
-  const styles = styling(theme)
-  
-  console.log(theme)
+  const styles = styling(theme);
 
   const dispatch = useDispatch();
 
@@ -21,7 +19,6 @@ const Chat = ({ navigation }) => {
       dispatch(addConversation());
     }
   });
-
 
   return (
     <View style={styles.container}>

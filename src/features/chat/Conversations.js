@@ -96,11 +96,15 @@ const Conversations = ({ navigation }) => {
               </Text>
             </View>
             <Text numberOfLines={2} style={{ color: colors[theme].text }}>
-              <Text style={{ fontWeight: "bold", color: colors[theme].text }}>You: </Text>
+              <Text style={{ fontWeight: "bold", color: colors[theme].text }}>
+                You:{" "}
+              </Text>
               {userMessage}
             </Text>
             <Text numberOfLines={2} style={{ color: colors[theme].text }}>
-              <Text style={{ fontWeight: "bold", color: colors[theme].text }}>Smartbot: </Text>
+              <Text style={{ fontWeight: "bold", color: colors[theme].text }}>
+                Smartbot:{" "}
+              </Text>
               {assistantMessage}
             </Text>
           </View>

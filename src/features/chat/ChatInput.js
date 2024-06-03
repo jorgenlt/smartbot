@@ -26,7 +26,7 @@ const ChatInput = ({ navigation }) => {
   const theme = useSelector((state) => state.chat.theme);
 
   const styles = styling(theme);
-  
+
   const [message, setMessage] = useState("");
   const [clickSound, setClickSound] = useState();
   const [modalVisible, setModalVisible] = useState(false);

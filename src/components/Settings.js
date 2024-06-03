@@ -69,7 +69,6 @@ const Settings = ({ navigation }) => {
         submenu={false}
       />
       <Setting
-        onPress={() => console.log("pressed")}
         iconName="dark-mode"
         name="Dark mode"
         IconComponent={MaterialIcons}
