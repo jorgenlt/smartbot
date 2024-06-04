@@ -15,6 +15,7 @@ import { colors } from "../../styles/colors";
 import { useDispatch, useSelector } from "react-redux";
 import { getChatResponseThunk, updateMessages } from "./chatSlice";
 import { turncateString } from "../../common/utils/turncateString";
+import CancelButton from "../../components/CancelButton";
 
 const ChatInput = ({ navigation }) => {
   const {
@@ -93,7 +94,7 @@ const ChatInput = ({ navigation }) => {
         style={styles.input}
         placeholder={`${name} (${turncateString(model, 30)})`}
         placeholderTextColor={colors[theme].gray}
-        color={colors.text}
+        color={colors[theme].text}
         value={message}
         onChangeText={(value) => setMessage(value)}
         onSubmitEditing={handleSendMessage}
@@ -122,7 +123,10 @@ const ChatInput = ({ navigation }) => {
             <Text style={styles.modalText}>
               No key found. Go to settings to choose provider and add key.
             </Text>
-            <Button title="settings" onPress={handleKeyError} />
+            <View style={styles.modalButtonsWrapper}>
+              <CancelButton onPress={() => setModalVisible(false)} />
+              <Button title="settings" onPress={handleKeyError} />
+            </View>
           </View>
         </View>
       </Modal>
@@ -145,15 +149,15 @@ const styling = (theme) =>
       flex: 1,
       paddingTop: 10,
       paddingBottom: 10,
-      paddingLeft: 10,
-      paddingRight: 40,
-      borderRadius: 4,
+      paddingLeft: 20,
+      paddingRight: 50,
+      borderRadius: 20,
       backgroundColor: colors[theme].priLighter,
     },
     sendWrapper: {
       position: "absolute",
       bottom: 8,
-      right: 8,
+      right: 15,
       borderRadius: 20,
       overflow: "hidden",
     },
@@ -175,23 +179,29 @@ const styling = (theme) =>
     },
     modalView: {
       margin: 0,
-      backgroundColor: "white",
+      backgroundColor: colors[theme].modalBg,
       borderRadius: 5,
       padding: 20,
       width: "80%",
       alignItems: "center",
-      shadowColor: "#000",
+      shadowColor: colors[theme].text,
       shadowOffset: {
         width: 0,
         height: 2,
       },
       shadowOpacity: 0.25,
       shadowRadius: 4,
-      elevation: 5,
+      elevation: 10,
     },
     modalText: {
       marginBottom: 15,
       textAlign: "center",
+      color: colors[theme].text,
+    },
+    modalButtonsWrapper: {
+      flexDirection: "row",
+      marginTop: 20,
+      gap: 10,
     },
     keyInput: {
       marginBottom: 20,

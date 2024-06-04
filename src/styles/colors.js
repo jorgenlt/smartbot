@@ -3,11 +3,9 @@ const baseColors = {
   secDarker: "#A5FF99",
   white: "#f5f5f5",
   gray: "gray",
-  lightGray: "#E0E0E0",
-  chatListConversatioins: "lightgray",
   loader: "#f5f5f5",
   loaderBg: "#C9FFC2",
-}
+};
 
 const light = {
   ...baseColors,
@@ -15,20 +13,24 @@ const light = {
   priLighter: "#E0E0E0",
   black: "#141414",
   icon: "#141414",
+  lightGray: "#E0E0E0",
   text: "#141414",
   statusBarBg: "#141414",
   statusBarColor: "#f5f5f5",
+  modalBg: "#f5f5f5",
 };
 
 const dark = {
   ...baseColors,
   pri: "#000000",
-  priLighter: "#303030",
+  priLighter: "#141414",
   black: "#000000",
   text: "#f5f5f5",
   icon: "#f5f5f5",
+  lightGray: "gray",
   statusBarBg: "#000000",
   statusBarColor: "#f5f5f5",
+  modalBg: "#141414",
 };
 
 export const colors = {
