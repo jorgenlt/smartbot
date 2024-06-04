@@ -1,5 +1,6 @@
-import { StyleSheet, View, Linking, Alert, Switch } from "react-native";
+import { StyleSheet, View, Linking, Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import { useMemo } from "react";
 import { deleteConversations, toggleTheme } from "../features/chat/chatSlice";
 import { MaterialIcons, AntDesign } from "@expo/vector-icons";
 import Setting from "./Setting";
@@ -14,7 +15,7 @@ const Settings = ({ navigation }) => {
 
   const isDarkMode = theme === "dark";
 
-  const styles = styling(theme);
+  const styles = useMemo(() => styling(theme), [theme]);
 
   const dispatch = useDispatch();
 

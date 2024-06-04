@@ -5,12 +5,13 @@ import { colors } from "../../styles/colors";
 import ChatInput from "./ChatInput";
 import Messages from "./Messages";
 import { addConversation } from "./chatSlice";
+import { useMemo } from "react";
 
 const Chat = ({ navigation }) => {
   const currentId = useSelector((state) => state.chat.currentId);
   const theme = useSelector((state) => state.chat.theme);
 
-  const styles = styling(theme);
+  const styles = useMemo(() => styling(theme), [theme]);
 
   const dispatch = useDispatch();
 

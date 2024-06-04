@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Pressable, Switch } from "react-native";
 import { colors } from "../styles/colors";
 import { AntDesign } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
+import { useMemo } from "react";
 
 const Setting = ({
   onPress,
@@ -16,8 +17,8 @@ const Setting = ({
 }) => {
   const theme = useSelector((state) => state.chat.theme);
 
-  const styles = styling(theme);
-
+  const styles = useMemo(() => styling(theme), [theme]);
+  
   return (
     <Pressable
       onPress={onPress}
