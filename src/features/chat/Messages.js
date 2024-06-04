@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
 import {
   StyleSheet,
@@ -23,7 +23,7 @@ const Messages = () => {
     (state) => state.chat
   );
 
-  const styles = styling(theme);
+  const styles = useMemo(() => styling(theme), [theme]);
 
   const messages = conversations[currentId]?.messages;
 

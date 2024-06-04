@@ -34,7 +34,7 @@ const ChatSettingsProvider = ({ route }) => {
 
   const isCurrent = currentProvider === provider;
 
-  const styles = styling(theme);
+  const styles = useMemo(() => styling(theme), [theme]);
 
   // Modals state
   const [keyModalVisible, setKeyModalVisible] = useState(false);

@@ -8,7 +8,7 @@ import {
   Modal,
   Button,
 } from "react-native";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Audio } from "expo-av";
 import { Entypo } from "@expo/vector-icons";
 import { colors } from "../../styles/colors";
@@ -26,7 +26,7 @@ const ChatInput = ({ navigation }) => {
   const key = useSelector((state) => state.chat.providers[currentProvider].key);
   const theme = useSelector((state) => state.chat.theme);
 
-  const styles = styling(theme);
+  const styles = useMemo(() => styling(theme), [theme]);
 
   const [message, setMessage] = useState("");
   const [clickSound, setClickSound] = useState();

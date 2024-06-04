@@ -3,11 +3,12 @@ import Setting from "../../components/Setting";
 import { resetProviders } from "./chatSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { colors } from "../../styles/colors";
+import { useMemo } from "react";
 
 const ChatSettings = ({ navigation }) => {
   const theme = useSelector((state) => state.chat.theme);
 
-  const styles = styling(theme);
+  const styles = useMemo(() => styling(theme), [theme]);
 
   const dispatch = useDispatch();
 

@@ -7,7 +7,7 @@ import {
   Alert,
   TextInput,
 } from "react-native";
-import { useState, useRef } from "react";
+import { useState, useRef, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateCurrentId, deleteConversation } from "./chatSlice";
 import { format, formatDistance } from "date-fns";
@@ -20,7 +20,7 @@ const Conversations = ({ navigation }) => {
   const conversations = useSelector((state) => state.chat.conversations);
   const theme = useSelector((state) => state.chat.theme);
 
-  const styles = styling(theme);
+  const styles = useMemo(() => styling(theme), [theme]);
 
   const dispatch = useDispatch();
 
