@@ -201,7 +201,7 @@ const styling = (theme) =>
       padding: 15,
       alignItems: "center",
       backgroundColor: chat.messageAssistantBg,
-      color: base.loader,
+      color: colors[theme].loader,
       borderRadius: 20,
       borderTopLeftRadius: 2,
     },
