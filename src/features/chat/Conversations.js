@@ -170,7 +170,7 @@ const styling = (theme) =>
     scrollView: {},
     conversation: {
       borderBottomColor: colors[theme].lightGray,
-      borderBottomWidth: 1,
+      borderBottomWidth: 0.5,
       paddingHorizontal: 20,
       paddingVertical: 20,
       justifyContent: "center",

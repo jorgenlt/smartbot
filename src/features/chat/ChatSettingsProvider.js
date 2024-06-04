@@ -16,6 +16,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import Setting from "../../components/Setting";
 import { turncateString } from "../../common/utils/turncateString";
 import RadioGroup from "react-native-radio-buttons-group";
+import CancelButton from "../../components/CancelButton";
 
 const ChatSettingsProvider = ({ route }) => {
   const { name, provider } = route.params;
@@ -40,7 +41,7 @@ const ChatSettingsProvider = ({ route }) => {
   const [modelModalVisible, setModelModalVisible] = useState(false);
 
   // API key state
-  const [apiKey, setApiKey] = useState("");
+  const [apiKey, setApiKey] = useState(providerData.key || "");
 
   // Select model state
   const [selectedModel, setSelectedModel] = useState(chosenModel);
@@ -85,6 +86,7 @@ const ChatSettingsProvider = ({ route }) => {
         label: model,
         value: model,
         size: 16,
+        color: colors[theme].text,
       };
     });
   }, []);
@@ -131,10 +133,13 @@ const ChatSettingsProvider = ({ route }) => {
               style={styles.keyInput}
               onChangeText={setApiKey}
               value={apiKey}
+              multiline={false}
               placeholder="Paste key"
+              // placeholder={turncateString(providerData.key || "Paste key", 20)}
               inputMode="none"
             />
             <View style={styles.modalButtonsWrapper}>
+              <CancelButton onPress={() => setKeyModalVisible(false)} />
               <Button title="delete" onPress={handleDeleteKey} />
               <Button title="save" onPress={handleAddKey} />
             </View>
@@ -158,6 +163,7 @@ const ChatSettingsProvider = ({ route }) => {
               onPress={setSelectedModel}
               selectedId={selectedModel}
               containerStyle={{ alignItems: "flex-start" }}
+              labelStyle={{ color: colors[theme].text }}
             />
             <View style={styles.modalButtonsWrapper}>
               <Button title="save" onPress={handleSetModel} />
@@ -185,23 +191,24 @@ const styling = (theme) =>
     },
     modalView: {
       margin: 0,
-      backgroundColor: "white",
+      backgroundColor: colors[theme].modalBg,
       borderRadius: 5,
       padding: 20,
       width: "80%",
       alignItems: "center",
-      shadowColor: "#000",
+      shadowColor: colors[theme].text,
       shadowOffset: {
         width: 0,
         height: 2,
       },
       shadowOpacity: 0.25,
       shadowRadius: 4,
-      elevation: 5,
+      elevation: 10,
     },
     modalText: {
       marginBottom: 15,
       textAlign: "center",
+      color: colors[theme].text,
     },
     keyInput: {
       width: "100%",
