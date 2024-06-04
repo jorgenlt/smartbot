@@ -25,7 +25,7 @@ const Conversations = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const [filterIsOpen, setFilterIsOpen] = useState(false);
-  const [filterKeyword, setFilterKeyword] = useState("");
+  const [filterKeywords, setFilterKeywords] = useState("");
 
   const ids = conversations ? Object.keys(conversations) : [];
 
@@ -52,12 +52,12 @@ const Conversations = ({ navigation }) => {
   };
 
   const handleClearFilter = () => {
-    setFilterKeyword("");
+    setFilterKeywords("");
   };
 
   const filterConversations = (id) => {
     const conversation = conversations[id].messages;
-    const keyword = filterKeyword.toLowerCase();
+    const keyword = filterKeywords.toLowerCase().trim();
 
     return conversation.some((message) =>
       message.content.toLowerCase().includes(keyword)
@@ -139,16 +139,16 @@ const Conversations = ({ navigation }) => {
           <TextInput
             style={styles.filterInput}
             placeholder="Filter conversations..."
-            value={filterKeyword}
-            onChangeText={setFilterKeyword}
+            value={filterKeywords}
+            onChangeText={setFilterKeywords}
           />
           <View style={styles.clearWrapper}>
             <Pressable
-              onPress={filterKeyword ? handleClearFilter : handleToggleFilter}
+              onPress={filterKeywords ? handleClearFilter : handleToggleFilter}
               style={styles.pressableClearBtn}
             >
               <Text style={styles.pressableClearBtn.text}>
-                {filterKeyword ? "CLEAR" : "CLOSE"}
+                {filterKeywords ? "CLEAR" : "CLOSE"}
               </Text>
             </Pressable>
           </View>
