@@ -185,6 +185,7 @@ const styling = (theme) =>
     },
     filterWrapper: {
       position: "relative",
+      backgroundColor: colors[theme].white,
       borderTopColor: colors[theme].lightGray,
       borderTopWidth: 1,
     },
