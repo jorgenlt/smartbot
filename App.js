@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { store, persistor } from "./src/app/store";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { StatusBar } from "expo-status-bar";
 import { Text } from "react-native";
@@ -13,7 +13,7 @@ import Settings from "./src/components/Settings";
 import ChatSettings from "./src/features/chat/ChatSettings";
 import NewChat from "./src/features/chat/NewChat";
 import ChatSettingsProvider from "./src/features/chat/ChatSettingsProvider";
-import { navTheme, base } from "./src/styles/colors";
+import { colors, navTheme } from "./src/styles/colors";
 
 // Navigation
 const Tab = createBottomTabNavigator();
@@ -53,20 +53,28 @@ const SettingsStackScreen = () => {
   );
 };
 
-const App = () => {
+const MainApp = () => {
+  const theme = useSelector((state) => state.chat.theme);
+
   return (
-    <Provider store={store}>
+    <>
       <StatusBar
-        backgroundColor={base.statusBarBg}
+        backgroundColor={colors[theme].statusBarBg}
         // barStyle='light-content'
         style="light"
       />
       <PersistGate loading={<Text>Loading...</Text>} persistor={persistor}>
-        <NavigationContainer theme={navTheme}>
+        <NavigationContainer theme={navTheme[theme]}>
           <Tab.Navigator
             screenOptions={({ route }) => ({
               headerShown: true,
+              headerStyle: {
+                borderBottomWidth: 0.2,
+              },
               tabBarShowLabel: true,
+              tabBarStyle: {
+                borderTopWidth: 0.2,
+              },
               tabBarIcon: ({ focused, color, size }) => {
                 let iconName;
 
@@ -84,8 +92,8 @@ const App = () => {
 
                 return <Ionicons name={iconName} size={size} color={color} />;
               },
-              tabBarActiveTintColor: navTheme.tabBarActiveTintColor,
-              tabBarInactiveTintColor: navTheme.tabBarInactiveTintColor,
+              tabBarActiveTintColor: navTheme[theme].tabBarActiveTintColor,
+              tabBarInactiveTintColor: navTheme[theme].tabBarInactiveTintColor,
             })}
           >
             <Tab.Screen name="Chat" component={Chat} />
@@ -95,6 +103,14 @@ const App = () => {
           </Tab.Navigator>
         </NavigationContainer>
       </PersistGate>
+    </>
+  );
+};
+
+const App = () => {
+  return (
+    <Provider store={store}>
+      <MainApp />
     </Provider>
   );
 };
