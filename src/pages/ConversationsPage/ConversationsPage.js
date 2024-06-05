@@ -9,13 +9,16 @@ import {
 } from "react-native";
 import { useState, useRef, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateCurrentId, deleteConversation } from "./chatSlice";
+import {
+  updateCurrentId,
+  deleteConversation,
+} from "../../features/chat/chatSlice";
 import { format, formatDistance } from "date-fns";
 import { capitalizeFirstWord } from "../../common/utils/capitalizeFirstWord";
 import { colors } from "../../styles/colors";
 import { FontAwesome } from "@expo/vector-icons";
 
-const Conversations = ({ navigation }) => {
+const ConversationsPage = ({ navigation }) => {
   const conversations = useSelector((state) => state.chat.conversations);
   const theme = useSelector((state) => state.chat.theme);
 
@@ -178,7 +181,7 @@ const Conversations = ({ navigation }) => {
   );
 };
 
-export default Conversations;
+export default ConversationsPage;
 
 const styling = (theme) =>
   StyleSheet.create({

@@ -3,7 +3,6 @@ import {
   Text,
   StyleSheet,
   TextInput,
-  Pressable,
   Modal,
   Button,
   Alert,
@@ -11,12 +10,16 @@ import {
 import { colors } from "../../styles/colors";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useMemo } from "react";
-import { addKey, deleteKey, setProvider, setModel } from "./chatSlice";
-import { MaterialIcons } from "@expo/vector-icons";
-import Setting from "../../components/Setting";
-import { turncateString } from "../../common/utils/turncateString";
+import {
+  addKey,
+  deleteKey,
+  setProvider,
+  setModel,
+} from "../../features/chat/chatSlice";
+import Setting from "./Setting";
+import { turncateString } from "../../common/utils/truncateString";
 import RadioGroup from "react-native-radio-buttons-group";
-import CancelButton from "../../components/CancelButton";
+import CancelButton from "../../components/buttons/CancelButton";
 
 const ChatSettingsProvider = ({ route }) => {
   const { name, provider } = route.params;
@@ -135,7 +138,6 @@ const ChatSettingsProvider = ({ route }) => {
               value={apiKey}
               multiline={false}
               placeholder="Paste key"
-              // placeholder={turncateString(providerData.key || "Paste key", 20)}
               inputMode="none"
             />
             <View style={styles.modalButtonsWrapper}>

@@ -57,7 +57,7 @@ const Conversation = () => {
         : null;
 
       return (
-        <View key={i} >
+        <View key={i}>
           {/* If message is created on a different date than the prev message, 
           show the created date */}
           {formattedCreated !== formattedPrevMsgCreated && (

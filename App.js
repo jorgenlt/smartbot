@@ -7,12 +7,12 @@ import { Provider, useSelector } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { StatusBar } from "expo-status-bar";
 import { Text } from "react-native";
-import Chat from "./src/features/chat/Chat";
-import Conversations from "./src/features/chat/Conversations";
-import Settings from "./src/components/Settings";
-import ChatSettings from "./src/features/chat/ChatSettings";
+import ChatPage from "./src/pages/ChatPage/ChatPage";
+import ConversationsPage from "./src/pages/ConversationsPage/ConversationsPage";
+import Settings from "./src/pages/SettingsPage/SettingsPage";
+import ChatSettings from "./src/pages/SettingsPage/ChatSettings";
 import NewChat from "./src/features/chat/NewChat";
-import ChatSettingsProvider from "./src/features/chat/ChatSettingsProvider";
+import ChatSettingsProvider from "./src/pages/SettingsPage/ChatSettingsProvider";
 import { colors, navTheme } from "./src/styles/colors";
 
 // Navigation
@@ -58,10 +58,7 @@ const MainApp = () => {
 
   return (
     <>
-      <StatusBar
-        backgroundColor={colors[theme].statusBarBg}
-        style="light"
-      />
+      <StatusBar backgroundColor={colors[theme].statusBarBg} style="light" />
       <PersistGate loading={<Text>Loading...</Text>} persistor={persistor}>
         <NavigationContainer theme={navTheme[theme]}>
           <Tab.Navigator
@@ -95,8 +92,8 @@ const MainApp = () => {
               tabBarInactiveTintColor: navTheme[theme].tabBarInactiveTintColor,
             })}
           >
-            <Tab.Screen name="Chat" component={Chat} />
-            <Tab.Screen name="Conversations" component={Conversations} />
+            <Tab.Screen name="Chat" component={ChatPage} />
+            <Tab.Screen name="Conversations" component={ConversationsPage} />
             <Tab.Screen name="New Chat" component={NewChat} />
             <Tab.Screen name="Settings" component={SettingsStackScreen} />
           </Tab.Navigator>

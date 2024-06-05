@@ -1,6 +1,6 @@
 import { StyleSheet, View, Alert } from "react-native";
-import Setting from "../../components/Setting";
-import { resetProviders } from "./chatSlice";
+import Setting from "./Setting";
+import { resetProviders } from "../../features/chat/chatSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { colors } from "../../styles/colors";
 import { useMemo } from "react";

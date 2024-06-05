@@ -13,9 +13,12 @@ import { Audio } from "expo-av";
 import { Entypo } from "@expo/vector-icons";
 import { colors } from "../../styles/colors";
 import { useDispatch, useSelector } from "react-redux";
-import { getChatResponseThunk, updateMessages } from "./chatSlice";
-import { turncateString } from "../../common/utils/turncateString";
-import CancelButton from "../../components/CancelButton";
+import {
+  getChatResponseThunk,
+  updateMessages,
+} from "../../features/chat/chatSlice";
+import { turncateString } from "../../common/utils/truncateString";
+import CancelButton from "../../components/buttons/CancelButton";
 
 const ChatInput = ({ navigation }) => {
   const {

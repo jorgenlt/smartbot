@@ -4,10 +4,10 @@ import { useFocusEffect } from "@react-navigation/native";
 import { colors } from "../../styles/colors";
 import ChatInput from "./ChatInput";
 import Conversation from "./Conversation";
-import { addConversation } from "./chatSlice";
+import { addConversation } from "../../features/chat/chatSlice";
 import { useMemo } from "react";
 
-const Chat = ({ navigation }) => {
+const ChatPage = ({ navigation }) => {
   const currentId = useSelector((state) => state.chat.currentId);
   const theme = useSelector((state) => state.chat.theme);
 
@@ -31,7 +31,7 @@ const Chat = ({ navigation }) => {
   );
 };
 
-export default Chat;
+export default ChatPage;
 
 const styling = (theme) =>
   StyleSheet.create({

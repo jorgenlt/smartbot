@@ -1,16 +1,19 @@
 import { StyleSheet, View, Linking, Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { useMemo } from "react";
-import { deleteConversations, toggleTheme } from "../features/chat/chatSlice";
+import {
+  deleteConversations,
+  toggleTheme,
+} from "../../features/chat/chatSlice";
 import { MaterialIcons, AntDesign } from "@expo/vector-icons";
 import Setting from "./Setting";
-import { colors } from "../styles/colors";
+import { colors } from "../../styles/colors";
 
 // URLs
 const GITHUB_URL = "https://github.com/jorgenlt/smartbot";
 const PROJECTS_URL = "https://jorgenlt.no";
 
-const Settings = ({ navigation }) => {
+const SettingsPage = ({ navigation }) => {
   const theme = useSelector((state) => state.chat.theme);
 
   const isDarkMode = theme === "dark";
@@ -82,7 +85,7 @@ const Settings = ({ navigation }) => {
   );
 };
 
-export default Settings;
+export default SettingsPage;
 
 const styling = (theme) =>
   StyleSheet.create({
