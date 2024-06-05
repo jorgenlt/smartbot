@@ -579,7 +579,7 @@ const styles = StyleSheet.create({
 
 <h2>Upcoming features</h2>
 <ul>
-  <li>Dark mode</li>
+  <li><s>Dark mode</s> ✅</li>
   <li><s>Enter API key in app</s> ✅</li>
   <li><s>Switch between models</s> ✅</li>
   <li><s>Add Antropic as provider</s> ✅</li>
