@@ -57,7 +57,7 @@ const Conversation = () => {
         : null;
 
       return (
-        <View key={i}>
+        <View key={i} >
           {/* If message is created on a different date than the prev message, 
           show the created date */}
           {formattedCreated !== formattedPrevMsgCreated && (
@@ -159,22 +159,20 @@ export default Conversation;
 const styling = (theme) =>
   StyleSheet.create({
     conversationWrapper: {
-      paddingHorizontal: 5,
-      paddingBottom: 20,
+      paddingHorizontal: 10,
       width: "100%",
     },
     messageWrapperUser: {
       flexDirection: "row",
       justifyContent: "flex-end",
       alignItems: "center",
-      marginVertical: 10,
-      width: "100%",
+      marginVertical: 5,
     },
     messageWrapperAssistant: {
       flexDirection: "row",
       justifyContent: "flex-start",
       alignItems: "center",
-      marginVertical: 10,
+      marginVertical: 5,
     },
     messageUser: {
       backgroundColor: chat.messageUserBg,

@@ -60,7 +60,6 @@ const MainApp = () => {
     <>
       <StatusBar
         backgroundColor={colors[theme].statusBarBg}
-        // barStyle='light-content'
         style="light"
       />
       <PersistGate loading={<Text>Loading...</Text>} persistor={persistor}>

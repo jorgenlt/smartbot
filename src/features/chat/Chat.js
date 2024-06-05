@@ -38,8 +38,6 @@ const styling = (theme) =>
     container: {
       flex: 1,
       backgroundColor: colors[theme].pri,
-      paddingVertical: 0,
-      paddingHorizontal: 5,
       alignItems: "center",
     },
     messagesWrapper: {

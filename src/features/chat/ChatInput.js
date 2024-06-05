@@ -140,8 +140,7 @@ const styling = (theme) =>
   StyleSheet.create({
     inputWrapper: {
       position: "relative",
-      marginVertical: 10,
-      marginHorizontal: 5,
+      margin: 5,
       flexDirection: "row",
       alignItems: "center",
     },
@@ -156,7 +155,7 @@ const styling = (theme) =>
     },
     sendWrapper: {
       position: "absolute",
-      bottom: 8,
+      bottom: 9,
       right: 15,
       borderRadius: 20,
       overflow: "hidden",
