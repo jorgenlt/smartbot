@@ -131,7 +131,6 @@ const Conversations = ({ navigation }) => {
     }, [
       ids,
       conversations,
-      handleChangeConversation,
       handleDeleteConversation,
     ]);
 
