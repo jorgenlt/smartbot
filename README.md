@@ -56,25 +56,51 @@ Follow the steps below to build and run the SmartBot app (requires Android Studi
       
 ```.bash
 ├── App.js
+├── app.json
+├── assets
+│   ├── bubbles.mp3
+│   ├── click.mp3
+│   ├── icon-old.png
+│   ├── icon.png
+│   ├── splash-old.png
+│   ├── splash.png
+│   └── typing.mp3
+├── babel.config.js
+├── eas.json
+├── package.json
+├── package-lock.json
+├── README.md
 └── src
     ├── api
-    │   └── api.js
+    │   ├── anthropicApi.js
+    │   ├── mistralApi.js
+    │   └── openAiApi.js
     ├── app
     │   └── store.js
     ├── common
     │   └── utils
     │       ├── capitalizeFirstWord.js
-    │       └── findObject.js
+    │       ├── findObject.js
+    │       ├── formatDate.js
+    │       └── turncateString.js
     ├── components
-    │   └── Settings.js
+    │   └── CancelButton.js
     ├── features
     │   └── chat
-    │       ├── ChatInput.js
-    │       ├── Chat.js
     │       ├── chatSlice.js
-    │       ├── Conversations.js
-    │       ├── Messages.js
     │       └── NewChat.js
+    ├── pages
+    │   ├── ChatPage
+    │   │   ├── ChatInput.js
+    │   │   ├── ChatPage.js
+    │   │   └── Conversation.js
+    │   ├── ConversationsPage
+    │   │   └── ConversationsPage.js
+    │   └── SettingsPage
+    │       ├── ChatSettings.js
+    │       ├── ChatSettingsProvider.js
+    │       ├── Setting.js
+    │       └── SettingsPage.js
     └── styles
         └── colors.js
 ```
