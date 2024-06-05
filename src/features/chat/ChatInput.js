@@ -28,7 +28,7 @@ const ChatInput = ({ navigation }) => {
 
   const styles = useMemo(() => styling(theme), [theme]);
 
-  const [message, setMessage] = useState("");
+  const [prompt, setPrompt] = useState("");
   const [clickSound, setClickSound] = useState();
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -61,19 +61,19 @@ const ChatInput = ({ navigation }) => {
     }
   };
 
-  const handleSendMessage = () => {
+  const handleSendPrompt = () => {
     // Dismiss(hide) the keyboard.
     Keyboard.dismiss();
 
     if (key) {
       playClickSound();
-      if (message) {
-        dispatch(getChatResponseThunk(message));
-        setMessage("");
+      if (prompt) {
+        dispatch(getChatResponseThunk(prompt));
+        setPrompt("");
 
         dispatch(
           updateMessages({
-            content: message,
+            content: prompt,
             role: "user",
           })
         );
@@ -95,14 +95,14 @@ const ChatInput = ({ navigation }) => {
         placeholder={`${name} (${turncateString(model, 30)})`}
         placeholderTextColor={colors[theme].gray}
         color={colors[theme].text}
-        value={message}
-        onChangeText={(value) => setMessage(value)}
-        onSubmitEditing={handleSendMessage}
+        value={prompt}
+        onChangeText={(value) => setPrompt(value)}
+        onSubmitEditing={handleSendPrompt}
         multiline={true}
       />
       <View style={styles.sendWrapper}>
         <Pressable
-          onPress={handleSendMessage}
+          onPress={handleSendPrompt}
           android_ripple={{ color: colors[theme].sec }}
           style={styles.pressableSendBtn}
           pressRetentionOffset={{ bottom: 15, left: 15, right: 15, top: 15 }}

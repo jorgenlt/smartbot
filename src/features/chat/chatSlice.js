@@ -40,16 +40,22 @@ const initialState = {
 // Get chat completion from ChatGPT (OpenAI) using async thunk
 export const getChatResponseThunk = createAsyncThunk(
   "chat/getResponse",
-  async (message, { getState }) => {
+  async (prompt, { getState }) => {
     const {
       chat: { currentId, conversations, providers },
     } = getState();
 
+    // Exit early if currentId is falsy
     if (!currentId) {
-      return; // Exit early if currentId is falsy
+      return;
     }
 
-    const context = conversations[currentId].messages;
+    // Remove key/value "created" from obj. API doesn't support additional input
+    const context = conversations[currentId].messages.map((message) => {
+      const { created, ...rest } = message;
+      return rest;
+    });
+
     const provider = providers.current.provider;
 
     try {
@@ -59,21 +65,21 @@ export const getChatResponseThunk = createAsyncThunk(
         case "openAi":
           response = await fetchOpenAiChatCompletion(
             context,
-            message,
+            prompt,
             providers
           );
           break;
         case "anthropic":
           response = await fetchAnthropicChatCompletion(
             context,
-            message,
+            prompt,
             providers
           );
           break;
         case "mistral":
           response = await fetchMistralChatCompletion(
             context,
-            message,
+            prompt,
             providers
           );
           break;
@@ -103,13 +109,20 @@ export const chat = createSlice({
       state.conversations[id] = {
         created: Date.now(),
         messages: [
-          { content: "Hello! How can I assist you today?", role: "assistant" },
+          {
+            created: Date.now(),
+            content: "Hello! How can I assist you today?",
+            role: "assistant",
+          },
         ],
       };
     },
     updateMessages: (state, action) => {
       const { currentId } = state;
-      const message = action.payload;
+      const message = {
+        ...action.payload,
+        created: Date.now(),
+      };
 
       if (currentId) {
         state.conversations[currentId]?.messages.push(message);
@@ -196,12 +209,15 @@ export const chat = createSlice({
 
         if (currentId && content && role) {
           const message = {
+            created: Date.now(),
             content,
             role,
           };
 
           // Push the fetched message into the messages of current conversation
           state.conversations[currentId]?.messages.push(message);
+
+          console.log(state.conversations[currentId]);
         }
       })
       // Case where getting chat response failed

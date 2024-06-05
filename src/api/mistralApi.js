@@ -22,8 +22,8 @@ const fetchMistralChatCompletion = async (context, prompt, providers) => {
 
     return {
       role,
-      content
-    }
+      content,
+    };
   } catch (error) {
     console.error(
       "Error in fetchMistralChatCompletion:",
