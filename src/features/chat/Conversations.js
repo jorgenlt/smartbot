@@ -128,11 +128,7 @@ const Conversations = ({ navigation }) => {
           </Pressable>
         );
       });
-    }, [
-      ids,
-      conversations,
-      handleDeleteConversation,
-    ]);
+    }, [ids, conversations, handleDeleteConversation]);
 
     return <>{conversationElements}</>;
   };
