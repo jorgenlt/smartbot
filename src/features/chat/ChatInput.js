@@ -73,7 +73,7 @@ const ChatInput = ({ navigation }) => {
 
         dispatch(
           updateMessages({
-            content: prompt,
+            content: prompt.trim(),
             role: "user",
           })
         );
