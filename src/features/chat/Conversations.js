@@ -55,6 +55,11 @@ const Conversations = ({ navigation }) => {
     setFilterKeywords("");
   };
 
+  const getLastMessageDate = (conversation) => {
+    const lastMessage = conversation.messages[conversation.messages.length - 1];
+    return lastMessage.created;
+  };
+
   const filterConversations = (id) => {
     const conversation = conversations[id].messages;
     const keyword = filterKeywords.toLowerCase().trim();
@@ -67,9 +72,15 @@ const Conversations = ({ navigation }) => {
   let conversationElements;
 
   if (ids) {
-    conversationElements = ids.filter(filterConversations).map((id) => {
+    const sortedIds = ids.filter(filterConversations).sort((a, b) => {
+      const aDate = getLastMessageDate(conversations[a]);
+      const bDate = getLastMessageDate(conversations[b]);
+      return aDate - bDate; // Sort in ascending order (oldest first)
+    });
+
+    conversationElements = sortedIds.map((id) => {
       // Formatting date
-      const date = conversations?.[id]?.created;
+      const date = getLastMessageDate(conversations?.[id]);
       const formatedDate = format(date, "LLLL d, y");
       const timeAgo = formatDistance(date, new Date(), { addSuffix: true });
 
