@@ -12,7 +12,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateCurrentId, deleteConversation } from "./chatSlice";
 import { format, formatDistance } from "date-fns";
 import { capitalizeFirstWord } from "../../common/utils/capitalizeFirstWord";
-import { findObject } from "../../common/utils/findObject";
 import { colors } from "../../styles/colors";
 import { FontAwesome } from "@expo/vector-icons";
 
@@ -69,60 +68,75 @@ const Conversations = ({ navigation }) => {
     );
   };
 
-  let conversationElements;
+  const ConversationList = () => {
+    const conversationElements = useMemo(() => {
+      if (!ids) return [];
 
-  if (ids) {
-    const sortedIds = ids.filter(filterConversations).sort((a, b) => {
-      const aDate = getLastMessageDate(conversations[a]);
-      const bDate = getLastMessageDate(conversations[b]);
-      return aDate - bDate; // Sort in ascending order (oldest first)
-    });
+      const sortedIds = ids.filter(filterConversations).sort((a, b) => {
+        const aDate = getLastMessageDate(conversations[a]);
+        const bDate = getLastMessageDate(conversations[b]);
+        return aDate - bDate; // Sort in ascending order (oldest first)
+      });
 
-    conversationElements = sortedIds.map((id) => {
-      // Formatting date
-      const date = getLastMessageDate(conversations?.[id]);
-      const formatedDate = format(date, "LLLL d, y");
-      const timeAgo = formatDistance(date, new Date(), { addSuffix: true });
+      return sortedIds.map((id) => {
+        // Formatting date
+        const date = getLastMessageDate(conversations[id]);
+        const formattedDate = format(date, "LLLL d, y");
+        const timeAgo = formatDistance(date, new Date(), { addSuffix: true });
 
-      // Setting user message and assistant message
-      const conversation = conversations[id].messages;
-      const lastTwoItems = conversation.slice(-2);
-      const userObject = findObject(lastTwoItems, "role", "user");
-      const assistantObject = findObject(lastTwoItems, "role", "assistant");
-      const userMessage = userObject ? userObject.content : "";
-      const assistantMessage = assistantObject ? assistantObject.content : "";
+        // Setting user message and assistant message
+        const conversation = conversations[id].messages;
+        const lastTwoItems = conversation.slice(-2);
+        const userObject = lastTwoItems.find((item) => item.role === "user");
+        const assistantObject = lastTwoItems.find(
+          (item) => item.role === "assistant"
+        );
+        const userMessage = userObject ? userObject.content : "";
+        const assistantMessage = assistantObject ? assistantObject.content : "";
 
-      return (
-        <Pressable
-          key={id}
-          onPress={() => handleChangeConversation(id)}
-          onLongPress={() => handleDeleteConversation(id)}
-          style={styles.conversation}
-        >
-          <View style={{ gap: 5 }}>
-            <View style={styles.date}>
-              <Text style={styles.dateText}>{formatedDate}</Text>
-              <Text style={styles.dateText}>
-                {capitalizeFirstWord(timeAgo)}
+        return (
+          <Pressable
+            key={id}
+            onPress={() => handleChangeConversation(id)}
+            onLongPress={() => handleDeleteConversation(id)}
+            style={styles.conversationPressable}
+          >
+            <View style={styles.conversationPressable.conversationWrapper}>
+              <View style={styles.date}>
+                <Text style={styles.dateText}>{formattedDate}</Text>
+                <Text style={styles.dateText}>
+                  {capitalizeFirstWord(timeAgo)}
+                </Text>
+              </View>
+              <Text
+                numberOfLines={2}
+                style={styles.conversationPressable.messageWrapper}
+              >
+                <Text style={styles.conversationPressable.role}>You: </Text>
+                {userMessage}
+              </Text>
+              <Text
+                numberOfLines={2}
+                style={styles.conversationPressable.messageWrapper}
+              >
+                <Text style={styles.conversationPressable.role}>
+                  Smartbot:{" "}
+                </Text>
+                {assistantMessage}
               </Text>
             </View>
-            <Text numberOfLines={2} style={{ color: colors[theme].text }}>
-              <Text style={{ fontWeight: "bold", color: colors[theme].text }}>
-                You:{" "}
-              </Text>
-              {userMessage}
-            </Text>
-            <Text numberOfLines={2} style={{ color: colors[theme].text }}>
-              <Text style={{ fontWeight: "bold", color: colors[theme].text }}>
-                Smartbot:{" "}
-              </Text>
-              {assistantMessage}
-            </Text>
-          </View>
-        </Pressable>
-      );
-    });
-  }
+          </Pressable>
+        );
+      });
+    }, [
+      ids,
+      conversations,
+      handleChangeConversation,
+      handleDeleteConversation,
+    ]);
+
+    return <>{conversationElements}</>;
+  };
 
   // Ref for ScrollView
   const scrollRef = useRef();
@@ -136,7 +150,7 @@ const Conversations = ({ navigation }) => {
           scrollRef.current.scrollToEnd({ animated: false })
         }
       >
-        <View>{conversationElements}</View>
+        <ConversationList />
       </ScrollView>
 
       {!filterIsOpen && (
@@ -179,12 +193,22 @@ const styling = (theme) =>
       backgroundColor: colors[theme].pri,
     },
     scrollView: {},
-    conversation: {
+    conversationPressable: {
       borderBottomColor: colors[theme].lightGray,
       borderBottomWidth: 0.5,
       paddingHorizontal: 20,
       paddingVertical: 20,
       justifyContent: "center",
+      conversationWrapper: {
+        gap: 5,
+      },
+      messageWrapper: {
+        color: colors[theme].text,
+      },
+      role: {
+        fontWeight: "bold",
+        color: colors[theme].text,
+      },
     },
     date: {
       flexDirection: "row",
