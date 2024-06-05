@@ -216,8 +216,6 @@ export const chat = createSlice({
 
           // Push the fetched message into the messages of current conversation
           state.conversations[currentId]?.messages.push(message);
-
-          console.log(state.conversations[currentId]);
         }
       })
       // Case where getting chat response failed

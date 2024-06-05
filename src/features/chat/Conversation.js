@@ -11,12 +11,11 @@ import {
 } from "react-native";
 import { Audio } from "expo-av";
 import * as Clipboard from "expo-clipboard";
-import { format } from "date-fns";
-import uuid from "react-native-uuid";
-import { colors, chat, base } from "../../styles/colors";
+import { formatDate } from "../../common/utils/formatDate";
+import { colors, chat } from "../../styles/colors";
 import { Flow } from "react-native-animated-spinkit";
 
-const Messages = () => {
+const Conversation = () => {
   const [typingSound, setTypingSound] = useState();
 
   const { currentId, conversations, error, status, theme } = useSelector(
@@ -25,14 +24,7 @@ const Messages = () => {
 
   const styles = useMemo(() => styling(theme), [theme]);
 
-  const messages = conversations[currentId]?.messages;
-
-  const date = conversations[currentId]?.created;
-
-  let formatedDate;
-  if (date) {
-    formatedDate = format(date, "LLLL d, y");
-  }
+  const conversation = conversations[currentId]?.messages;
 
   // Function to copy text(messages) to clipboard.
   const handleCopyToClipboard = async (text) => {
@@ -54,28 +46,44 @@ const Messages = () => {
   // Creating the message elements to render in the ScrollView.
   let messageElements;
 
-  if (messages) {
-    messageElements = messages.map((message) => {
+  if (conversation) {
+    messageElements = conversation.map((message, i) => {
+      const { created, content, role } = message;
+
+      // Formatted dates
+      const formattedCreated = formatDate(created);
+      const formattedPrevMsgCreated = conversation[i - 1]?.created
+        ? formatDate(conversation[i - 1].created)
+        : null;
+
       return (
-        <View
-          style={
-            message.role === "assistant"
-              ? styles.messageWrapperAssistant
-              : styles.messageWrapperUser
-          }
-          key={uuid.v4()}
-        >
-          <Pressable
+        <View key={i}>
+          {/* If message is created on a different date than the prev message, 
+          show the created date */}
+          {formattedCreated !== formattedPrevMsgCreated && (
+            <View style={styles.date}>
+              <Text style={styles.dateText}>{formattedCreated}</Text>
+            </View>
+          )}
+          <View
             style={
-              message.role === "assistant"
-                ? styles.messageAssistant
-                : styles.messageUser
+              role === "assistant"
+                ? styles.messageWrapperAssistant
+                : styles.messageWrapperUser
             }
-            onLongPress={() => handleShare(message.content)}
-            onPress={() => handleCopyToClipboard(message.content)}
           >
-            <Text>{message.content}</Text>
-          </Pressable>
+            <Pressable
+              style={
+                role === "assistant"
+                  ? styles.messageAssistant
+                  : styles.messageUser
+              }
+              onLongPress={() => handleShare(content)}
+              onPress={() => handleCopyToClipboard(content)}
+            >
+              <Text>{content}</Text>
+            </Pressable>
+          </View>
         </View>
       );
     });
@@ -124,17 +132,13 @@ const Messages = () => {
   return (
     <>
       <ScrollView
-        contentContainerStyle={styles.messagesWrapper}
+        contentContainerStyle={styles.conversationWrapper}
         ref={scrollRef}
         onContentSizeChange={() =>
           scrollRef.current.scrollToEnd({ animated: false })
         }
         showsHorizontalScrollIndicator={false}
       >
-        <View style={styles.date}>
-          <Text style={styles.dateText}>{formatedDate}</Text>
-        </View>
-
         {messageElements}
 
         {status === "loading" && (
@@ -150,11 +154,11 @@ const Messages = () => {
   );
 };
 
-export default Messages;
+export default Conversation;
 
 const styling = (theme) =>
   StyleSheet.create({
-    messagesWrapper: {
+    conversationWrapper: {
       paddingHorizontal: 5,
       paddingBottom: 20,
       width: "100%",
@@ -187,15 +191,6 @@ const styling = (theme) =>
       borderTopLeftRadius: 2,
       padding: 10,
       maxWidth: "90%",
-    },
-    noMessagesWrapper: {
-      height: "100%",
-      flex: 1,
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    noMessages: {
-      fontSize: 18,
     },
     flowLoader: {
       padding: 15,

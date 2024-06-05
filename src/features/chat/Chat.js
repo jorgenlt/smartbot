@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useFocusEffect } from "@react-navigation/native";
 import { colors } from "../../styles/colors";
 import ChatInput from "./ChatInput";
-import Messages from "./Messages";
+import Conversation from "./Conversation";
 import { addConversation } from "./chatSlice";
 import { useMemo } from "react";
 
@@ -24,7 +24,7 @@ const Chat = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={{ width: "100%", height: "100%" }}>
-        <Messages />
+        <Conversation />
         <ChatInput navigation={navigation} />
       </View>
     </View>
