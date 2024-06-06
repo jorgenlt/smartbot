@@ -2,6 +2,7 @@ const baseColors = {
   sec: "#C9FFC2",
   secDarker: "#A5FF99",
   white: "#f5f5f5",
+  whiteDarker: "#EBEBEB",
   gray: "gray",
   loader: "#f5f5f5",
   loaderBg: "#C9FFC2",
@@ -23,14 +24,14 @@ const light = {
 const dark = {
   ...baseColors,
   pri: "#000000",
-  priLighter: "#141414",
+  priLighter: "#3D3D3D",
   black: "#000000",
   text: "#f5f5f5",
   icon: "#f5f5f5",
   lightGray: "gray",
   statusBarBg: "#000000",
   statusBarColor: "#f5f5f5",
-  modalBg: "#141414",
+  modalBg: "#3D3D3D",
 };
 
 export const colors = {

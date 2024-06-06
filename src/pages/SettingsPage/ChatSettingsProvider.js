@@ -41,6 +41,7 @@ const ChatSettingsProvider = ({ route }) => {
 
   // Modals state
   const [keyModalVisible, setKeyModalVisible] = useState(false);
+  const [isKeyFocused, setKeyFocused] = useState(false);
   const [modelModalVisible, setModelModalVisible] = useState(false);
 
   // API key state
@@ -139,6 +140,11 @@ const ChatSettingsProvider = ({ route }) => {
               multiline={false}
               placeholder="Paste key"
               inputMode="none"
+              borderRadius={4}
+              borderWidth={1}
+              borderColor={isKeyFocused ? "black" : "gray"}
+              onFocus={() => setKeyFocused(true)}
+              onBlur={() => setKeyFocused(false)}
             />
             <View style={styles.modalButtonsWrapper}>
               <CancelButton onPress={() => setKeyModalVisible(false)} />
@@ -168,6 +174,7 @@ const ChatSettingsProvider = ({ route }) => {
               labelStyle={{ color: colors[theme].text }}
             />
             <View style={styles.modalButtonsWrapper}>
+              <CancelButton onPress={() => setModelModalVisible(false)} />
               <Button title="save" onPress={handleSetModel} />
             </View>
           </View>
@@ -195,8 +202,9 @@ const styling = (theme) =>
       margin: 0,
       backgroundColor: colors[theme].modalBg,
       borderRadius: 5,
-      padding: 20,
-      width: "80%",
+      paddingVertical: 20,
+      paddingHorizontal: 40,
+      minWidth: "90%",
       alignItems: "center",
       shadowColor: colors[theme].text,
       shadowOffset: {
@@ -211,10 +219,11 @@ const styling = (theme) =>
       marginBottom: 15,
       textAlign: "center",
       color: colors[theme].text,
+      fontWeight: "bold",
     },
     keyInput: {
-      width: "100%",
-      backgroundColor: colors[theme].lightGray,
+      minWidth: "80%",
+      backgroundColor: colors[theme].whiteDarker,
       paddingVertical: 5,
       paddingHorizontal: 10,
       borderRadius: 2,
@@ -222,6 +231,6 @@ const styling = (theme) =>
     modalButtonsWrapper: {
       flexDirection: "row",
       marginTop: 20,
-      gap: 10,
+      gap: 20,
     },
   });

@@ -183,8 +183,9 @@ const styling = (theme) =>
       margin: 0,
       backgroundColor: colors[theme].modalBg,
       borderRadius: 5,
-      padding: 20,
-      width: "80%",
+      paddingVertical: 20,
+      paddingHorizontal: 40,
+      minWidth: "90%",
       alignItems: "center",
       shadowColor: colors[theme].text,
       shadowOffset: {
@@ -203,7 +204,7 @@ const styling = (theme) =>
     modalButtonsWrapper: {
       flexDirection: "row",
       marginTop: 20,
-      gap: 10,
+      gap: 20,
     },
     keyInput: {
       marginBottom: 20,
