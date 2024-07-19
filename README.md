@@ -8,7 +8,7 @@ Follow the steps below to build and run the SmartBot app (requires Android Studi
 
 1. Install the app dependencies by running `npm install`.
 2. Test the app using `npx expo start`.
-3. Build the .apk file by running `eas build -p android --profile preview`.
+3. Install [Expo Application Services](https://expo.dev/eas): `npm install --global eas-cli` and build the .apk file by running `eas build -p android --profile preview`.
 4. Scan QR code with your phone to download the app
 5. Go to Settings to enter your API key of the providers you wish to use.
 
