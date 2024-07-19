@@ -9,12 +9,12 @@ const initialState = {
   currentId: null,
   status: "idle",
   providers: {
-    current: { name: "OpenAI", provider: "openAi", model: "gpt-3.5-turbo" },
+    current: { name: "OpenAI", provider: "openAi", model: "gpt-4o-mini" },
     openAi: {
       name: "OpenAI",
       key: null,
-      model: "gpt-3.5-turbo",
-      models: ["gpt-3.5-turbo", "gpt-4o"],
+      model: "gpt-4o-mini",
+      models: ["gpt-4o-mini", "gpt-4o"],
     },
     anthropic: {
       name: "Anthropic",
