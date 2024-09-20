@@ -36,8 +36,8 @@ Follow the steps below to build and run the SmartBot app (requires Android Studi
   <li>Create, browse and delete conversations</li>
   <li>Continue an earlier conversation</li>
   <li>Filter conversations by keywords</li>
-  <li>Copy a message to clipboard</li>
-  <li>Share a message</li>
+  <li>Copy a message to clipboard (tap message)</li>
+  <li>Share a message (long hold message)</li>
 </ul>
 
 <h2>Technologies</h2>
