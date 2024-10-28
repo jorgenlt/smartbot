@@ -9,7 +9,7 @@ import {
   Button,
 } from "react-native";
 import { useState, useEffect, useMemo } from "react";
-import { Audio } from "expo-av";
+import { Audio, InterruptionModeAndroid } from "expo-av";
 import { Entypo } from "@expo/vector-icons";
 import { colors } from "../../styles/colors";
 import { useDispatch, useSelector } from "react-redux";
@@ -40,6 +40,13 @@ const ChatInput = ({ navigation }) => {
   // Sound effects
   // Load sound when component mounts
   useEffect(() => {
+    Audio.setAudioModeAsync({
+      staysActiveInBackground: true,
+      interruptionModeAndroid: InterruptionModeAndroid.DoNotMix,
+      shouldDuckAndroid: false,
+      playThroughEarpieceAndroid: true,
+    });
+
     async function loadSound() {
       const { sound } = await Audio.Sound.createAsync(
         require("../../../assets/click.mp3")
