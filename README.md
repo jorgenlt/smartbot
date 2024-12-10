@@ -58,13 +58,8 @@ Follow the steps below to build and run the SmartBot app (requires Android Studi
 ├── App.js
 ├── app.json
 ├── assets
-│   ├── bubbles.mp3
-│   ├── click.mp3
-│   ├── icon-old.png
 │   ├── icon.png
-│   ├── splash-old.png
 │   ├── splash.png
-│   └── typing.mp3
 ├── babel.config.js
 ├── eas.json
 ├── package.json
@@ -412,7 +407,6 @@ import {
   Share,
   Alert
 } from 'react-native'
-import { Audio } from 'expo-av';
 import * as Clipboard from 'expo-clipboard'
 import { format } from 'date-fns'
 import uuid from 'react-native-uuid'
@@ -420,8 +414,6 @@ import { colors, chat, base } from '../../styles/colors'
 import { Flow } from 'react-native-animated-spinkit'
 
 const Messages = () => {
-  const [typingSound, setTypingSound] = useState();
-
   const { currentId, conversations, error, status } = useSelector(state => state.chat);
   const messages = conversations[currentId]?.messages;
   const date = conversations[currentId]?.created;
@@ -476,39 +468,6 @@ const Messages = () => {
 
   // Ref for ScrollView
   const scrollRef = useRef();
-
-  // Sound effects
-  // Load sound when component mounts
-  useEffect(() => {
-    async function loadTypingSound() {
-      const { sound } = await Audio.Sound.createAsync(require('../../../assets/typing.mp3'));
-      setTypingSound(sound);
-    }
-
-    loadTypingSound();
-
-     // Cleanup
-     return typingSound ? () => {
-      typingSound.unloadAsync();
-    } : undefined;
-  }, []);
-
-  // Function to play sound
-  const playTypingSound = async () => {
-    if (typingSound) {
-      await typingSound.replayAsync();
-    }
-  };
-
-  // Play typing sound when status is 'loading'
-  useEffect(() => {
-    if (status === 'loading') {
-      playTypingSound();
-    } else if (typingSound && status === 'idle') {
-      // Stop typing sound
-      typingSound.stopAsync();
-    }
-  }, [status])
 
   return (
     <>

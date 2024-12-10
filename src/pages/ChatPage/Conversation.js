@@ -9,15 +9,12 @@ import {
   Share,
   Alert,
 } from "react-native";
-import { Audio } from "expo-av";
 import * as Clipboard from "expo-clipboard";
 import { formatDate } from "../../common/utils/formatDate";
 import { colors, chat } from "../../styles/colors";
 import { Flow } from "react-native-animated-spinkit";
 
 const Conversation = () => {
-  const [typingSound, setTypingSound] = useState();
-
   const { currentId, conversations, error, status, theme } = useSelector(
     (state) => state.chat
   );
@@ -91,43 +88,6 @@ const Conversation = () => {
 
   // Ref for ScrollView
   const scrollRef = useRef();
-
-  // Sound effects
-  // Load sound when component mounts
-  useEffect(() => {
-    async function loadTypingSound() {
-      const { sound } = await Audio.Sound.createAsync(
-        require("../../../assets/typing.mp3")
-      );
-      setTypingSound(sound);
-    }
-
-    loadTypingSound();
-
-    // Cleanup
-    return typingSound
-      ? () => {
-          typingSound.unloadAsync();
-        }
-      : undefined;
-  }, []);
-
-  // Function to play sound
-  const playTypingSound = async () => {
-    if (typingSound) {
-      await typingSound.replayAsync();
-    }
-  };
-
-  // Play typing sound when status is 'loading'
-  useEffect(() => {
-    if (status === "loading") {
-      playTypingSound();
-    } else if (typingSound && status === "idle") {
-      // Stop typing sound
-      typingSound.stopAsync();
-    }
-  }, [status]);
 
   return (
     <>
