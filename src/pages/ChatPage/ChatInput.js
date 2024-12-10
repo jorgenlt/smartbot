@@ -8,8 +8,7 @@ import {
   Modal,
   Button,
 } from "react-native";
-import { useState, useEffect, useMemo } from "react";
-import { Audio, InterruptionModeAndroid } from "expo-av";
+import { useState, useMemo } from "react";
 import { Entypo } from "@expo/vector-icons";
 import { colors } from "../../styles/colors";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,51 +31,15 @@ const ChatInput = ({ navigation }) => {
   const styles = useMemo(() => styling(theme), [theme]);
 
   const [prompt, setPrompt] = useState("");
-  const [clickSound, setClickSound] = useState();
   const [modalVisible, setModalVisible] = useState(false);
 
   const dispatch = useDispatch();
-
-  // Sound effects
-  // Load sound when component mounts
-  useEffect(() => {
-    Audio.setAudioModeAsync({
-      staysActiveInBackground: true,
-      interruptionModeAndroid: InterruptionModeAndroid.DoNotMix,
-      shouldDuckAndroid: false,
-      playThroughEarpieceAndroid: true,
-    });
-
-    async function loadSound() {
-      const { sound } = await Audio.Sound.createAsync(
-        require("../../../assets/click.mp3")
-      );
-      setClickSound(sound);
-    }
-
-    loadSound();
-
-    // Cleanup
-    return clickSound
-      ? () => {
-          clickSound.unloadAsync();
-        }
-      : undefined;
-  }, []);
-
-  // Play sound
-  const playClickSound = async () => {
-    if (clickSound) {
-      await clickSound.replayAsync();
-    }
-  };
 
   const handleSendPrompt = () => {
     // Dismiss(hide) the keyboard.
     Keyboard.dismiss();
 
     if (key) {
-      playClickSound();
       if (prompt) {
         dispatch(getChatResponseThunk(prompt));
         setPrompt("");
