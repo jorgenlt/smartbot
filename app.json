@@ -2,6 +2,7 @@
   "expo": {
     "name": "Smartbot",
     "slug": "smartbot",
+    "description": "AI assistants from several different providers in one app. Switch between providers and their models without starting a new chat.",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
