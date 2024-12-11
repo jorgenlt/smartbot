@@ -26,7 +26,7 @@
       "package": "com.jorgenlt.smartbot"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/icon.png"
     },
     "extra": {
       "eas": {
