@@ -78,7 +78,7 @@ const ConversationsPage = ({ navigation }) => {
       const sortedIds = ids.filter(filterConversations).sort((a, b) => {
         const aDate = getLastMessageDate(conversations[a]);
         const bDate = getLastMessageDate(conversations[b]);
-        return aDate - bDate; // Sort in ascending order (oldest first)
+        return bDate - aDate; // Sort in decending order
       });
 
       return sortedIds.map((id) => {
@@ -141,13 +141,7 @@ const ConversationsPage = ({ navigation }) => {
 
   return (
     <View style={styles.conversationsWrapper}>
-      <ScrollView
-        contentContainerStyle={styles.scrollView}
-        ref={scrollRef}
-        onContentSizeChange={() =>
-          scrollRef.current.scrollToEnd({ animated: false })
-        }
-      >
+      <ScrollView contentContainerStyle={styles.scrollView} ref={scrollRef}>
         <ConversationList />
       </ScrollView>
 
