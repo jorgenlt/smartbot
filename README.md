@@ -588,7 +588,7 @@ const styles = StyleSheet.create({
   <li><s>Switch between models</s> ✅</li>
   <li><s>Add Antropic as provider</s> ✅</li>
   <li><s>Add Mistral as provider</s> ✅</li>
-  <li><s>Copy entire conversation</s> ✅</li>
-  <li><s>Share entire conversation</s> ✅</li>
-  <li><s>Haptic feedback entire conversation</s> ✅</li>
+  <li>Copy entire conversation</li>
+  <li>Share entire conversation</li>
+  <li>Haptic feedback entire conversation</li>
 </ul>
