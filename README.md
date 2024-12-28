@@ -149,7 +149,7 @@ const initialState = {
   theme: "light",
 };
 
-// Get chat completion from ChatGPT (OpenAI) using async thunk
+// Get chat completion from chosen provider using async thunk
 export const getChatResponseThunk = createAsyncThunk(
   "chat/getResponse",
   async (prompt, { getState }) => {
