@@ -121,20 +121,20 @@ const initialState = {
   currentId: null,
   status: "idle",
   providers: {
-    current: { name: "OpenAI", provider: "openAi", model: "gpt-3.5-turbo" },
+    current: { name: "OpenAI", provider: "openAi", model: "gpt-4o-mini" },
     openAi: {
       name: "OpenAI",
       key: null,
-      model: "gpt-3.5-turbo",
-      models: ["gpt-3.5-turbo", "gpt-4o"],
+      model: "gpt-4o-mini",
+      models: ["gpt-4o-mini", "gpt-4o"],
     },
     anthropic: {
       name: "Anthropic",
       key: null,
-      model: "claude-3-sonnet-20240229",
+      model: "claude-3-5-sonnet-20241022",
       models: [
-        "claude-3-haiku-20240307",
-        "claude-3-sonnet-20240229",
+        "claude-3-5-haiku-20241022",
+        "claude-3-5-sonnet-20241022",
         "claude-3-opus-20240229",
       ],
     },
@@ -146,21 +146,28 @@ const initialState = {
     },
   },
   error: null,
+  theme: "light",
 };
 
 // Get chat completion from ChatGPT (OpenAI) using async thunk
 export const getChatResponseThunk = createAsyncThunk(
   "chat/getResponse",
-  async (message, { getState }) => {
+  async (prompt, { getState }) => {
     const {
       chat: { currentId, conversations, providers },
     } = getState();
 
+    // Exit early if currentId is falsy
     if (!currentId) {
-      return; // Exit early if currentId is falsy
+      return;
     }
 
-    const context = conversations[currentId].messages;
+    // Remove key/value "created" from obj. API doesn't support additional input
+    const context = conversations[currentId].messages.map((message) => {
+      const { created, ...rest } = message;
+      return rest;
+    });
+
     const provider = providers.current.provider;
 
     try {
@@ -170,21 +177,21 @@ export const getChatResponseThunk = createAsyncThunk(
         case "openAi":
           response = await fetchOpenAiChatCompletion(
             context,
-            message,
+            prompt,
             providers
           );
           break;
         case "anthropic":
           response = await fetchAnthropicChatCompletion(
             context,
-            message,
+            prompt,
             providers
           );
           break;
         case "mistral":
           response = await fetchMistralChatCompletion(
             context,
-            message,
+            prompt,
             providers
           );
           break;
@@ -204,6 +211,9 @@ export const chat = createSlice({
   name: "chat",
   initialState,
   reducers: {
+    toggleTheme: (state) => {
+      state.theme = state.theme === "light" ? "dark" : "light";
+    },
     addConversation: (state) => {
       const id = uuid.v4();
 
@@ -211,13 +221,20 @@ export const chat = createSlice({
       state.conversations[id] = {
         created: Date.now(),
         messages: [
-          { content: "Hello! How can I assist you today?", role: "assistant" },
+          {
+            created: Date.now(),
+            content: "Hello! How can I assist you today?",
+            role: "assistant",
+          },
         ],
       };
     },
     updateMessages: (state, action) => {
       const { currentId } = state;
-      const message = action.payload;
+      const message = {
+        ...action.payload,
+        created: Date.now(),
+      };
 
       if (currentId) {
         state.conversations[currentId]?.messages.push(message);
@@ -304,6 +321,7 @@ export const chat = createSlice({
 
         if (currentId && content && role) {
           const message = {
+            created: Date.now(),
             content,
             role,
           };
@@ -322,6 +340,7 @@ export const chat = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
+  toggleTheme,
   updateMessages,
   deleteConversation,
   deleteConversations,
@@ -569,4 +588,7 @@ const styles = StyleSheet.create({
   <li><s>Switch between models</s> ✅</li>
   <li><s>Add Antropic as provider</s> ✅</li>
   <li><s>Add Mistral as provider</s> ✅</li>
+  <li><s>Copy entire conversation</s> ✅</li>
+  <li><s>Share entire conversation</s> ✅</li>
+  <li><s>Haptic feedback entire conversation</s> ✅</li>
 </ul>
