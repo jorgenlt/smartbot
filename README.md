@@ -590,5 +590,5 @@ const styles = StyleSheet.create({
   <li><s>Add Mistral as provider</s> ✅</li>
   <li>Copy entire conversation</li>
   <li>Share entire conversation</li>
-  <li>Haptic feedback entire conversation</li>
+  <li>Haptic feedback</li>
 </ul>
