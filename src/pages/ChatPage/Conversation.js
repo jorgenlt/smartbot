@@ -51,10 +51,18 @@ const Conversation = () => {
   };
 
   // Function to share entire conversation
-    // todo
+  const shareConversation = async (conversation) => {
+    const fullConversation = conversation.map((msg) => msg.content).join("\n");
+    await handleShare(fullConversation);
+    setShareModalVisible(false);
+  };
+
   // Function to share selected message
-    // todo
-    
+  const shareSelectedMessage = async (selectedMessage) => {
+    await handleShare(selectedMessage);
+    setShareModalVisible(false);
+  };
+
   // Creating the message elements to render in the ScrollView.
   let messageElements;
 
@@ -90,7 +98,7 @@ const Conversation = () => {
                   ? styles.messageAssistant
                   : styles.messageUser
               }
-              onLongPress={() => handleShare(content)}
+              onLongPress={() => handleLongPress(content)}
               onPress={() => handleCopyToClipboard(content)}
             >
               <Text>{content}</Text>
@@ -125,6 +133,27 @@ const Conversation = () => {
         )}
       </ScrollView>
       {error && <Text>{error}</Text>}
+
+      {/* Modal for share feature */}
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setShareModalVisible(false);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>share message or conversation</Text>
+            <View style={styles.modalButtonsWrapper}>
+              <CancelButton onPress={() => setShareModalVisible(false)} />
+              <Button title="share message" onPress={shareSelectedMessage(selectedMessage)} />
+              <Button title="share conversation" onPress={shareConversation(conversation)} />
+            </View>
+          </View>
+        </View>
+      </Modal>
     </>
   );
 };
@@ -180,5 +209,38 @@ const styling = (theme) =>
     },
     dateText: {
       color: colors[theme].gray,
+    },
+    centeredView: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop: 0,
+    },
+    modalView: {
+      margin: 0,
+      backgroundColor: colors[theme].modalBg,
+      borderRadius: 5,
+      paddingVertical: 20,
+      paddingHorizontal: 40,
+      minWidth: "90%",
+      alignItems: "center",
+      shadowColor: colors[theme].text,
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 10,
+    },
+    modalText: {
+      marginBottom: 15,
+      textAlign: "center",
+      color: colors[theme].text,
+    },
+    modalButtonsWrapper: {
+      flexDirection: "row",
+      marginTop: 20,
+      gap: 20,
     },
   });
