@@ -8,7 +8,10 @@ import {
   Pressable,
   Share,
   Alert,
+  Modal,
+  Button,
 } from "react-native";
+import CancelButton from "../../components/buttons/CancelButton";
 import * as Clipboard from "expo-clipboard";
 import { formatDate } from "../../common/utils/formatDate";
 import { colors, chat } from "../../styles/colors";
@@ -52,7 +55,9 @@ const Conversation = () => {
 
   // Function to share entire conversation
   const shareConversation = async (conversation) => {
-    const fullConversation = conversation.map((msg) => msg.content).join("\n");
+    const fullConversation = conversation
+      .map((msg) => msg.content)
+      .join("\n\n");
     await handleShare(fullConversation);
     setShareModalVisible(false);
   };
@@ -138,18 +143,24 @@ const Conversation = () => {
       <Modal
         animationType="fade"
         transparent={true}
-        visible={modalVisible}
+        visible={shareModalVisible}
         onRequestClose={() => {
           setShareModalVisible(false);
         }}
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>share message or conversation</Text>
+            <Text style={styles.modalText}>What do you want to share?</Text>
             <View style={styles.modalButtonsWrapper}>
+              <Button
+                title="message"
+                onPress={() => shareSelectedMessage(selectedMessage)}
+              />
+              <Button
+                title="conversation"
+                onPress={() => shareConversation(conversation)}
+              />
               <CancelButton onPress={() => setShareModalVisible(false)} />
-              <Button title="share message" onPress={shareSelectedMessage(selectedMessage)} />
-              <Button title="share conversation" onPress={shareConversation(conversation)} />
             </View>
           </View>
         </View>
