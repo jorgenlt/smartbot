@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, useMemo } from "react";
+import { useRef, useState, useEffect, useMemo, use } from "react";
 import { useSelector } from "react-redux";
 import {
   StyleSheet,
@@ -23,6 +23,10 @@ const Conversation = () => {
 
   const conversation = conversations[currentId]?.messages;
 
+  // State for share modal and selected message
+  const [shareModalVisible, setShareModalVisible] = useState(false);
+  const [selectedMessage, setSelectedMessage] = useState("");
+
   // Function to copy text(messages) to clipboard.
   const handleCopyToClipboard = async (text) => {
     await Clipboard.setStringAsync(text);
@@ -40,6 +44,17 @@ const Conversation = () => {
     }
   };
 
+  // Handle long press to show modal
+  const handleLongPress = (message) => {
+    setSelectedMessage(message);
+    setShareModalVisible(true);
+  };
+
+  // Function to share entire conversation
+    // todo
+  // Function to share selected message
+    // todo
+    
   // Creating the message elements to render in the ScrollView.
   let messageElements;
 
