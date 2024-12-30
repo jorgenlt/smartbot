@@ -125,8 +125,9 @@ const styling = (theme) =>
       paddingBottom: 10,
       paddingLeft: 20,
       paddingRight: 50,
-      borderRadius: 20,
+      borderRadius: 50,
       backgroundColor: colors[theme].priLighter,
+      minHeight: 50,
     },
     sendWrapper: {
       position: "absolute",
