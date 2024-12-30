@@ -83,6 +83,8 @@ const ChatInput = ({ navigation }) => {
           <Entypo name="paper-plane" size={22} color={colors[theme].text} />
         </Pressable>
       </View>
+
+      {/* Modal */}
       <Modal
         animationType="fade"
         transparent={true}
@@ -91,12 +93,12 @@ const ChatInput = ({ navigation }) => {
           setModalVisible(!modalVisible);
         }}
       >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>
+        <View style={styles.modal.centeredView}>
+          <View style={styles.modal.modalView}>
+            <Text style={styles.modal.modalText}>
               No key found. Go to settings to choose provider and add key.
             </Text>
-            <View style={styles.modalButtonsWrapper}>
+            <View style={styles.modal.modalButtonsWrapper}>
               <CancelButton onPress={() => setModalVisible(false)} />
               <Button title="settings" onPress={handleKeyError} />
             </View>
@@ -143,39 +145,6 @@ const styling = (theme) =>
     sendBtn: {
       color: colors[theme].white,
     },
-    centeredView: {
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-      marginTop: 0,
-    },
-    modalView: {
-      margin: 0,
-      backgroundColor: colors[theme].modalBg,
-      borderRadius: 5,
-      paddingVertical: 20,
-      paddingHorizontal: 40,
-      minWidth: "90%",
-      alignItems: "center",
-      shadowColor: colors[theme].text,
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 4,
-      elevation: 10,
-    },
-    modalText: {
-      marginBottom: 15,
-      textAlign: "center",
-      color: colors[theme].text,
-    },
-    modalButtonsWrapper: {
-      flexDirection: "row",
-      marginTop: 20,
-      gap: 20,
-    },
     keyInput: {
       marginBottom: 20,
       width: "100%",
@@ -183,5 +152,41 @@ const styling = (theme) =>
       paddingVertical: 5,
       paddingHorizontal: 10,
       borderRadius: 2,
+    },
+    modal: {
+      centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 0,
+        paddingHorizontal: 10,
+      },
+      modalView: {
+        margin: 0,
+        backgroundColor: colors[theme].modalBg,
+        borderRadius: 5,
+        paddingVertical: 20,
+        paddingHorizontal: 40,
+        minWidth: "90%",
+        alignItems: "center",
+        shadowColor: colors[theme].text,
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 10,
+      },
+      modalText: {
+        marginBottom: 15,
+        textAlign: "center",
+        color: colors[theme].text,
+      },
+      modalButtonsWrapper: {
+        flexDirection: "row",
+        marginTop: 20,
+        gap: 20,
+      },
     },
   });

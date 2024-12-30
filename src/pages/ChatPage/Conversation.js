@@ -229,6 +229,7 @@ const styling = (theme) =>
         justifyContent: "center",
         alignItems: "center",
         marginTop: 0,
+        paddingHorizontal: 10,
       },
       modalView: {
         margin: 0,
