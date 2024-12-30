@@ -148,10 +148,12 @@ const Conversation = () => {
           setShareModalVisible(false);
         }}
       >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>What do you want to share?</Text>
-            <View style={styles.modalButtonsWrapper}>
+        <View style={styles.modal.centeredView}>
+          <View style={styles.modal.modalView}>
+            <Text style={styles.modal.modalText}>
+              What do you want to share?
+            </Text>
+            <View style={styles.modal.modalButtonsWrapper}>
               <Button
                 title="message"
                 onPress={() => shareSelectedMessage(selectedMessage)}
@@ -221,37 +223,39 @@ const styling = (theme) =>
     dateText: {
       color: colors[theme].gray,
     },
-    centeredView: {
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-      marginTop: 0,
-    },
-    modalView: {
-      margin: 0,
-      backgroundColor: colors[theme].modalBg,
-      borderRadius: 5,
-      paddingVertical: 20,
-      paddingHorizontal: 40,
-      minWidth: "90%",
-      alignItems: "center",
-      shadowColor: colors[theme].text,
-      shadowOffset: {
-        width: 0,
-        height: 2,
+    modal: {
+      centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 0,
       },
-      shadowOpacity: 0.25,
-      shadowRadius: 4,
-      elevation: 10,
-    },
-    modalText: {
-      marginBottom: 15,
-      textAlign: "center",
-      color: colors[theme].text,
-    },
-    modalButtonsWrapper: {
-      flexDirection: "row",
-      marginTop: 20,
-      gap: 20,
+      modalView: {
+        margin: 0,
+        backgroundColor: colors[theme].modalBg,
+        borderRadius: 5,
+        paddingVertical: 20,
+        paddingHorizontal: 40,
+        minWidth: "90%",
+        alignItems: "center",
+        shadowColor: colors[theme].text,
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 10,
+      },
+      modalText: {
+        marginBottom: 15,
+        textAlign: "center",
+        color: colors[theme].text,
+      },
+      modalButtonsWrapper: {
+        flexDirection: "row",
+        marginTop: 20,
+        gap: 20,
+      },
     },
   });
