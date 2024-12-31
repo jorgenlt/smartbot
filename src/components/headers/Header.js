@@ -3,20 +3,20 @@ import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { colors } from "../../styles/colors";
 
-const ChatHeader = () => {
+const Header = ({ title }) => {
   const theme = useSelector((state) => state.chat.theme);
   const styles = useMemo(() => styling(theme), [theme]);
 
   return (
     <View style={styles.container}>
       <View>
-        <Text style={styles.text}>Chat</Text>
+        <Text style={styles.text}>{title}</Text>
       </View>
     </View>
   );
 };
 
-export default ChatHeader;
+export default Header;
 
 const styling = (theme) =>
   StyleSheet.create({
