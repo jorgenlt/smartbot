@@ -13,6 +13,7 @@ import {
   updateCurrentId,
   deleteConversation,
 } from "../../features/chat/chatSlice";
+import Header from "../../components/headers/Header";
 import { format, formatDistance } from "date-fns";
 import { capitalizeFirstWord } from "../../common/utils/capitalizeFirstWord";
 import { colors } from "../../styles/colors";
@@ -140,38 +141,43 @@ const ConversationsPage = ({ navigation }) => {
   const scrollRef = useRef();
 
   return (
-    <View style={styles.conversationsWrapper}>
-      <ScrollView contentContainerStyle={styles.scrollView} ref={scrollRef}>
-        <ConversationList />
-      </ScrollView>
+    <>
+      <Header title={"Conversations"} />
+
+      <View style={styles.conversationsWrapper}>
+        {filterIsOpen && (
+          <View style={styles.filterWrapper}>
+            <TextInput
+              style={styles.filterInput}
+              placeholder="Filter conversations..."
+              value={filterKeywords}
+              onChangeText={setFilterKeywords}
+            />
+            <View style={styles.clearWrapper}>
+              <Pressable
+                onPress={
+                  filterKeywords ? handleClearFilter : handleToggleFilter
+                }
+                style={styles.pressableClearBtn}
+              >
+                <Text style={styles.pressableClearBtn.text}>
+                  {filterKeywords ? "CLEAR" : "CLOSE"}
+                </Text>
+              </Pressable>
+            </View>
+          </View>
+        )}
+        <ScrollView contentContainerStyle={styles.scrollView} ref={scrollRef}>
+          <ConversationList />
+        </ScrollView>
+      </View>
 
       {!filterIsOpen && (
         <Pressable style={styles.searchIcon} onPress={handleToggleFilter}>
           <FontAwesome name="search" size={32} color={colors[theme].icon} />
         </Pressable>
       )}
-
-      {filterIsOpen && (
-        <View style={styles.filterWrapper}>
-          <TextInput
-            style={styles.filterInput}
-            placeholder="Filter conversations..."
-            value={filterKeywords}
-            onChangeText={setFilterKeywords}
-          />
-          <View style={styles.clearWrapper}>
-            <Pressable
-              onPress={filterKeywords ? handleClearFilter : handleToggleFilter}
-              style={styles.pressableClearBtn}
-            >
-              <Text style={styles.pressableClearBtn.text}>
-                {filterKeywords ? "CLEAR" : "CLOSE"}
-              </Text>
-            </Pressable>
-          </View>
-        </View>
-      )}
-    </View>
+    </>
   );
 };
 
@@ -212,6 +218,7 @@ const styling = (theme) =>
     },
     filterWrapper: {
       position: "relative",
+      zIndex: 99,
       backgroundColor: colors[theme].white,
       borderTopColor: colors[theme].lightGray,
       borderTopWidth: 1,

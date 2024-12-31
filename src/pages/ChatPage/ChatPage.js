@@ -4,7 +4,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import { colors } from "../../styles/colors";
 import ChatInput from "./ChatInput";
 import Conversation from "./Conversation";
-import ChatHeader from '../../components/headers/ChatHeader'
+import ChatHeader from "../../components/headers/ChatHeader";
 import { addConversation } from "../../features/chat/chatSlice";
 import { useMemo } from "react";
 
@@ -24,13 +24,13 @@ const ChatPage = ({ navigation }) => {
 
   return (
     <>
-    <ChatHeader />
-    <View style={styles.container}>
-      <View style={{ width: "100%", height: "100%" }}>
-        <Conversation />
-        <ChatInput navigation={navigation} />
+      <ChatHeader />
+      <View style={styles.container}>
+        <View style={{ width: "100%", height: "100%" }}>
+          <Conversation />
+          <ChatInput navigation={navigation} />
+        </View>
       </View>
-    </View>
     </>
   );
 };
