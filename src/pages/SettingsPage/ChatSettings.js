@@ -1,5 +1,6 @@
 import { StyleSheet, View, Alert } from "react-native";
 import Setting from "./Setting";
+import Header from '../../components/headers/Header'
 import { resetProviders } from "../../features/chat/chatSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { colors } from "../../styles/colors";
@@ -33,24 +34,27 @@ const ChatSettings = ({ navigation }) => {
   };
 
   return (
+    <>
+    <Header title={"Change provider/model"} />
     <View style={styles.settingsWrapper}>
       <Setting
         onPress={() => navigation.navigate("OpenAI")}
         name="OpenAI"
         submenu={true}
-      />
+        />
       <Setting
         onPress={() => navigation.navigate("Anthropic")}
         name="Anthropic"
         submenu={true}
-      />
+        />
       <Setting
         onPress={() => navigation.navigate("Mistral")}
         name="Mistral"
         submenu={true}
-      />
+        />
       <Setting onPress={handleResetProviders} name="Reset to default" />
     </View>
+        </>
   );
 };
 
