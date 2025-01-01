@@ -13,7 +13,7 @@ import {
   updateCurrentId,
   deleteConversation,
 } from "../../features/chat/chatSlice";
-import Header from "../../components/headers/Header";
+import ConversationsHeader from "../../components/headers/ConversationsHeader";
 import { format, formatDistance } from "date-fns";
 import { capitalizeFirstWord } from "../../common/utils/capitalizeFirstWord";
 import { colors } from "../../styles/colors";
@@ -142,7 +142,7 @@ const ConversationsPage = ({ navigation }) => {
 
   return (
     <>
-      <Header title={"Conversations"} />
+      <ConversationsHeader title={"Conversations"} onPress={handleToggleFilter} />
 
       <View style={styles.conversationsWrapper}>
         {filterIsOpen && (
