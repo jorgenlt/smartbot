@@ -17,9 +17,11 @@ import {
   setModel,
 } from "../../features/chat/chatSlice";
 import Setting from "./Setting";
+import Header from '../../components/headers/Header'
 import { turncateString } from "../../common/utils/truncateString";
 import RadioGroup from "react-native-radio-buttons-group";
 import CancelButton from "../../components/buttons/CancelButton";
+import { current } from "@reduxjs/toolkit";
 
 const ChatSettingsProvider = ({ route }) => {
   const { name, provider } = route.params;
@@ -101,6 +103,8 @@ const ChatSettingsProvider = ({ route }) => {
   };
 
   return (
+    <>
+    <Header title={`${name} Settings`} />
     <View style={styles.settingsWrapper}>
       <Setting
         onPress={handleSetProvider}
@@ -109,7 +113,7 @@ const ChatSettingsProvider = ({ route }) => {
             ? `${name} is your current provider`
             : `Set ${name} as provider`
         }
-      />
+        />
       <Setting
         onPress={() => setKeyModalVisible(true)}
         name="Key"
@@ -119,7 +123,7 @@ const ChatSettingsProvider = ({ route }) => {
         onPress={() => setModelModalVisible(true)}
         name="Model"
         settingValue={chosenModel}
-      />
+        />
 
       {/* Modals */}
       <Modal
@@ -161,7 +165,7 @@ const ChatSettingsProvider = ({ route }) => {
         onRequestClose={() => {
           setModelModalVisible(!modelModalVisible);
         }}
-      >
+        >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles.modalText}>Choose model</Text>
@@ -181,6 +185,7 @@ const ChatSettingsProvider = ({ route }) => {
         </View>
       </Modal>
     </View>
+  </>
   );
 };
 
