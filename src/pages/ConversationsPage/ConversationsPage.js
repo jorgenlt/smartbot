@@ -17,7 +17,6 @@ import ConversationsHeader from "../../components/headers/ConversationsHeader";
 import { format, formatDistance } from "date-fns";
 import { capitalizeFirstWord } from "../../common/utils/capitalizeFirstWord";
 import { colors } from "../../styles/colors";
-import { FontAwesome } from "@expo/vector-icons";
 
 const ConversationsPage = ({ navigation }) => {
   const conversations = useSelector((state) => state.chat.conversations);
@@ -171,12 +170,6 @@ const ConversationsPage = ({ navigation }) => {
           <ConversationList />
         </ScrollView>
       </View>
-
-      {!filterIsOpen && (
-        <Pressable style={styles.searchIcon} onPress={handleToggleFilter}>
-          <FontAwesome name="search" size={32} color={colors[theme].icon} />
-        </Pressable>
-      )}
     </>
   );
 };
