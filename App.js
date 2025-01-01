@@ -63,7 +63,7 @@ const MainApp = () => {
         <NavigationContainer theme={navTheme[theme]}>
           <Tab.Navigator
             screenOptions={({ route }) => ({
-              headerShown: route.name === "Chat" || route.name === "Conversations" ? false : true,
+              headerShown: false,
               headerStyle: {
                 borderBottomWidth: 0.2,
               },
