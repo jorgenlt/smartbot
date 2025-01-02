@@ -1,10 +1,10 @@
-import { Text, StyleSheet, View } from "react-native";
+import { Text, StyleSheet, View, Pressable } from "react-native";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { colors } from "../../styles/colors";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-const ChatHeader = () => {
+const ChatHeader = ({ handleShare }) => {
   const theme = useSelector((state) => state.chat.theme);
   const styles = useMemo(() => styling(theme), [theme]);
 
@@ -13,9 +13,9 @@ const ChatHeader = () => {
       <View>
         <Text style={styles.text}>Chat</Text>
       </View>
-      <View>
+      <Pressable onPress={handleShare} >
         <Ionicons name="share-social" size={24} color="white" />
-      </View>
+      </Pressable>
     </View>
   );
 };
