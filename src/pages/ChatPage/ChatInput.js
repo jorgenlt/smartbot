@@ -9,9 +9,10 @@ import {
   Button,
 } from "react-native";
 import { useState, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { impactAsync, ImpactFeedbackStyle } from "expo-haptics";
 import { Entypo } from "@expo/vector-icons";
 import { colors } from "../../styles/colors";
-import { useDispatch, useSelector } from "react-redux";
 import {
   getChatResponseThunk,
   updateMessages,
@@ -38,6 +39,9 @@ const ChatInput = ({ navigation }) => {
   const handleSendPrompt = () => {
     // Dismiss(hide) the keyboard.
     Keyboard.dismiss();
+
+    // Haptic feedback on send
+    impactAsync(ImpactFeedbackStyle.Light);
 
     if (key) {
       if (prompt) {
