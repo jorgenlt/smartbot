@@ -1,12 +1,13 @@
 import { StyleSheet, View, Alert, Share } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
+import { useMemo } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import { colors } from "../../styles/colors";
 import ChatInput from "./ChatInput";
 import Conversation from "./Conversation";
 import ChatHeader from "../../components/headers/ChatHeader";
 import { addConversation } from "../../features/chat/chatSlice";
-import { useMemo } from "react";
+import { impactAsync, ImpactFeedbackStyle } from 'expo-haptics';
 
 const ChatPage = ({ navigation }) => {
   const currentId = useSelector((state) => state.chat.currentId);
@@ -32,7 +33,7 @@ const ChatPage = ({ navigation }) => {
 
   // Function to share entire conversation
   const shareConversation = async () => {
-    console.log("shareconversation");
+    impactAsync(ImpactFeedbackStyle.Light);
     const fullConversation = conversation
       .map((msg) => msg.content)
       .join("\n\n");
