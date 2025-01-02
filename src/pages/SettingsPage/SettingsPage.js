@@ -7,8 +7,9 @@ import {
 } from "../../features/chat/chatSlice";
 import { MaterialIcons, AntDesign } from "@expo/vector-icons";
 import Setting from "./Setting";
-import Header from '../../components/headers/Header'
+import Header from "../../components/headers/Header";
 import { colors } from "../../styles/colors";
+import { impactAsync, ImpactFeedbackStyle } from "expo-haptics";
 
 // URLs
 const GITHUB_URL = "https://github.com/jorgenlt/smartbot";
@@ -24,6 +25,8 @@ const SettingsPage = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const handleDeleteConversations = () => {
+    impactAsync(ImpactFeedbackStyle.Heavy);
+
     Alert.alert("Delete all conversations?", 'Choose "Delete" to confirm.', [
       {
         text: "Cancel",
@@ -45,47 +48,47 @@ const SettingsPage = ({ navigation }) => {
 
   return (
     <>
-    <Header title={"Settings"} />
-    <View style={styles.settingsWrapper}>
-      <Setting
-        onPress={() => navigation.navigate("Chat Settings")}
-        iconName="rebase-edit"
-        name="Change provider/model"
-        IconComponent={MaterialIcons}
-        submenu={true}
+      <Header title={"Settings"} />
+      <View style={styles.settingsWrapper}>
+        <Setting
+          onPress={() => navigation.navigate("Chat Settings")}
+          iconName="rebase-edit"
+          name="Change provider/model"
+          IconComponent={MaterialIcons}
+          submenu={true}
         />
-      <Setting
-        onPress={handleDeleteConversations}
-        iconName="delete"
-        name="Delete all conversations"
-        IconComponent={MaterialIcons}
-        submenu={false}
+        <Setting
+          onPress={handleDeleteConversations}
+          iconName="delete"
+          name="Delete all conversations"
+          IconComponent={MaterialIcons}
+          submenu={false}
         />
-      <Setting
-        onPress={() => Linking.openURL(GITHUB_URL)}
-        iconName="github"
-        name="Source code"
-        IconComponent={AntDesign}
-        submenu={false}
+        <Setting
+          onPress={() => Linking.openURL(GITHUB_URL)}
+          iconName="github"
+          name="Source code"
+          IconComponent={AntDesign}
+          submenu={false}
         />
-      <Setting
-        onPress={() => Linking.openURL(PROJECTS_URL)}
-        iconName="code"
-        name="Other projects"
-        IconComponent={MaterialIcons}
-        submenu={false}
+        <Setting
+          onPress={() => Linking.openURL(PROJECTS_URL)}
+          iconName="code"
+          name="Other projects"
+          IconComponent={MaterialIcons}
+          submenu={false}
         />
-      <Setting
-        iconName="dark-mode"
-        name="Dark mode"
-        IconComponent={MaterialIcons}
-        submenu={false}
-        switchButton={true}
-        onSwitchButtonPress={handleToggleTheme}
-        switchValue={isDarkMode}
+        <Setting
+          iconName="dark-mode"
+          name="Dark mode"
+          IconComponent={MaterialIcons}
+          submenu={false}
+          switchButton={true}
+          onSwitchButtonPress={handleToggleTheme}
+          switchValue={isDarkMode}
         />
-    </View>
-        </>
+      </View>
+    </>
   );
 };
 
