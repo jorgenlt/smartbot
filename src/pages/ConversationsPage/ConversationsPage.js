@@ -13,6 +13,7 @@ import {
   updateCurrentId,
   deleteConversation,
 } from "../../features/chat/chatSlice";
+import { impactAsync, ImpactFeedbackStyle } from "expo-haptics";
 import ConversationsHeader from "../../components/headers/ConversationsHeader";
 import { format, formatDistance } from "date-fns";
 import { capitalizeFirstWord } from "../../common/utils/capitalizeFirstWord";
@@ -37,6 +38,8 @@ const ConversationsPage = ({ navigation }) => {
   };
 
   const handleDeleteConversation = (id) => {
+    impactAsync(ImpactFeedbackStyle.Heavy);
+
     Alert.alert("Delete conversation?", 'Choose "Delete" to confirm.', [
       {
         text: "Cancel",
@@ -141,7 +144,10 @@ const ConversationsPage = ({ navigation }) => {
 
   return (
     <>
-      <ConversationsHeader title={"Conversations"} onPress={handleToggleFilter} />
+      <ConversationsHeader
+        title={"Conversations"}
+        onPress={handleToggleFilter}
+      />
 
       <View style={styles.conversationsWrapper}>
         {filterIsOpen && (
