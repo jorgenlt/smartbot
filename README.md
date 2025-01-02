@@ -33,11 +33,13 @@ Follow the steps below to build and run the SmartBot app (requires Android Studi
 <ul>
   <li>Chat with assistants from OpenAi, Anthropic and Mistral</li>
   <li>Switch between providers and models</li>
+  <li>Use of personal API keys from the providers</li>
   <li>Create, browse and delete conversations</li>
   <li>Continue an earlier conversation</li>
   <li>Filter conversations by keywords</li>
   <li>Copy a message to clipboard (tap message)</li>
   <li>Share a message (long hold message)</li>
+  <li>Share a complete conversation (share icon)</li>
 </ul>
 
 <h2>Technologies</h2>
@@ -588,7 +590,6 @@ const styles = StyleSheet.create({
   <li><s>Switch between models</s> ✅</li>
   <li><s>Add Antropic as provider</s> ✅</li>
   <li><s>Add Mistral as provider</s> ✅</li>
-  <li>Copy entire conversation</li>
-  <li>Share entire conversation</li>
+  <li><s>Share entire conversation</s> ✅</li>
   <li>Haptic feedback</li>
 </ul>
