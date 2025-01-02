@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { colors } from "../../styles/colors";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-const ChatHeader = ({ handleShare }) => {
+const ChatHeader = ({ shareConversation }) => {
   const theme = useSelector((state) => state.chat.theme);
   const styles = useMemo(() => styling(theme), [theme]);
 
@@ -13,7 +13,7 @@ const ChatHeader = ({ handleShare }) => {
       <View>
         <Text style={styles.text}>Chat</Text>
       </View>
-      <Pressable onPress={handleShare} >
+      <Pressable onPress={shareConversation} >
         <Ionicons name="share-social" size={24} color="white" />
       </Pressable>
     </View>
