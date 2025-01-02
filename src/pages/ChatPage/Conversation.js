@@ -1,4 +1,4 @@
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import {
   StyleSheet,
@@ -9,7 +9,7 @@ import {
   Share,
   Alert,
 } from "react-native";
-import { impactAsync, ImpactFeedbackStyle } from 'expo-haptics';
+import { impactAsync, ImpactFeedbackStyle } from "expo-haptics";
 import * as Clipboard from "expo-clipboard";
 import { formatDate } from "../../common/utils/formatDate";
 import { colors, chat } from "../../styles/colors";
@@ -19,6 +19,8 @@ const Conversation = () => {
   const { currentId, conversations, error, status, theme } = useSelector(
     (state) => state.chat
   );
+
+  const [prevStatus, setPrevStatus] = useState(status);
 
   const styles = useMemo(() => styling(theme), [theme]);
 
@@ -42,6 +44,14 @@ const Conversation = () => {
       Alert.alert(error.message);
     }
   };
+
+  // Monitor status changes for haptic feedback
+  useEffect(() => {
+    if (prevStatus === "loading" && status === "idle") {
+      impactAsync(ImpactFeedbackStyle.Heavy);
+    }
+    setPrevStatus(status);
+  }, [status, prevStatus]);
 
   // Creating the message elements to render in the ScrollView.
   let messageElements;
