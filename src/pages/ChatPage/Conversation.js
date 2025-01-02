@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, useMemo, use } from "react";
+import { useRef, useMemo } from "react";
 import { useSelector } from "react-redux";
 import {
   StyleSheet,
@@ -8,10 +8,7 @@ import {
   Pressable,
   Share,
   Alert,
-  Modal,
-  Button,
 } from "react-native";
-import CancelButton from "../../components/buttons/CancelButton";
 import * as Clipboard from "expo-clipboard";
 import { formatDate } from "../../common/utils/formatDate";
 import { colors, chat } from "../../styles/colors";
@@ -26,17 +23,13 @@ const Conversation = () => {
 
   const conversation = conversations[currentId]?.messages;
 
-  // State for share modal and selected message
-  const [shareModalVisible, setShareModalVisible] = useState(false);
-  const [selectedMessage, setSelectedMessage] = useState("");
-
   // Function to copy text(messages) to clipboard.
   const handleCopyToClipboard = async (text) => {
     await Clipboard.setStringAsync(text);
-    Alert.alert("", "Copied to Clipboard.");
+    Alert.alert("", "Message copied to Clipboard.");
   };
 
-  // Share message
+  // Share long pressed message
   const handleShare = async (message) => {
     try {
       const result = await Share.share({
@@ -45,27 +38,6 @@ const Conversation = () => {
     } catch (error) {
       Alert.alert(error.message);
     }
-  };
-
-  // Handle long press to show modal
-  const handleLongPress = (message) => {
-    setSelectedMessage(message);
-    setShareModalVisible(true);
-  };
-
-  // Function to share entire conversation
-  const shareConversation = async (conversation) => {
-    const fullConversation = conversation
-      .map((msg) => msg.content)
-      .join("\n\n");
-    await handleShare(fullConversation);
-    setShareModalVisible(false);
-  };
-
-  // Function to share selected message
-  const shareSelectedMessage = async (selectedMessage) => {
-    await handleShare(selectedMessage);
-    setShareModalVisible(false);
   };
 
   // Creating the message elements to render in the ScrollView.
@@ -103,7 +75,7 @@ const Conversation = () => {
                   ? styles.messageAssistant
                   : styles.messageUser
               }
-              onLongPress={() => handleLongPress(content)}
+              onLongPress={() => handleShare(content)}
               onPress={() => handleCopyToClipboard(content)}
             >
               <Text>{content}</Text>
@@ -138,35 +110,6 @@ const Conversation = () => {
         )}
       </ScrollView>
       {error && <Text>{error}</Text>}
-
-      {/* Modal for share feature */}
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={shareModalVisible}
-        onRequestClose={() => {
-          setShareModalVisible(false);
-        }}
-      >
-        <View style={styles.modal.centeredView}>
-          <View style={styles.modal.modalView}>
-            <Text style={styles.modal.modalText}>
-              What do you want to share?
-            </Text>
-            <View style={styles.modal.modalButtonsWrapper}>
-              <Button
-                title="message"
-                onPress={() => shareSelectedMessage(selectedMessage)}
-              />
-              <Button
-                title="conversation"
-                onPress={() => shareConversation(conversation)}
-              />
-              <CancelButton onPress={() => setShareModalVisible(false)} />
-            </View>
-          </View>
-        </View>
-      </Modal>
     </>
   );
 };
@@ -222,41 +165,5 @@ const styling = (theme) =>
     },
     dateText: {
       color: colors[theme].gray,
-    },
-    modal: {
-      centeredView: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: 0,
-        paddingHorizontal: 10,
-      },
-      modalView: {
-        margin: 0,
-        backgroundColor: colors[theme].modalBg,
-        borderRadius: 5,
-        paddingVertical: 20,
-        paddingHorizontal: 40,
-        minWidth: "90%",
-        alignItems: "center",
-        shadowColor: colors[theme].text,
-        shadowOffset: {
-          width: 0,
-          height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 10,
-      },
-      modalText: {
-        marginBottom: 15,
-        textAlign: "center",
-        color: colors[theme].text,
-      },
-      modalButtonsWrapper: {
-        flexDirection: "row",
-        marginTop: 20,
-        gap: 20,
-      },
     },
   });

@@ -1,12 +1,4 @@
-import {
-  StyleSheet,
-  View,
-  Modal,
-  Text,
-  Button,
-  Alert,
-  Share,
-} from "react-native";
+import { StyleSheet, View, Alert, Share } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { useFocusEffect } from "@react-navigation/native";
 import { colors } from "../../styles/colors";
@@ -27,7 +19,7 @@ const ChatPage = ({ navigation }) => {
 
   const conversation = conversations[currentId]?.messages;
 
-  // Share
+  // Function to share content
   const handleShare = async (content) => {
     try {
       const result = await Share.share({

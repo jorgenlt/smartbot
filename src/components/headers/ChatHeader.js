@@ -13,7 +13,7 @@ const ChatHeader = ({ shareConversation }) => {
       <View>
         <Text style={styles.text}>Chat</Text>
       </View>
-      <Pressable onPress={shareConversation} >
+      <Pressable onPress={shareConversation}>
         <Ionicons name="share-social" size={24} color="white" />
       </Pressable>
     </View>
