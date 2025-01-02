@@ -9,6 +9,7 @@ import {
   Share,
   Alert,
 } from "react-native";
+import { impactAsync, ImpactFeedbackStyle } from 'expo-haptics';
 import * as Clipboard from "expo-clipboard";
 import { formatDate } from "../../common/utils/formatDate";
 import { colors, chat } from "../../styles/colors";
@@ -25,12 +26,14 @@ const Conversation = () => {
 
   // Function to copy text(messages) to clipboard.
   const handleCopyToClipboard = async (text) => {
+    impactAsync(ImpactFeedbackStyle.Heavy);
     await Clipboard.setStringAsync(text);
     Alert.alert("", "Message copied to Clipboard.");
   };
 
   // Share long pressed message
   const handleShare = async (message) => {
+    impactAsync(ImpactFeedbackStyle.Heavy);
     try {
       const result = await Share.share({
         message: message,
