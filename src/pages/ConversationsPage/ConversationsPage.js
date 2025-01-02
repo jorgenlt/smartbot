@@ -213,8 +213,8 @@ const styling = (theme) =>
       position: "relative",
       zIndex: 99,
       backgroundColor: colors[theme].white,
-      borderTopColor: colors[theme].lightGray,
-      borderTopWidth: 1,
+      borderBottomColor: colors[theme].black,
+      borderBottomWidth: 4,
     },
     searchIcon: {
       position: "absolute",
