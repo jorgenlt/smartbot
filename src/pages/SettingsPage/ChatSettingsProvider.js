@@ -16,12 +16,12 @@ import {
   setProvider,
   setModel,
 } from "../../features/chat/chatSlice";
+import { impactAsync, ImpactFeedbackStyle } from "expo-haptics";
 import Setting from "./Setting";
-import Header from '../../components/headers/Header'
+import Header from "../../components/headers/Header";
 import { turncateString } from "../../common/utils/truncateString";
 import RadioGroup from "react-native-radio-buttons-group";
 import CancelButton from "../../components/buttons/CancelButton";
-import { current } from "@reduxjs/toolkit";
 
 const ChatSettingsProvider = ({ route }) => {
   const { name, provider } = route.params;
@@ -81,6 +81,7 @@ const ChatSettingsProvider = ({ route }) => {
   const handleSetProvider = () => {
     if (!isCurrent) {
       dispatch(setProvider({ provider }));
+      impactAsync(ImpactFeedbackStyle.Heavy);
       Alert.alert("", `${name} set as provider`);
     }
   };
@@ -104,88 +105,88 @@ const ChatSettingsProvider = ({ route }) => {
 
   return (
     <>
-    <Header title={`${name} Settings`} />
-    <View style={styles.settingsWrapper}>
-      <Setting
-        onPress={handleSetProvider}
-        name={
-          isCurrent
-            ? `${name} is your current provider`
-            : `Set ${name} as provider`
-        }
+      <Header title={`${name} Settings`} />
+      <View style={styles.settingsWrapper}>
+        <Setting
+          onPress={handleSetProvider}
+          name={
+            isCurrent
+              ? `${name} is your current provider`
+              : `Set ${name} as provider`
+          }
         />
-      <Setting
-        onPress={() => setKeyModalVisible(true)}
-        name="Key"
-        settingValue={turncateString(key, 20)}
-      />
-      <Setting
-        onPress={() => setModelModalVisible(true)}
-        name="Model"
-        settingValue={chosenModel}
+        <Setting
+          onPress={() => setKeyModalVisible(true)}
+          name="Key"
+          settingValue={turncateString(key, 20)}
+        />
+        <Setting
+          onPress={() => setModelModalVisible(true)}
+          name="Model"
+          settingValue={chosenModel}
         />
 
-      {/* Modals */}
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={keyModalVisible}
-        onRequestClose={() => {
-          setKeyModalVisible(!keyModalVisible);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Edit key</Text>
-            <TextInput
-              style={styles.keyInput}
-              onChangeText={setApiKey}
-              value={apiKey}
-              multiline={false}
-              placeholder="Paste key"
-              inputMode="none"
-              borderRadius={4}
-              borderWidth={1}
-              borderColor={isKeyFocused ? "black" : "gray"}
-              onFocus={() => setKeyFocused(true)}
-              onBlur={() => setKeyFocused(false)}
-            />
-            <View style={styles.modalButtonsWrapper}>
-              <CancelButton onPress={() => setKeyModalVisible(false)} />
-              <Button title="delete" onPress={handleDeleteKey} />
-              <Button title="save" onPress={handleAddKey} />
-            </View>
-          </View>
-        </View>
-      </Modal>
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modelModalVisible}
-        onRequestClose={() => {
-          setModelModalVisible(!modelModalVisible);
-        }}
+        {/* Modals */}
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={keyModalVisible}
+          onRequestClose={() => {
+            setKeyModalVisible(!keyModalVisible);
+          }}
         >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Choose model</Text>
-
-            <RadioGroup
-              radioButtons={radioButtons}
-              onPress={setSelectedModel}
-              selectedId={selectedModel}
-              containerStyle={{ alignItems: "flex-start" }}
-              labelStyle={{ color: colors[theme].text }}
-            />
-            <View style={styles.modalButtonsWrapper}>
-              <CancelButton onPress={() => setModelModalVisible(false)} />
-              <Button title="save" onPress={handleSetModel} />
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>Edit key</Text>
+              <TextInput
+                style={styles.keyInput}
+                onChangeText={setApiKey}
+                value={apiKey}
+                multiline={false}
+                placeholder="Paste key"
+                inputMode="none"
+                borderRadius={4}
+                borderWidth={1}
+                borderColor={isKeyFocused ? "black" : "gray"}
+                onFocus={() => setKeyFocused(true)}
+                onBlur={() => setKeyFocused(false)}
+              />
+              <View style={styles.modalButtonsWrapper}>
+                <CancelButton onPress={() => setKeyModalVisible(false)} />
+                <Button title="delete" onPress={handleDeleteKey} />
+                <Button title="save" onPress={handleAddKey} />
+              </View>
             </View>
           </View>
-        </View>
-      </Modal>
-    </View>
-  </>
+        </Modal>
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={modelModalVisible}
+          onRequestClose={() => {
+            setModelModalVisible(!modelModalVisible);
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>Choose model</Text>
+
+              <RadioGroup
+                radioButtons={radioButtons}
+                onPress={setSelectedModel}
+                selectedId={selectedModel}
+                containerStyle={{ alignItems: "flex-start" }}
+                labelStyle={{ color: colors[theme].text }}
+              />
+              <View style={styles.modalButtonsWrapper}>
+                <CancelButton onPress={() => setModelModalVisible(false)} />
+                <Button title="save" onPress={handleSetModel} />
+              </View>
+            </View>
+          </View>
+        </Modal>
+      </View>
+    </>
   );
 };
 
