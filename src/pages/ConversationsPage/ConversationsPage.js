@@ -150,28 +150,31 @@ const ConversationsPage = ({ navigation }) => {
       />
 
       <View style={styles.conversationsWrapper}>
+        {/* Filter */}
         {filterIsOpen && (
-          <View style={styles.filterWrapper}>
+          <View style={styles.filter.wrapper}>
             <TextInput
-              style={styles.filterInput}
+              style={styles.filter.input}
               placeholder="Filter conversations..."
               value={filterKeywords}
               onChangeText={setFilterKeywords}
             />
-            <View style={styles.clearWrapper}>
+            <View style={styles.filter.clearWrapper}>
               <Pressable
                 onPress={
                   filterKeywords ? handleClearFilter : handleToggleFilter
                 }
-                style={styles.pressableClearBtn}
+                style={styles.filter.pressableClearBtn}
               >
-                <Text style={styles.pressableClearBtn.text}>
+                <Text style={styles.filter.pressableClearBtn.text}>
                   {filterKeywords ? "CLEAR" : "CLOSE"}
                 </Text>
               </Pressable>
             </View>
           </View>
         )}
+
+        {/* List of conversations */}
         <ScrollView contentContainerStyle={styles.scrollView} ref={scrollRef}>
           <ConversationList />
         </ScrollView>
@@ -189,7 +192,9 @@ const styling = (theme) =>
       height: "100%",
       backgroundColor: colors[theme].pri,
     },
-    scrollView: {},
+    scrollView: {
+      paddingBottom: 76,
+    },
     conversationPressable: {
       borderBottomColor: colors[theme].lightGray,
       borderBottomWidth: 0.5,
@@ -215,39 +220,41 @@ const styling = (theme) =>
     dateText: {
       color: colors[theme].gray,
     },
-    filterWrapper: {
-      position: "relative",
-      zIndex: 99,
-      backgroundColor: colors[theme].white,
-      borderBottomColor: colors[theme].black,
-      borderBottomWidth: 4,
-    },
-    searchIcon: {
-      position: "absolute",
-      bottom: 16,
-      right: 16,
-    },
-    filterInput: {
-      borderRadius: 4,
-      padding: 10,
-    },
-    clearWrapper: {
-      position: "absolute",
-      bottom: 0,
-      right: 0,
-      height: "100%",
-      paddingVertical: 10,
-      paddingRight: 10,
-      width: 80,
-    },
-    pressableClearBtn: {
-      width: "100%",
-      height: "100%",
-      justifyContent: "center",
-      alignItems: "center",
-      text: {
-        fontWeight: "bold",
-        color: "black",
+    filter: {
+      wrapper: {
+        position: "relative",
+        zIndex: 99,
+        backgroundColor: colors[theme].white,
+        borderBottomColor: colors[theme].black,
+        borderBottomWidth: 4,
+      },
+      searchIcon: {
+        position: "absolute",
+        bottom: 16,
+        right: 16,
+      },
+      input: {
+        borderRadius: 4,
+        padding: 10,
+      },
+      clearWrapper: {
+        position: "absolute",
+        bottom: 0,
+        right: 0,
+        height: "100%",
+        paddingVertical: 10,
+        paddingRight: 10,
+        width: 80,
+      },
+      pressableClearBtn: {
+        width: "100%",
+        height: "100%",
+        justifyContent: "center",
+        alignItems: "center",
+        text: {
+          fontWeight: "bold",
+          color: "black",
+        },
       },
     },
   });
