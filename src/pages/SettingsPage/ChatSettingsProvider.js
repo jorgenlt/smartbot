@@ -93,7 +93,7 @@ const ChatSettingsProvider = ({ route }) => {
         label: model,
         value: model,
         size: 16,
-        color: colors[theme].text,
+        color: colors.light.text,
       };
     });
   }, []);
@@ -135,11 +135,11 @@ const ChatSettingsProvider = ({ route }) => {
             setKeyModalVisible(!keyModalVisible);
           }}
         >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <Text style={styles.modalText}>Edit key</Text>
+          <View style={styles.modal.centeredView}>
+            <View style={styles.modal.modalView}>
+              <Text style={styles.modal.modalText}>Edit key</Text>
               <TextInput
-                style={styles.keyInput}
+                style={styles.modal.keyInput}
                 onChangeText={setApiKey}
                 value={apiKey}
                 multiline={false}
@@ -151,7 +151,7 @@ const ChatSettingsProvider = ({ route }) => {
                 onFocus={() => setKeyFocused(true)}
                 onBlur={() => setKeyFocused(false)}
               />
-              <View style={styles.modalButtonsWrapper}>
+              <View style={styles.modal.modalButtonsWrapper}>
                 <CancelButton onPress={() => setKeyModalVisible(false)} />
                 <Button title="delete" onPress={handleDeleteKey} />
                 <Button title="save" onPress={handleAddKey} />
@@ -167,18 +167,18 @@ const ChatSettingsProvider = ({ route }) => {
             setModelModalVisible(!modelModalVisible);
           }}
         >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <Text style={styles.modalText}>Choose model</Text>
+          <View style={styles.modal.centeredView}>
+            <View style={styles.modal.modalView}>
+              <Text style={styles.modal.modalText}>Choose model</Text>
 
               <RadioGroup
                 radioButtons={radioButtons}
                 onPress={setSelectedModel}
                 selectedId={selectedModel}
                 containerStyle={{ alignItems: "flex-start" }}
-                labelStyle={{ color: colors[theme].text }}
+                labelStyle={{ color: colors.light.text }}
               />
-              <View style={styles.modalButtonsWrapper}>
+              <View style={styles.modal.modalButtonsWrapper}>
                 <CancelButton onPress={() => setModelModalVisible(false)} />
                 <Button title="save" onPress={handleSetModel} />
               </View>
@@ -198,45 +198,47 @@ const styling = (theme) =>
       flex: 1,
       backgroundColor: colors[theme].pri,
     },
-    centeredView: {
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-      marginTop: 0,
-    },
-    modalView: {
-      margin: 0,
-      backgroundColor: colors[theme].modalBg,
-      borderRadius: 5,
-      paddingVertical: 20,
-      paddingHorizontal: 40,
-      minWidth: "90%",
-      alignItems: "center",
-      shadowColor: colors[theme].text,
-      shadowOffset: {
-        width: 0,
-        height: 2,
+    modal: {
+      centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 0,
       },
-      shadowOpacity: 0.25,
-      shadowRadius: 4,
-      elevation: 10,
-    },
-    modalText: {
-      marginBottom: 15,
-      textAlign: "center",
-      color: colors[theme].text,
-      fontWeight: "bold",
-    },
-    keyInput: {
-      minWidth: "80%",
-      backgroundColor: colors[theme].whiteDarker,
-      paddingVertical: 5,
-      paddingHorizontal: 10,
-      borderRadius: 2,
-    },
-    modalButtonsWrapper: {
-      flexDirection: "row",
-      marginTop: 20,
-      gap: 20,
+      modalView: {
+        margin: 0,
+        backgroundColor: colors.light.modalBg,
+        borderRadius: 5,
+        paddingVertical: 20,
+        paddingHorizontal: 40,
+        minWidth: "90%",
+        alignItems: "center",
+        shadowColor: colors.light.text,
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 10,
+      },
+      modalText: {
+        marginBottom: 15,
+        textAlign: "center",
+        color: colors.light.text,
+        fontWeight: "bold",
+      },
+      keyInput: {
+        minWidth: "80%",
+        backgroundColor: colors.light.whiteDarker,
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        borderRadius: 2,
+      },
+      modalButtonsWrapper: {
+        flexDirection: "row",
+        marginTop: 20,
+        gap: 20,
+      },
     },
   });
