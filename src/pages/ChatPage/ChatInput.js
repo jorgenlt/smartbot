@@ -1,12 +1,10 @@
 import {
-  Text,
   View,
   StyleSheet,
   Pressable,
   TextInput,
   Keyboard,
-  Modal,
-  Button,
+  Alert,
 } from "react-native";
 import { useState, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,7 +15,7 @@ import {
   updateMessages,
 } from "../../features/chat/chatSlice";
 import { turncateString } from "../../common/utils/truncateString";
-import CancelButton from "../../components/buttons/CancelButton";
+import { impactAsync, ImpactFeedbackStyle } from "expo-haptics";
 
 const ChatInput = ({ navigation }) => {
   const {
@@ -25,13 +23,14 @@ const ChatInput = ({ navigation }) => {
     name,
     model,
   } = useSelector((state) => state.chat.providers.current);
+
   const key = useSelector((state) => state.chat.providers[currentProvider].key);
+
   const theme = useSelector((state) => state.chat.theme);
 
   const styles = useMemo(() => styling(theme), [theme]);
 
   const [prompt, setPrompt] = useState("");
-  const [modalVisible, setModalVisible] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -52,13 +51,23 @@ const ChatInput = ({ navigation }) => {
         );
       }
     } else {
-      setModalVisible(true);
-    }
-  };
+      impactAsync(ImpactFeedbackStyle.Heavy); // Haptic feedback
 
-  const handleKeyError = () => {
-    setModalVisible(false);
-    navigation.navigate("Settings");
+      Alert.alert(
+        "No key found",
+        "Go to settings to choose provider and add key.",
+        [
+          {
+            text: "Cancel",
+            style: "cancel",
+          },
+          {
+            text: "Settings",
+            onPress: () => navigation.navigate("Settings"),
+          },
+        ]
+      );
+    }
   };
 
   return (
@@ -83,28 +92,6 @@ const ChatInput = ({ navigation }) => {
           <Entypo name="paper-plane" size={22} color={colors[theme].text} />
         </Pressable>
       </View>
-
-      {/* Modal */}
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.modal.centeredView}>
-          <View style={styles.modal.modalView}>
-            <Text style={styles.modal.modalText}>
-              No key found. Go to settings to choose provider and add key.
-            </Text>
-            <View style={styles.modal.modalButtonsWrapper}>
-              <CancelButton onPress={() => setModalVisible(false)} />
-              <Button title="settings" onPress={handleKeyError} />
-            </View>
-          </View>
-        </View>
-      </Modal>
     </View>
   );
 };
@@ -153,41 +140,5 @@ const styling = (theme) =>
       paddingVertical: 5,
       paddingHorizontal: 10,
       borderRadius: 2,
-    },
-    modal: {
-      centeredView: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: 0,
-        paddingHorizontal: 10,
-      },
-      modalView: {
-        margin: 0,
-        backgroundColor: colors[theme].modalBg,
-        borderRadius: 5,
-        paddingVertical: 20,
-        paddingHorizontal: 40,
-        minWidth: "90%",
-        alignItems: "center",
-        shadowColor: colors[theme].text,
-        shadowOffset: {
-          width: 0,
-          height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 10,
-      },
-      modalText: {
-        marginBottom: 15,
-        textAlign: "center",
-        color: colors[theme].text,
-      },
-      modalButtonsWrapper: {
-        flexDirection: "row",
-        marginTop: 20,
-        gap: 20,
-      },
     },
   });
