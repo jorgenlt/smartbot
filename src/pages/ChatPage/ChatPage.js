@@ -7,7 +7,8 @@ import ChatInput from "./ChatInput";
 import Conversation from "./Conversation";
 import ChatHeader from "../../components/headers/ChatHeader";
 import { addConversation } from "../../features/chat/chatSlice";
-import { impactAsync, ImpactFeedbackStyle } from 'expo-haptics';
+import { capitalize } from "../../common/utils/capitalize";
+import { impactAsync, ImpactFeedbackStyle } from "expo-haptics";
 
 const ChatPage = ({ navigation }) => {
   const currentId = useSelector((state) => state.chat.currentId);
@@ -35,7 +36,7 @@ const ChatPage = ({ navigation }) => {
   const shareConversation = async () => {
     impactAsync(ImpactFeedbackStyle.Light);
     const fullConversation = conversation
-      .map((msg) => msg.content)
+      .map((msg) => `${capitalize(msg.role)}: ${msg.content}`)
       .join("\n\n");
     await handleShare(fullConversation);
   };
