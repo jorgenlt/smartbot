@@ -8,6 +8,7 @@ import {
   Pressable,
   Share,
   Alert,
+  ToastAndroid,
 } from "react-native";
 import { impactAsync, ImpactFeedbackStyle } from "expo-haptics";
 import * as Clipboard from "expo-clipboard";
@@ -30,7 +31,7 @@ const Conversation = () => {
   const handleCopyToClipboard = async (text) => {
     impactAsync(ImpactFeedbackStyle.Heavy);
     await Clipboard.setStringAsync(text);
-    Alert.alert("", "Message copied to Clipboard.");
+    ToastAndroid.show("Message copied to clipboard.", ToastAndroid.SHORT);
   };
 
   // Share long pressed message
