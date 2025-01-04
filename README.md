@@ -591,5 +591,5 @@ const styles = StyleSheet.create({
   <li><s>Add Antropic as provider</s> ✅</li>
   <li><s>Add Mistral as provider</s> ✅</li>
   <li><s>Share entire conversation</s> ✅</li>
-  <li>Haptic feedback</li>
+  <li><s>Haptic feedback</s> ✅</li>
 </ul>
