@@ -19,7 +19,7 @@ import { Flow } from "react-native-animated-spinkit";
 const Conversation = () => {
   const { currentId, conversations, error, status, theme, largeText } =
     useSelector((state) => state.chat);
-  console.log("largeText:", largeText);
+
   const [prevStatus, setPrevStatus] = useState(status);
 
   const styles = useMemo(() => styling(theme), [theme]);

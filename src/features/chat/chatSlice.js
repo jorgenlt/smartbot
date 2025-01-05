@@ -103,6 +103,9 @@ export const chat = createSlice({
     toggleTheme: (state) => {
       state.theme = state.theme === "light" ? "dark" : "light";
     },
+    toggleLargeText: (state) => {
+      state.largeText = !state.largeText;
+    },
     addConversation: (state) => {
       const id = uuid.v4();
 
@@ -193,9 +196,6 @@ export const chat = createSlice({
         state.providers[provider].model = model;
       }
     },
-    toggleLargeText: (state) => {
-      state.largeText = !state.largeText;
-    },
   },
   extraReducers: (builder) => {
     builder
@@ -233,6 +233,7 @@ export const chat = createSlice({
 // Action creators are generated for each case reducer function
 export const {
   toggleTheme,
+  toggleLargeText,
   updateMessages,
   deleteConversation,
   deleteConversations,
@@ -243,7 +244,6 @@ export const {
   setProvider,
   resetProviders,
   setModel,
-  toggleLargeText,
 } = chat.actions;
 
 export default chat.reducer;
