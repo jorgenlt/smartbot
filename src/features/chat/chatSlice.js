@@ -35,6 +35,7 @@ const initialState = {
   },
   error: null,
   theme: "light",
+  largeText: false,
 };
 
 // Get chat completion from chosen provider using async thunk
@@ -192,6 +193,9 @@ export const chat = createSlice({
         state.providers[provider].model = model;
       }
     },
+    toggleLargeText: (state) => {
+      state.largeText = !state.largeText;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -239,6 +243,7 @@ export const {
   setProvider,
   resetProviders,
   setModel,
+  toggleLargeText,
 } = chat.actions;
 
 export default chat.reducer;
