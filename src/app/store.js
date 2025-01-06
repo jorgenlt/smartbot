@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore } from "@reduxjs/toolkit";
 import {
   persistStore,
   persistReducer,
@@ -8,17 +8,25 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
-} from 'redux-persist'
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import chatReducer from '../features/chat/chatSlice'
+} from "redux-persist";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import chatReducer from "../features/chat/chatSlice";
 
 // Configuration object for redux-persist.
 // Only objects on the whitelist are stored.
 const persistConfig = {
-  key: 'root',
+  key: "root",
   version: 1,
   storage: AsyncStorage,
-  whitelist: ['status', 'error', 'conversations', 'currentId', "providers", "theme"]
+  whitelist: [
+    "status",
+    "error",
+    "conversations",
+    "currentId",
+    "providers",
+    "theme",
+    "largeText",
+  ],
 };
 
 // Persisted reducer
