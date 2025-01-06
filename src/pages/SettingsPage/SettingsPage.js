@@ -88,7 +88,7 @@ const SettingsPage = ({ navigation }) => {
         />
         <Setting
           iconName="text-increase"
-          name="Larger font size"
+          name="Large text"
           IconComponent={MaterialIcons}
           submenu={false}
           switchButton={true}
