@@ -141,7 +141,6 @@ export const chat = createSlice({
     },
     deleteConversations: (state) => {
       state.conversations = {};
-      state.keys = {};
       state.currentId = null;
     },
     deleteKey: (state, action) => {
