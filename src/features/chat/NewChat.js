@@ -10,7 +10,7 @@ const NewChat = ({ navigation }) => {
   useFocusEffect(
     useCallback(() => {
       dispatch(addConversation());
-      navigation.navigate('Chat');
+      navigation.navigate('ChatPage');
     }, [dispatch, navigation]),
   );
   

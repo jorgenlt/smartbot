@@ -34,7 +34,7 @@ const ConversationsPage = ({ navigation }) => {
 
   const handleChangeConversation = (id) => {
     dispatch(updateCurrentId(id));
-    navigation.navigate("Chat");
+    navigation.navigate("ChatPage");
   };
 
   const handleDeleteConversation = (id) => {
