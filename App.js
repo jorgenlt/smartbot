@@ -57,8 +57,11 @@ const SettingsStackScreen = () => {
 const ConversationsStackScreen = () => {
   return (
     <ConversationsStack.Navigator screenOptions={{ headerShown: false }}>
-      <ConversationsStack.Screen name="Conversations" component={ConversationsPage} />
-      <ConversationsStack.Screen name="Chat" component={ChatPage} />
+      <ConversationsStack.Screen
+        name="ConversationsPage"
+        component={ConversationsPage}
+      />
+      <ConversationsStack.Screen name="ChatPage" component={ChatPage} />
     </ConversationsStack.Navigator>
   );
 };
@@ -88,7 +91,7 @@ const MainApp = () => {
                   iconName = focused
                     ? "chatbox-ellipses"
                     : "chatbox-ellipses-outline";
-                } else if (route.name === "ConversationsStack") {
+                } else if (route.name === "Conversations") {
                   iconName = focused ? "list" : "list-outline";
                 } else if (route.name === "Settings") {
                   iconName = focused ? "settings" : "settings-outline";
@@ -103,7 +106,10 @@ const MainApp = () => {
             })}
           >
             {/* <Tab.Screen name="Chat" component={ChatPage} /> */}
-            <Tab.Screen name="ConversationsStack" component={ConversationsStackScreen} />
+            <Tab.Screen
+              name="Conversations"
+              component={ConversationsStackScreen}
+            />
             <Tab.Screen name="New Chat" component={NewChat} />
             <Tab.Screen name="Settings" component={SettingsStackScreen} />
           </Tab.Navigator>
