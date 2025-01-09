@@ -105,7 +105,6 @@ const MainApp = () => {
               tabBarInactiveTintColor: navTheme[theme].tabBarInactiveTintColor,
             })}
           >
-            {/* <Tab.Screen name="Chat" component={ChatPage} /> */}
             <Tab.Screen
               name="Conversations"
               component={ConversationsStackScreen}
