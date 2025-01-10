@@ -28,7 +28,7 @@ const SettingsStackScreen = () => {
       }}
     >
       <SettingsStack.Screen
-        name="Settings"
+        name="Main"
         component={Settings}
       ></SettingsStack.Screen>
       <SettingsStack.Screen
