@@ -69,6 +69,15 @@ const ConversationsStackScreen = () => {
 const MainApp = () => {
   const theme = useSelector((state) => state.chat.theme);
 
+  const getIconName = (routeName, focused) => {
+    const icons = {
+      Conversations: focused ? "list" : "list-outline",
+      Settings: focused ? "settings" : "settings-outline",
+      "New Chat": focused ? "add" : "add-outline",
+    };
+    return icons[routeName];
+  };
+
   return (
     <>
       <StatusBar backgroundColor={colors[theme].statusBarBg} style="light" />
@@ -85,20 +94,7 @@ const MainApp = () => {
                 borderTopWidth: 0.2,
               },
               tabBarIcon: ({ focused, color, size }) => {
-                let iconName;
-
-                if (route.name === "Chat") {
-                  iconName = focused
-                    ? "chatbox-ellipses"
-                    : "chatbox-ellipses-outline";
-                } else if (route.name === "Conversations") {
-                  iconName = focused ? "list" : "list-outline";
-                } else if (route.name === "Settings") {
-                  iconName = focused ? "settings" : "settings-outline";
-                } else if (route.name === "New Chat") {
-                  iconName = focused ? "add" : "add-outline";
-                }
-
+                const iconName = getIconName(route.name, focused);
                 return <Ionicons name={iconName} size={size} color={color} />;
               },
               tabBarActiveTintColor: navTheme[theme].tabBarActiveTintColor,
