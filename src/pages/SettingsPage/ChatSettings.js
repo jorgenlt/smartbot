@@ -38,7 +38,7 @@ const ChatSettings = ({ navigation }) => {
 
   return (
     <>
-      <Header title={"Change provider/model"} />
+      <Header title={"Change provider/model"} backButton={true} />
       <View style={styles.settingsWrapper}>
         <Setting
           onPress={() => navigation.navigate("OpenAI")}

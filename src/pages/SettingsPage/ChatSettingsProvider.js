@@ -105,7 +105,7 @@ const ChatSettingsProvider = ({ route }) => {
 
   return (
     <>
-      <Header title={`${name} Settings`} />
+      <Header title={`${name} Settings`} backButton={true}/>
       <View style={styles.settingsWrapper}>
         <Setting
           onPress={handleSetProvider}
