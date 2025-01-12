@@ -66,7 +66,7 @@ const SettingsPage = ({ navigation }) => {
           submenu={true}
         />
         <Setting
-          onPress={() => console.log("Conversations settings")}
+          onPress={() => navigation.navigate("ConversationsSettings")}
           iconName="text-snippet"
           name="Conversations"
           IconComponent={MaterialIcons}

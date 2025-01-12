@@ -11,6 +11,7 @@ import ChatPage from "./src/pages/ChatPage/ChatPage";
 import ConversationsPage from "./src/pages/ConversationsPage/ConversationsPage";
 import Settings from "./src/pages/SettingsPage/SettingsPage";
 import ProvidersSettings from "./src/pages/SettingsPage/ProvidersSettings";
+import ConversationsSettings from "./src/pages/SettingsPage/ConversationsSettings";
 import NewChat from "./src/features/chat/NewChat";
 import ProviderSettings from "./src/pages/SettingsPage/ProviderSettings";
 import { colors, navTheme } from "./src/styles/colors";
@@ -49,6 +50,10 @@ const SettingsStackScreen = () => {
         name="Mistral"
         component={ProviderSettings}
         initialParams={{ name: "Mistral", provider: "mistral" }}
+      ></SettingsStack.Screen>
+      <SettingsStack.Screen
+        name="ConversationsSettings"
+        component={ConversationsSettings}
       ></SettingsStack.Screen>
     </SettingsStack.Navigator>
   );
