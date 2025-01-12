@@ -1,18 +1,27 @@
 import { StyleSheet, View, Alert } from "react-native";
 import Setting from "./Setting";
 import Header from "../../components/headers/Header";
-import { deleteConversations } from "../../features/chat/chatSlice";
+import {
+  toggleLargeText,
+  deleteConversations,
+} from "../../features/chat/chatSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { colors } from "../../styles/colors";
 import { useMemo } from "react";
 import { impactAsync, ImpactFeedbackStyle } from "expo-haptics";
 
-const ProvidersSettings = ({ navigation }) => {
+const ConversationsSettings = () => {
   const theme = useSelector((state) => state.chat.theme);
+  const largeText = useSelector((state) => state.chat.largeText);
+  const isLargeText = Boolean(largeText);
 
   const styles = useMemo(() => styling(theme), [theme]);
 
   const dispatch = useDispatch();
+
+  const handleToggleLargeText = () => {
+    dispatch(toggleLargeText());
+  };
 
   const handleDeleteConversations = () => {
     impactAsync(ImpactFeedbackStyle.Heavy);
@@ -37,6 +46,13 @@ const ProvidersSettings = ({ navigation }) => {
       <Header title={"Conversations Settings"} backButton={true} />
       <View style={styles.settingsWrapper}>
         <Setting
+          name="Large text"
+          submenu={false}
+          switchButton={true}
+          onSwitchButtonPress={handleToggleLargeText}
+          switchValue={isLargeText}
+        />
+        <Setting
           onPress={handleDeleteConversations}
           name="Delete all conversations"
           submenu={false}
@@ -46,7 +62,7 @@ const ProvidersSettings = ({ navigation }) => {
   );
 };
 
-export default ProvidersSettings;
+export default ConversationsSettings;
 
 const styling = (theme) =>
   StyleSheet.create({

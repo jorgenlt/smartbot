@@ -1,7 +1,7 @@
 import { StyleSheet, View, Linking } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { useMemo } from "react";
-import { toggleTheme, toggleLargeText } from "../../features/chat/chatSlice";
+import { toggleTheme } from "../../features/chat/chatSlice";
 import { MaterialIcons, AntDesign } from "@expo/vector-icons";
 import Setting from "./Setting";
 import Header from "../../components/headers/Header";
@@ -13,11 +13,7 @@ const PROJECTS_URL = "https://jorgenlt.no";
 
 const SettingsPage = ({ navigation }) => {
   const theme = useSelector((state) => state.chat.theme);
-  const largeText = useSelector((state) => state.chat.largeText);
-
   const isDarkMode = theme === "dark";
-
-  const isLargeText = Boolean(largeText);
 
   const styles = useMemo(() => styling(theme), [theme]);
 
@@ -25,10 +21,6 @@ const SettingsPage = ({ navigation }) => {
 
   const handleToggleTheme = () => {
     dispatch(toggleTheme());
-  };
-
-  const handleToggleLargeText = () => {
-    dispatch(toggleLargeText());
   };
 
   return (
@@ -62,15 +54,6 @@ const SettingsPage = ({ navigation }) => {
           name="Other projects"
           IconComponent={MaterialIcons}
           submenu={false}
-        />
-        <Setting
-          iconName="text-increase"
-          name="Large text"
-          IconComponent={MaterialIcons}
-          submenu={false}
-          switchButton={true}
-          onSwitchButtonPress={handleToggleLargeText}
-          switchValue={isLargeText}
         />
         <Setting
           iconName="dark-mode"
