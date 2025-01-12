@@ -7,7 +7,7 @@ import { colors } from "../../styles/colors";
 import { useMemo } from "react";
 import { impactAsync, ImpactFeedbackStyle } from "expo-haptics";
 
-const ChatSettings = ({ navigation }) => {
+const ProvidersSettings = ({ navigation }) => {
   const theme = useSelector((state) => state.chat.theme);
 
   const styles = useMemo(() => styling(theme), [theme]);
@@ -61,7 +61,7 @@ const ChatSettings = ({ navigation }) => {
   );
 };
 
-export default ChatSettings;
+export default ProvidersSettings;
 
 const styling = (theme) =>
   StyleSheet.create({

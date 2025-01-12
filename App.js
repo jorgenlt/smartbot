@@ -10,7 +10,7 @@ import { Text } from "react-native";
 import ChatPage from "./src/pages/ChatPage/ChatPage";
 import ConversationsPage from "./src/pages/ConversationsPage/ConversationsPage";
 import Settings from "./src/pages/SettingsPage/SettingsPage";
-import ChatSettings from "./src/pages/SettingsPage/ChatSettings";
+import ProvidersSettings from "./src/pages/SettingsPage/ProvidersSettings";
 import NewChat from "./src/features/chat/NewChat";
 import ChatSettingsProvider from "./src/pages/SettingsPage/ChatSettingsProvider";
 import { colors, navTheme } from "./src/styles/colors";
@@ -32,8 +32,8 @@ const SettingsStackScreen = () => {
         component={Settings}
       ></SettingsStack.Screen>
       <SettingsStack.Screen
-        name="ChatSettings"
-        component={ChatSettings}
+        name="ProvidersSettings"
+        component={ProvidersSettings}
       ></SettingsStack.Screen>
       <SettingsStack.Screen
         name="OpenAI"

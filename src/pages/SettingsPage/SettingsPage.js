@@ -59,7 +59,7 @@ const SettingsPage = ({ navigation }) => {
       <Header title={"Settings"} />
       <View style={styles.settingsWrapper}>
         <Setting
-          onPress={() => navigation.navigate("ChatSettings")}
+          onPress={() => navigation.navigate("ProvidersSettings")}
           iconName="rebase-edit"
           name="Change provider/model"
           IconComponent={MaterialIcons}
