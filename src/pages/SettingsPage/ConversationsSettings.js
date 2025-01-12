@@ -1,11 +1,11 @@
 import { StyleSheet, View, Alert } from "react-native";
 import Setting from "./Setting";
 import Header from "../../components/headers/Header";
-// import { resetProviders } from "../../features/chat/chatSlice";
+import { deleteConversations } from "../../features/chat/chatSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { colors } from "../../styles/colors";
 import { useMemo } from "react";
-// import { impactAsync, ImpactFeedbackStyle } from "expo-haptics";
+import { impactAsync, ImpactFeedbackStyle } from "expo-haptics";
 
 const ProvidersSettings = ({ navigation }) => {
   const theme = useSelector((state) => state.chat.theme);
@@ -14,14 +14,31 @@ const ProvidersSettings = ({ navigation }) => {
 
   const dispatch = useDispatch();
 
+  const handleDeleteConversations = () => {
+    impactAsync(ImpactFeedbackStyle.Heavy);
+
+    Alert.alert("Delete all conversations?", 'Choose "Delete" to confirm.', [
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+      {
+        text: "Delete",
+        onPress: () => {
+          dispatch(deleteConversations());
+          Alert.alert("", "All conversations deleted.");
+        },
+      },
+    ]);
+  };
+
   return (
     <>
       <Header title={"Conversations Settings"} backButton={true} />
       <View style={styles.settingsWrapper}>
         <Setting
-          // onPress={() => navigation.navigate("OpenAI")}
-          onPress={() => console.log("setting pressed")}
-          name="setting"
+          onPress={handleDeleteConversations}
+          name="Delete all conversations"
           submenu={false}
         />
       </View>
