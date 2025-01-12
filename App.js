@@ -12,7 +12,7 @@ import ConversationsPage from "./src/pages/ConversationsPage/ConversationsPage";
 import Settings from "./src/pages/SettingsPage/SettingsPage";
 import ProvidersSettings from "./src/pages/SettingsPage/ProvidersSettings";
 import NewChat from "./src/features/chat/NewChat";
-import ChatSettingsProvider from "./src/pages/SettingsPage/ChatSettingsProvider";
+import ProviderSettings from "./src/pages/SettingsPage/ProviderSettings";
 import { colors, navTheme } from "./src/styles/colors";
 
 // Navigation
@@ -37,17 +37,17 @@ const SettingsStackScreen = () => {
       ></SettingsStack.Screen>
       <SettingsStack.Screen
         name="OpenAI"
-        component={ChatSettingsProvider}
+        component={ProviderSettings}
         initialParams={{ name: "OpenAI", provider: "openAi" }}
       ></SettingsStack.Screen>
       <SettingsStack.Screen
         name="Anthropic"
-        component={ChatSettingsProvider}
+        component={ProviderSettings}
         initialParams={{ name: "Anthropic", provider: "anthropic" }}
       ></SettingsStack.Screen>
       <SettingsStack.Screen
         name="Mistral"
-        component={ChatSettingsProvider}
+        component={ProviderSettings}
         initialParams={{ name: "Mistral", provider: "mistral" }}
       ></SettingsStack.Screen>
     </SettingsStack.Navigator>

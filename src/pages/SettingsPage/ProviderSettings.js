@@ -23,7 +23,7 @@ import { turncateString } from "../../common/utils/truncateString";
 import RadioGroup from "react-native-radio-buttons-group";
 import CancelButton from "../../components/buttons/CancelButton";
 
-const ChatSettingsProvider = ({ route }) => {
+const ProviderSettings = ({ route }) => {
   const { name, provider } = route.params;
 
   // Getting data from state
@@ -190,7 +190,7 @@ const ChatSettingsProvider = ({ route }) => {
   );
 };
 
-export default ChatSettingsProvider;
+export default ProviderSettings;
 
 const styling = (theme) =>
   StyleSheet.create({
