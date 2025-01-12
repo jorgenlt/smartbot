@@ -66,6 +66,13 @@ const SettingsPage = ({ navigation }) => {
           submenu={true}
         />
         <Setting
+          onPress={() => console.log("Conversations settings")}
+          iconName="text-snippet"
+          name="Conversations"
+          IconComponent={MaterialIcons}
+          submenu={true}
+        />
+        <Setting
           onPress={handleDeleteConversations}
           iconName="delete"
           name="Delete all conversations"
