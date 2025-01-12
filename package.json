@@ -18,11 +18,12 @@
     "@reduxjs/toolkit": "^2.2.3",
     "axios": "^1.6.8",
     "date-fns": "^3.6.0",
-    "expo": "^52.0.0",
-    "expo-clipboard": "~7.0.0",
-    "expo-status-bar": "~2.0.0",
+    "expo": "^52.0.25",
+    "expo-clipboard": "~7.0.1",
+    "expo-haptics": "~14.0.1",
+    "expo-status-bar": "~2.0.1",
     "react": "18.3.1",
-    "react-native": "0.76.5",
+    "react-native": "0.76.6",
     "react-native-animated-spinkit": "^1.5.2",
     "react-native-radio-buttons-group": "^3.1.0",
     "react-native-safe-area-context": "4.12.0",
@@ -30,8 +31,7 @@
     "react-native-uuid": "^2.0.2",
     "react-redux": "^9.1.1",
     "redux-persist": "^6.0.0",
-    "rn-tooltip": "^3.0.3",
-    "expo-haptics": "~14.0.0"
+    "rn-tooltip": "^3.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.24.6"
