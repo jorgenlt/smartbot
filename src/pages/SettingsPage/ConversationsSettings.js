@@ -41,13 +41,20 @@ const ConversationsSettings = () => {
     ]);
   };
 
+  const handleExportConversations = () => {
+    console.log("handleExportConversations");
+  };
+
+  const handleImportConversations = () => {
+    console.log("handleImportConversations");
+  };
+
   return (
     <>
-      <Header title={"Conversations Settings"} backButton={true} />
+      <Header title={"Conversations"} backButton={true} />
       <View style={styles.settingsWrapper}>
         <Setting
           name="Large text"
-          submenu={false}
           switchButton={true}
           onSwitchButtonPress={handleToggleLargeText}
           switchValue={isLargeText}
@@ -55,7 +62,14 @@ const ConversationsSettings = () => {
         <Setting
           onPress={handleDeleteConversations}
           name="Delete all conversations"
-          submenu={false}
+        />
+        <Setting
+          onPress={handleExportConversations}
+          name="Export conversations"
+        />
+        <Setting
+          onPress={handleImportConversations}
+          name="Import conversations"
         />
       </View>
     </>

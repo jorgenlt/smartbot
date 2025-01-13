@@ -37,7 +37,7 @@ const Setting = ({
           <View style={styles.setting.icon}>
             <IconComponent
               name={iconName}
-              size={40}
+              size={32}
               color={colors[theme].icon}
             />
           </View>
@@ -83,6 +83,7 @@ const styling = (theme) =>
       justifyContent: "space-between",
       alignItems: "center",
       width: "100%",
+      height: 70,
       paddingVertical: 20,
       paddingHorizontal: 20,
       name: {
