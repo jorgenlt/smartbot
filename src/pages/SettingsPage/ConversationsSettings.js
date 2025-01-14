@@ -9,10 +9,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { colors } from "../../styles/colors";
 import { useMemo } from "react";
 import { impactAsync, ImpactFeedbackStyle } from "expo-haptics";
+import {exportConversations} from "./exportConversations";
 
 const ConversationsSettings = () => {
   const theme = useSelector((state) => state.chat.theme);
   const largeText = useSelector((state) => state.chat.largeText);
+  const conversations = useSelector((state) => state.chat.conversations);
+
   const isLargeText = Boolean(largeText);
 
   const styles = useMemo(() => styling(theme), [theme]);
@@ -42,7 +45,7 @@ const ConversationsSettings = () => {
   };
 
   const handleExportConversations = () => {
-    console.log("handleExportConversations");
+    exportConversations(conversations);
   };
 
   const handleImportConversations = () => {
