@@ -195,6 +195,12 @@ export const chat = createSlice({
         state.providers[provider].model = model;
       }
     },
+    importConversations: (state, action) => {
+      const { importedConversations } = action.payload;
+
+      state.conversations = importedConversations;
+      state.currentId = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -243,6 +249,7 @@ export const {
   setProvider,
   resetProviders,
   setModel,
+  importConversations,
 } = chat.actions;
 
 export default chat.reducer;
