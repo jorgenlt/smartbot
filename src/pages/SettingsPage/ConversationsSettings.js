@@ -1,9 +1,11 @@
 import { StyleSheet, View, Alert } from "react-native";
+import * as DocumentPicker from 'expo-document-picker';
 import Setting from "./Setting";
 import Header from "../../components/headers/Header";
 import {
   toggleLargeText,
   deleteConversations,
+  importConversations
 } from "../../features/chat/chatSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { colors } from "../../styles/colors";
@@ -48,8 +50,21 @@ const ConversationsSettings = () => {
     exportConversations(conversations);
   };
 
-  const handleImportConversations = () => {
-    console.log("handleImportConversations");
+  const handleImportConversations = async () => {
+    try {
+      const result = await DocumentPicker.getDocumentAsync({ type: "application/json"});
+      console.log(result)
+      if (result.type === "success") {
+        const fileContent = await fetch(result.uri).then(res => res.text());
+        const conversationsObject = JSON.parse(fileContent);
+        dispatch(importConversations(conversationsObject));
+        Alert.alert("Conversations imported successfully.")
+      }
+    } catch (error) {
+      console.error("Error importing conversations:", error);
+      Alert.alert("Error", "Failed to import conversations.")
+    }
+
   };
 
   return (
