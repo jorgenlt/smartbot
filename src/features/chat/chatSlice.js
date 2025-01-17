@@ -196,9 +196,7 @@ export const chat = createSlice({
       }
     },
     importConversations: (state, action) => {
-      const { importedConversations } = action.payload;
-
-      state.conversations = importedConversations;
+      state.conversations = action.payload;
       state.currentId = null;
     },
   },
