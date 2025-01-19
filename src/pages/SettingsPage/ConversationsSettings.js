@@ -53,18 +53,27 @@ const ConversationsSettings = () => {
 
   const handleImportConversations = async () => {
     try {
-      const result = (
-        await DocumentPicker.getDocumentAsync({ type: "application/json" })
-      ).assets[0];
+      const document = await DocumentPicker.getDocumentAsync({
+        type: "application/json",
+      });
+      const { uri } = document.assets[0];
 
-      if (result.mimeType === "application/json") {
-        const fileContent = await readAsStringAsync(result.uri);
-        const conversationsObject = JSON.parse(fileContent);
+      const fileContent = await readAsStringAsync(uri);
+      const conversationsObject = JSON.parse(fileContent);
 
-        dispatch(importConversations(conversationsObject));
+      // Check if uploaded file is valid
+      const firstValue = Object.values(conversationsObject)[0];
+      const isValid = ["created", "messages"].every((key) =>
+        firstValue.hasOwnProperty(key)
+      );
 
-        Alert.alert("Conversations imported successfully.");
+      // Throw error if not valid
+      if (!isValid) {
+        throw new Error("Conversations object is not valid.");
       }
+
+      dispatch(importConversations(conversationsObject));
+      Alert.alert("Conversations imported successfully.");
     } catch (error) {
       console.error("Error importing conversations:", error);
       Alert.alert("Error", "Failed to import conversations.");
