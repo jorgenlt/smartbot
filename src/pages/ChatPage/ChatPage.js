@@ -1,12 +1,10 @@
 import { StyleSheet, View, Alert, Share } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useMemo } from "react";
-import { useFocusEffect } from "@react-navigation/native";
 import { colors } from "../../styles/colors";
 import ChatInput from "./ChatInput";
 import Conversation from "./Conversation";
 import ChatHeader from "../../components/headers/ChatHeader";
-import { addConversation } from "../../features/chat/chatSlice";
 import { capitalize } from "../../common/utils/capitalize";
 import { impactAsync, ImpactFeedbackStyle } from "expo-haptics";
 
@@ -16,8 +14,6 @@ const ChatPage = ({ navigation }) => {
   const theme = useSelector((state) => state.chat.theme);
 
   const styles = useMemo(() => styling(theme), [theme]);
-
-  const dispatch = useDispatch();
 
   const conversation = conversations[currentId]?.messages;
 
@@ -40,12 +36,6 @@ const ChatPage = ({ navigation }) => {
       .join("\n\n");
     await handleShare(fullConversation);
   };
-
-  useFocusEffect(() => {
-    if (!currentId) {
-      dispatch(addConversation());
-    }
-  });
 
   return (
     <>
