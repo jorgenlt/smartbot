@@ -30,7 +30,7 @@ const SettingsPage = ({ navigation }) => {
         <Setting
           onPress={() => navigation.navigate("ProvidersSettings")}
           iconName="rebase-edit"
-          name="Change provider/model"
+          name="Providers"
           IconComponent={MaterialIcons}
           submenu={true}
         />
