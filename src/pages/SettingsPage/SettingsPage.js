@@ -29,7 +29,7 @@ const SettingsPage = ({ navigation }) => {
       <View style={styles.settingsWrapper}>
         <Setting
           onPress={() => navigation.navigate("ProvidersSettings")}
-          iconName="rebase-edit"
+          iconName="webhook"
           name="Providers"
           IconComponent={MaterialIcons}
           submenu={true}
