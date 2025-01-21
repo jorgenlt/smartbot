@@ -12,7 +12,7 @@ import ConversationsPage from "./src/pages/ConversationsPage/ConversationsPage";
 import Settings from "./src/pages/SettingsPage/SettingsPage";
 import ProvidersSettings from "./src/pages/SettingsPage/ProvidersSettings";
 import ConversationsSettings from "./src/pages/SettingsPage/ConversationsSettings";
-import NewChat from "./src/features/chat/NewChat";
+import NewConversation from "./src/features/chat/NewConversation";
 import ProviderSettings from "./src/pages/SettingsPage/ProviderSettings";
 import { colors, navTheme } from "./src/styles/colors";
 
@@ -78,7 +78,7 @@ const MainApp = () => {
     const icons = {
       Conversations: focused ? "list" : "list-outline",
       Settings: focused ? "settings" : "settings-outline",
-      "New Chat": focused ? "add" : "add-outline",
+      "New Conversation": focused ? "add" : "add-outline",
     };
     return icons[routeName];
   };
@@ -110,7 +110,7 @@ const MainApp = () => {
               name="Conversations"
               component={ConversationsStackScreen}
             />
-            <Tab.Screen name="New Chat" component={NewChat} />
+            <Tab.Screen name="New Conversation" component={NewConversation} />
             <Tab.Screen name="Settings" component={SettingsStackScreen} />
           </Tab.Navigator>
         </NavigationContainer>
