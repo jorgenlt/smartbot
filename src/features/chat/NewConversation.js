@@ -4,7 +4,7 @@ import { addConversation } from './chatSlice'
 import { useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native'
 
-const newConversation = ({ navigation }) => {
+const NewConversation = ({ navigation }) => {
   const dispatch = useDispatch();
 
   useFocusEffect(
@@ -20,4 +20,4 @@ const newConversation = ({ navigation }) => {
   )
 }
 
-export default newConversation
+export default NewConversation
