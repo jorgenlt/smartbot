@@ -15,6 +15,12 @@ import ConversationsSettings from "./src/pages/SettingsPage/ConversationsSetting
 import NewConversation from "./src/features/chat/NewConversation";
 import ProviderSettings from "./src/pages/SettingsPage/ProviderSettings";
 import { colors, navTheme } from "./src/styles/colors";
+// import * as SplashScreen from 'expo-splash-screen';
+
+// SplashScreen.setOptions({
+//   duration: 1000,
+//   fade: true,
+// });
 
 // Navigation
 const Tab = createBottomTabNavigator();

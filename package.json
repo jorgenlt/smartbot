@@ -34,7 +34,8 @@
     "react-native-uuid": "^2.0.2",
     "react-redux": "^9.1.1",
     "redux-persist": "^6.0.0",
-    "rn-tooltip": "^3.0.3"
+    "rn-tooltip": "^3.0.3",
+    "expo-splash-screen": "~0.29.21"
   },
   "devDependencies": {
     "@babel/core": "^7.24.6"
