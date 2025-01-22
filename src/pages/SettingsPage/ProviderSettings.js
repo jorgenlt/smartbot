@@ -105,7 +105,7 @@ const ProviderSettings = ({ route }) => {
 
   return (
     <>
-      <Header title={`${name} Settings`} backButton={true}/>
+      <Header title={`${name} Settings`} backButton={true} />
       <View style={styles.settingsWrapper}>
         <Setting
           onPress={handleSetProvider}
