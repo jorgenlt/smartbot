@@ -6,6 +6,7 @@ import {
   Modal,
   Button,
   Alert,
+  ToastAndroid,
 } from "react-native";
 import { colors } from "../../styles/colors";
 import { useDispatch, useSelector } from "react-redux";
@@ -82,7 +83,7 @@ const ProviderSettings = ({ route }) => {
     if (!isCurrent) {
       dispatch(setProvider({ provider }));
       impactAsync(ImpactFeedbackStyle.Heavy);
-      Alert.alert("", `${name} set as provider`);
+      ToastAndroid.show(`${name} set as provider`, ToastAndroid.SHORT);
     }
   };
 
