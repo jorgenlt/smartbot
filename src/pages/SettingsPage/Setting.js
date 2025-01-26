@@ -22,12 +22,13 @@ const Setting = ({
   return (
     <Pressable
       onPress={onPress}
+      unstable_pressDelay={200}
       android_ripple={
         switchButton
           ? {}
           : {
               color: colors[theme].sec,
-              foreground: true,
+              radius: 500,
             }
       }
       style={styles.setting}
