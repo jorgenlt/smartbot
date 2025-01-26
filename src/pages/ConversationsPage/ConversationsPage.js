@@ -106,6 +106,8 @@ const ConversationsPage = ({ navigation }) => {
             onPress={() => handleChangeConversation(id)}
             onLongPress={() => handleDeleteConversation(id)}
             style={styles.conversationPressable}
+            android_ripple={{color: colors[theme].sec, radius: 500}}
+            unstable_pressDelay={200}
           >
             <View style={styles.conversationPressable.conversationWrapper}>
               <View style={styles.date}>
