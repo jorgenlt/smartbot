@@ -212,7 +212,7 @@ const styling = (theme) =>
         borderRadius: 5,
         paddingVertical: 20,
         paddingHorizontal: 40,
-        minWidth: "90%",
+        width: "90%",
         alignItems: "center",
         shadowColor: colors.light.text,
         shadowOffset: {
