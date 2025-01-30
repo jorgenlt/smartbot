@@ -76,7 +76,7 @@ const MainApp = () => {
 
   const getIconName = (routeName, focused) => {
     const icons = {
-      Conversations: focused ? "list" : "list-outline",
+      Conversations: focused ? "chatbox-ellipses" : "chatbox-ellipses-outline",
       Settings: focused ? "settings" : "settings-outline",
       "New Conversation": focused ? "add" : "add-outline",
     };
