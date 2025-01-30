@@ -82,7 +82,7 @@ const ConversationsSettings = () => {
 
   return (
     <>
-      <Header title={"Conversations"} backButton={true} />
+      <Header title={"Chats"} backButton={true} />
       <View style={styles.settingsWrapper}>
         <Setting
           name="Large text"
@@ -92,15 +92,15 @@ const ConversationsSettings = () => {
         />
         <Setting
           onPress={handleDeleteConversations}
-          name="Delete all conversations"
+          name="Delete all chats"
         />
         <Setting
           onPress={handleExportConversations}
-          name="Export conversations"
+          name="Export chats"
         />
         <Setting
           onPress={handleImportConversations}
-          name="Import conversations"
+          name="Import chats"
         />
       </View>
     </>
