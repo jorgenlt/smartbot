@@ -76,9 +76,9 @@ const MainApp = () => {
 
   const getIconName = (routeName, focused) => {
     const icons = {
-      Conversations: focused ? "chatbox-ellipses" : "chatbox-ellipses-outline",
+      Chats: focused ? "chatbox-ellipses" : "chatbox-ellipses-outline",
       Settings: focused ? "settings" : "settings-outline",
-      "New Conversation": focused ? "add" : "add-outline",
+      "New Chat": focused ? "add" : "add-outline",
     };
     return icons[routeName];
   };
@@ -107,10 +107,10 @@ const MainApp = () => {
             })}
           >
             <Tab.Screen
-              name="Conversations"
+              name="Chats"
               component={ConversationsStackScreen}
             />
-            <Tab.Screen name="New Conversation" component={NewConversation} />
+            <Tab.Screen name="New Chat" component={NewConversation} />
             <Tab.Screen name="Settings" component={SettingsStackScreen} />
           </Tab.Navigator>
         </NavigationContainer>
