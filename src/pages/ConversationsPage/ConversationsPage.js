@@ -147,7 +147,7 @@ const ConversationsPage = ({ navigation }) => {
   return (
     <>
       <ConversationsHeader
-        title={"Conversations"}
+        title={"Chats"}
         onPress={handleToggleFilter}
       />
 
