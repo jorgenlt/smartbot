@@ -2,7 +2,7 @@ import { StyleSheet, View, Linking } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { useMemo } from "react";
 import { toggleTheme } from "../../features/chat/chatSlice";
-import { MaterialIcons, AntDesign } from "@expo/vector-icons";
+import { MaterialIcons, AntDesign, Ionicons } from "@expo/vector-icons";
 import Setting from "./Setting";
 import Header from "../../components/headers/Header";
 import { colors } from "../../styles/colors";
@@ -36,9 +36,9 @@ const SettingsPage = ({ navigation }) => {
         />
         <Setting
           onPress={() => navigation.navigate("ConversationsSettings")}
-          iconName="text-snippet"
-          name="Conversations"
-          IconComponent={MaterialIcons}
+          iconName="chatbox-ellipses-outline"
+          name="Chats"
+          IconComponent={Ionicons}
           submenu={true}
         />
         <Setting
