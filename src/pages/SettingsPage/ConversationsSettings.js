@@ -90,18 +90,9 @@ const ConversationsSettings = () => {
           onSwitchButtonPress={handleToggleLargeText}
           switchValue={isLargeText}
         />
-        <Setting
-          onPress={handleDeleteConversations}
-          name="Delete all chats"
-        />
-        <Setting
-          onPress={handleExportConversations}
-          name="Export chats"
-        />
-        <Setting
-          onPress={handleImportConversations}
-          name="Import chats"
-        />
+        <Setting onPress={handleDeleteConversations} name="Delete all chats" />
+        <Setting onPress={handleExportConversations} name="Export chats" />
+        <Setting onPress={handleImportConversations} name="Import chats" />
       </View>
     </>
   );

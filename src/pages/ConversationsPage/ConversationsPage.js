@@ -106,7 +106,7 @@ const ConversationsPage = ({ navigation }) => {
             onPress={() => handleChangeConversation(id)}
             onLongPress={() => handleDeleteConversation(id)}
             style={styles.conversationPressable}
-            android_ripple={{color: colors[theme].sec, radius: 500}}
+            android_ripple={{ color: colors[theme].sec, radius: 500 }}
             unstable_pressDelay={200}
           >
             <View style={styles.conversationPressable.conversationWrapper}>
@@ -146,10 +146,7 @@ const ConversationsPage = ({ navigation }) => {
 
   return (
     <>
-      <ConversationsHeader
-        title={"Chats"}
-        onPress={handleToggleFilter}
-      />
+      <ConversationsHeader title={"Chats"} onPress={handleToggleFilter} />
 
       <View style={styles.conversationsWrapper}>
         {/* Filter */}
