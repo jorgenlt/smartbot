@@ -19,8 +19,6 @@ const ConversationsSettings = () => {
   const largeText = useSelector((state) => state.chat.largeText);
   const conversations = useSelector((state) => state.chat.conversations);
 
-  const isLargeText = Boolean(largeText);
-
   const styles = useMemo(() => styling(theme), [theme]);
 
   const dispatch = useDispatch();
@@ -88,7 +86,7 @@ const ConversationsSettings = () => {
           name="Large text"
           switchButton={true}
           onSwitchButtonPress={handleToggleLargeText}
-          switchValue={isLargeText}
+          switchValue={largeText}
         />
         <Setting onPress={handleDeleteConversations} name="Delete all chats" />
         <Setting onPress={handleExportConversations} name="Export chats" />
